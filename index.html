@@ -910,6 +910,7 @@
         <ul class="nav-links">
           <li><a href="#concepts" data-i18n="nav.concepts">Concepts</a></li>
           <li><a href="#types" data-i18n="nav.types">Types</a></li>
+          <li><a href="#passkey" data-i18n="nav.passkey">Passkey</a></li>
           <li><a href="#architecture" data-i18n="nav.architecture">Architecture</a></li>
           <li><a href="#philosophy" data-i18n="nav.philosophy">Philosophy</a></li>
           <li><a href="https://github.com/MCP-let/about" target="_blank" rel="noopener">GitHub</a></li>
@@ -1044,6 +1045,13 @@
             Pure functional model with no hidden state. All data flows through the Host for transparency.
           </p>
         </div>
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#128274;</div>
+          <h3 class="concept-title" data-i18n="concepts.7.title">Passkey Authentication</h3>
+          <p class="concept-desc" data-i18n="concepts.7.desc">
+            Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -1096,6 +1104,72 @@
             <li data-i18n="types.action.3">Returns results with guidance</li>
             <li data-i18n="types.action.4">Full audit trail maintained</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="passkey" class="code-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label" data-i18n="passkey.label">Security</span>
+        <h2 class="section-title" data-i18n="passkey.title">Passkey Authentication</h2>
+        <p class="section-subtitle" data-i18n="passkey.subtitle">
+          Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.
+        </p>
+      </div>
+      <div class="code-container">
+        <div class="code-block fade-in">
+          <div class="code-header">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div>
+            <div class="code-filename">mcplet.yaml</div>
+          </div>
+          <div class="code-content">
+            <pre>
+<span class="code-keyword">_meta:</span>
+  <span class="code-keyword">ui:</span>
+    <span class="code-keyword">resourceUri:</span> <span class="code-string">"ui://restaurant/search-app.html"</span>
+    <span class="code-keyword">visibility:</span> [<span class="code-string">"model"</span>]
+    <span class="code-keyword">displayMode:</span> <span class="code-string">"inline"</span>
+  <span class="code-keyword">auth:</span>
+    <span class="code-keyword">required:</span> <span class="code-keyword">true</span>
+    <span class="code-keyword">fidoServerUrl:</span> <span class="code-string">"https://local.dqj-macpro.com"</span>
+    <span class="code-keyword">authTypes:</span> [<span class="code-string">"passkey"</span>]
+    <span class="code-keyword">promptMessage:</span> <span class="code-string"><span data-i18n="passkey.prompt.message">Please authenticate with Passkey to confirm the operation</span></span>
+            </pre>
+          </div>
+        </div>
+        <div class="code-features fade-in">
+          <li>
+            <div class="code-feature-icon">&#128274;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.1.title">FIDO2 Standard</h4>
+              <p data-i18n="passkey.1.desc">Uses WebAuthn/FIDO2 standards for maximum security and browser compatibility.</p>
+            </div>
+          </li>
+          <li>
+            <div class="code-feature-icon">&#128241;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.2.title">No Passwords</h4>
+              <p data-i18n="passkey.2.desc">Passwordless authentication eliminates credential stuffing and phishing attacks.</p>
+            </div>
+          </li>
+          <li>
+            <div class="code-feature-icon">&#9881;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.3.title">Flexible Config</h4>
+              <p data-i18n="passkey.3.desc">Simple YAML configuration with customizable server URL and authentication prompts.</p>
+            </div>
+          </li>
+          <li>
+            <div class="code-feature-icon">&#128274;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.4.title">Browser Native</h4>
+              <p data-i18n="passkey.4.desc">Direct integration with browser native passkey APIs for seamless user experience.</p>
+            </div>
+          </li>
         </div>
       </div>
     </div>
@@ -1180,70 +1254,6 @@
     </div>
   </section>
 
-  <section class="code-section">
-    <div class="container">
-      <div class="code-container">
-        <div class="code-block fade-in">
-          <div class="code-header">
-            <span class="code-dot red"></span>
-            <span class="code-dot yellow"></span>
-            <span class="code-dot green"></span>
-            <span class="code-filename">mcplet.yaml</span>
-          </div>
-          <div class="code-content">
-            <pre><span class="code-comment"># MCPlet Definition</span>
-<span class="code-keyword">name</span>: search_restaurant
-<span class="code-keyword">version</span>: <span class="code-number">0.2.0</span>
-<span class="code-keyword">type</span>: <span class="code-keyword">read</span>
-<span class="code-keyword">intent</span>: <span class="code-string">"Search restaurants"</span>
-
-<span class="code-keyword">mcp</span>:
-  <span class="code-keyword">tool</span>: restaurants.search
-
-<span class="code-keyword">output</span>:
-  <span class="code-keyword">schema_uri</span>: <span class="code-string">"./output.schema.json"</span>
-
-<span class="code-keyword">mcp_apps</span>:
-  <span class="code-keyword">enabled</span>: <span class="code-keyword">true</span>
-  <span class="code-keyword">ui_resource_uri</span>: <span class="code-string">"ui://search"</span></pre>
-          </div>
-        </div>
-        <div class="fade-in">
-          <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;" data-i18n="code.title">Standardized Package</h3>
-          <ul class="code-features">
-            <li>
-              <span class="code-feature-icon">&#128209;</span>
-              <div class="code-feature-text">
-                <h4 data-i18n="code.1.title">Declarative Definition</h4>
-                <p data-i18n="code.1.desc">Clear YAML configuration with intent, type, and tool bindings.</p>
-              </div>
-            </li>
-            <li>
-              <span class="code-feature-icon">&#128196;</span>
-              <div class="code-feature-text">
-                <h4 data-i18n="code.2.title">JSON Schemas</h4>
-                <p data-i18n="code.2.desc">Input and output schemas ensure type safety and AI understanding.</p>
-              </div>
-            </li>
-            <li>
-              <span class="code-feature-icon">&#128272;</span>
-              <div class="code-feature-text">
-                <h4 data-i18n="code.3.title">Provenance Tracking</h4>
-                <p data-i18n="code.3.desc">Metadata for security review and audit compliance.</p>
-              </div>
-            </li>
-            <li>
-              <span class="code-feature-icon">&#128161;</span>
-              <div class="code-feature-text">
-                <h4 data-i18n="code.4.title">Smart Suggestions</h4>
-                <p data-i18n="code.4.desc">Built-in next-step hints for AI decision-making.</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="cta-section">
     <div class="container">
@@ -1286,6 +1296,7 @@
         "title": "MCPlet — AI-First Capability Units for Model Context Protocol",
         "nav.concepts": "Concepts",
         "nav.types": "Types",
+        "nav.passkey": "Passkey",
         "nav.architecture": "Architecture",
         "nav.philosophy": "Philosophy",
         "hero.badge": "Built on Model Context Protocol",
@@ -1309,6 +1320,8 @@
         "concepts.5.desc": "Rich output metadata enables AI reasoning about operations, suggestions, and next steps.",
         "concepts.6.title": "Stateless Design",
         "concepts.6.desc": "Pure functional model with no hidden state. All data flows through the Host for transparency.",
+        "concepts.7.title": "Passkey Authentication",
+        "concepts.7.desc": "Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.",
         "types.label": "Classification",
         "types.title": "MCPlet Types",
         "types.subtitle": "Every MCPlet declares exactly one type, defining its safety profile and appropriate usage.",
@@ -1352,6 +1365,18 @@
         "philosophy.4.desc": "Works perfectly in text mode, enhanced with rich UI when MCP Apps support is available.",
         "philosophy.5.title": "Safety Constraints",
         "philosophy.5.desc": "Explicit side effects, mandatory review for actions. Security by design, not by accident.",
+        "passkey.label": "Security",
+        "passkey.title": "Passkey Authentication",
+        "passkey.subtitle": "Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.",
+        "passkey.1.title": "FIDO2 Standard",
+        "passkey.1.desc": "Uses WebAuthn/FIDO2 standards for maximum security and browser compatibility.",
+        "passkey.2.title": "No Passwords",
+        "passkey.2.desc": "Passwordless authentication eliminates credential stuffing and phishing attacks.",
+        "passkey.3.title": "Flexible Config",
+        "passkey.3.desc": "Simple YAML configuration with customizable server URL and authentication prompts.",
+        "passkey.4.title": "Browser Native",
+        "passkey.4.desc": "Direct integration with browser native passkey APIs for seamless user experience.",
+        "passkey.prompt.message": "Please authenticate with Passkey to confirm the operation",
         "code.title": "Standardized Package",
         "code.1.title": "Declarative Definition",
         "code.1.desc": "Clear YAML configuration with intent, type, and tool bindings.",
@@ -1373,6 +1398,7 @@
         "title": "MCPlet — モデルコンテキストプロトコル向けAIファースト機能ユニット",
         "nav.concepts": "概念",
         "nav.types": "タイプ",
+        "nav.passkey": "パスキー",
         "nav.architecture": "アーキテクチャ",
         "nav.philosophy": "設計思想",
         "hero.badge": "モデルコンテキストプロトコル上に構築",
@@ -1396,6 +1422,8 @@
         "concepts.5.desc": "豊富な出力メタデータにより、AIは操作、提案、次のステップを推論できます。",
         "concepts.6.title": "ステートレス設計",
         "concepts.6.desc": "隠れた状態を持たない純粋な関数モデルです。すべてのデータはHostを通過し、透明性を確保します。",
+        "concepts.7.title": "パスキー認証",
+        "concepts.7.desc": "FIDO2パスキー対応で、ブラウザ直接統合による安全なパスワードレス認証を組み込みサポート。",
         "types.label": "分類",
         "types.title": "MCPletタイプ",
         "types.subtitle": "各MCPletは1つのタイプを厳密に宣言し、安全性プロファイルと適切な利用方法を定義します。",
@@ -1439,6 +1467,18 @@
         "philosophy.4.desc": "テキストモードで完全に動作し、MCP Apps対応時にリッチUIで強化されます。",
         "philosophy.5.title": "安全性制約",
         "philosophy.5.desc": "副作用を明示し、アクションは必ずレビューを経ます。偶然ではなく設計による安全性です。",
+        "passkey.label": "セキュリティ",
+        "passkey.title": "パスキー認証",
+        "passkey.subtitle": "FIDO2パスキー対応で、ブラウザ直接統合による安全なパスワードレス認証を組み込みサポート。",
+        "passkey.1.title": "FIDO2標準",
+        "passkey.1.desc": "WebAuthn/FIDO2標準を使用し、最高レベルのセキュリティとブラウザ互換性を提供。",
+        "passkey.2.title": "パスワード不要",
+        "passkey.2.desc": "パスワードレス認証により、クレデンシャルスタッフィングとフィッシング攻撃を排除。",
+        "passkey.3.title": "柔軟な設定",
+        "passkey.3.desc": "サーバーURLと認証プロンプトをカスタマイズ可能なシンプルなYAML設定。",
+        "passkey.4.title": "ブラウザネイティブ",
+        "passkey.4.desc": "ブラウザネイティブのパスキーAPIと直接統合し、シームレスなユーザー体験を提供。",
+        "passkey.prompt.message": "パスキー認証を行って操作を確認してください",
         "code.title": "標準化パッケージ",
         "code.1.title": "宣言的定義",
         "code.1.desc": "インテント、タイプ、ツールバインディングを含む明確なYAML設定です。",
@@ -1460,6 +1500,7 @@
         "title": "MCPlet — 模型上下文协议的AI优先功能单元",
         "nav.concepts": "核心概念",
         "nav.types": "类型",
+        "nav.passkey": "Passkey",
         "nav.architecture": "架构",
         "nav.philosophy": "设计理念",
         "hero.badge": "基于模型上下文协议构建",
@@ -1483,6 +1524,8 @@
         "concepts.5.desc": "丰富的输出元数据使AI能够推理操作、建议与后续步骤。",
         "concepts.6.title": "无状态设计",
         "concepts.6.desc": "纯函数模型，不含隐藏状态。所有数据经由Host流动，确保透明。",
+        "concepts.7.title": "Passkey认证",
+        "concepts.7.desc": "内置FIDO2 Passkey支持，提供浏览器直接集成的安全无密码认证。",
         "types.label": "分类",
         "types.title": "MCPlet类型",
         "types.subtitle": "每个MCPlet严格声明一种类型，定义其安全配置文件与适用方式。",
@@ -1526,6 +1569,18 @@
         "philosophy.4.desc": "文本模式下完全可用，在MCP Apps支持时以丰富UI增强。",
         "philosophy.5.title": "安全约束",
         "philosophy.5.desc": "明确副作用，动作必须审查。安全源于设计而非偶然。",
+        "passkey.label": "安全",
+        "passkey.title": "Passkey认证",
+        "passkey.subtitle": "内置FIDO2 Passkey支持，提供浏览器直接集成的安全无密码认证。",
+        "passkey.1.title": "FIDO2标准",
+        "passkey.1.desc": "使用WebAuthn/FIDO2标准，实现最高安全性和浏览器兼容性。",
+        "passkey.2.title": "无需密码",
+        "passkey.2.desc": "无密码认证消除了凭据填充和钓鱼攻击。",
+        "passkey.3.title": "灵活配置",
+        "passkey.3.desc": "简单的YAML配置，支持自定义服务器URL和认证提示。",
+        "passkey.4.title": "浏览器原生",
+        "passkey.4.desc": "与浏览器原生Passkey API直接集成，提供无缝用户体验。",
+        "passkey.prompt.message": "请进行Passkey认证以确认操作",
         "code.title": "标准化包",
         "code.1.title": "声明式定义",
         "code.1.desc": "包含意图、类型和工具绑定的清晰YAML配置。",
@@ -1547,6 +1602,7 @@
         "title": "MCPlet — Unités de capacité AI-first pour le Model Context Protocol",
         "nav.concepts": "Concepts",
         "nav.types": "Types",
+        "nav.passkey": "Passkey",
         "nav.architecture": "Architecture",
         "nav.philosophy": "Philosophie",
         "hero.badge": "Construit sur le Model Context Protocol",
@@ -1570,6 +1626,8 @@
         "concepts.5.desc": "Des métadonnées de sortie riches permettent à l'IA de raisonner sur les opérations, les suggestions et les étapes suivantes.",
         "concepts.6.title": "Conception sans état",
         "concepts.6.desc": "Modèle fonctionnel pur, sans état caché. Toutes les données transitent par l'hôte pour assurer la transparence.",
+        "concepts.7.title": "Authentification Passkey",
+        "concepts.7.desc": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe du navigateur.",
         "types.label": "Classification",
         "types.title": "Types de MCPlet",
         "types.subtitle": "Chaque MCPlet déclare un type unique, définissant son profil de sécurité et son usage approprié.",
@@ -1613,6 +1671,18 @@
         "philosophy.4.desc": "Fonctionne parfaitement en mode texte, puis s'enrichit d'une UI riche lorsque MCP Apps est disponible.",
         "philosophy.5.title": "Contraintes de sécurité",
         "philosophy.5.desc": "Effets secondaires explicites, revue obligatoire pour les actions. La sécurité est un choix de conception.",
+        "passkey.label": "Sécurité",
+        "passkey.title": "Authentification Passkey",
+        "passkey.subtitle": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe du navigateur.",
+        "passkey.1.title": "Standard FIDO2",
+        "passkey.1.desc": "Utilise les normes WebAuthn/FIDO2 pour une sécurité maximale et une compatibilité navigateur.",
+        "passkey.2.title": "Sans mot de passe",
+        "passkey.2.desc": "L'authentification sans mot de passe élimine les attaques par credential stuffing et phishing.",
+        "passkey.3.title": "Configuration flexible",
+        "passkey.3.desc": "Configuration YAML simple avec URL de serveur personnalisable et invites d'authentification.",
+        "passkey.4.title": "Natif navigateur",
+        "passkey.4.desc": "Intégration directe avec les API natives de passkey du navigateur pour une expérience utilisateur transparente.",
+        "passkey.prompt.message": "Veuillez vous authentifier avec Passkey pour confirmer l'opération",
         "code.title": "Package standardisé",
         "code.1.title": "Définition déclarative",
         "code.1.desc": "Configuration YAML claire avec intention, type et liaisons d'outils.",
@@ -1634,6 +1704,7 @@
         "title": "MCPlet — AI-First-Fähigkeitseinheiten für das Model Context Protocol",
         "nav.concepts": "Konzepte",
         "nav.types": "Typen",
+        "nav.passkey": "Passkey",
         "nav.architecture": "Architektur",
         "nav.philosophy": "Philosophie",
         "hero.badge": "Aufgebaut auf dem Model Context Protocol",
@@ -1657,6 +1728,8 @@
         "concepts.5.desc": "Reichhaltige Ausgabemetadaten ermöglichen KI-Überlegungen zu Operationen, Vorschlägen und nächsten Schritten.",
         "concepts.6.title": "Stateless-Design",
         "concepts.6.desc": "Reines Funktionsmodell ohne versteckten Zustand. Alle Daten fließen über den Host für Transparenz.",
+        "concepts.7.title": "Passkey-Authentifizierung",
+        "concepts.7.desc": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter Browser-Integration.",
         "types.label": "Klassifizierung",
         "types.title": "MCPlet-Typen",
         "types.subtitle": "Jedes MCPlet deklariert genau einen Typ und definiert Sicherheitsprofil und angemessene Nutzung.",
@@ -1700,6 +1773,18 @@
         "philosophy.4.desc": "Funktioniert im Textmodus vollständig und wird bei MCP-Apps-Unterstützung durch eine rich UI erweitert.",
         "philosophy.5.title": "Sicherheitsbeschränkungen",
         "philosophy.5.desc": "Explizite Nebenwirkungen, verpflichtende Prüfung für Aktionen. Sicherheit ist Designprinzip.",
+        "passkey.label": "Sicherheit",
+        "passkey.title": "Passkey-Authentifizierung",
+        "passkey.subtitle": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter Browser-Integration.",
+        "passkey.1.title": "FIDO2-Standard",
+        "passkey.1.desc": "Verwendet WebAuthn/FIDO2-Standards für maximale Sicherheit und Browser-Kompatibilität.",
+        "passkey.2.title": "Keine Passwörter",
+        "passkey.2.desc": "Passwortlose Authentifizierung eliminiert Credential-Stuffing- und Phishing-Angriffe.",
+        "passkey.3.title": "Flexible Konfiguration",
+        "passkey.3.desc": "Einfache YAML-Konfiguration mit anpassbarer Server-URL und Authentifizierungsaufforderungen.",
+        "passkey.4.title": "Browser-Nativ",
+        "passkey.4.desc": "Direkte Integration mit nativen Passkey-APIs des Browsers für nahtloses Benutzererlebnis.",
+        "passkey.prompt.message": "Bitte authentifizieren Sie sich mit Passkey, um den Vorgang zu bestätigen",
         "code.title": "Standardisiertes Paket",
         "code.1.title": "Deklarative Definition",
         "code.1.desc": "Klare YAML-Konfiguration mit Absicht, Typ und Tool-Bindungen.",
@@ -1721,6 +1806,7 @@
         "title": "MCPlet — Unidades de capacidad AI-first para el Protocolo de Contexto de Modelo",
         "nav.concepts": "Conceptos",
         "nav.types": "Tipos",
+        "nav.passkey": "Passkey",
         "nav.architecture": "Arquitectura",
         "nav.philosophy": "Filosofía",
         "hero.badge": "Construido sobre el Protocolo de Contexto de Modelo",
@@ -1744,6 +1830,8 @@
         "concepts.5.desc": "Los metadatos de salida ricos permiten a la IA razonar sobre operaciones, sugerencias y pasos siguientes.",
         "concepts.6.title": "Diseño sin estado",
         "concepts.6.desc": "Modelo funcional puro sin estado oculto. Todos los datos fluyen a través del Host para garantizar transparencia.",
+        "concepts.7.title": "Autenticación Passkey",
+        "concepts.7.desc": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa del navegador.",
         "types.label": "Clasificación",
         "types.title": "Tipos de MCPlet",
         "types.subtitle": "Cada MCPlet declara exactamente un tipo, definiendo su perfil de seguridad y uso apropiado.",
@@ -1787,6 +1875,18 @@
         "philosophy.4.desc": "Funciona perfectamente en modo texto y se mejora con una UI rica cuando MCP Apps está disponible.",
         "philosophy.5.title": "Restricciones de seguridad",
         "philosophy.5.desc": "Efectos secundarios explícitos, revisión obligatoria para acciones. Seguridad por diseño.",
+        "passkey.label": "Seguridad",
+        "passkey.title": "Autenticación Passkey",
+        "passkey.subtitle": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa del navegador.",
+        "passkey.1.title": "Estándar FIDO2",
+        "passkey.1.desc": "Usa estándares WebAuthn/FIDO2 para máxima seguridad y compatibilidad de navegador.",
+        "passkey.2.title": "Sin contraseñas",
+        "passkey.2.desc": "La autenticación sin contraseña elimina ataques de relleno de credenciales y phishing.",
+        "passkey.3.title": "Configuración flexible",
+        "passkey.3.desc": "Configuración YAML simple con URL de servidor personalizable y mensajes de autenticación.",
+        "passkey.4.title": "Nativo del navegador",
+        "passkey.4.desc": "Integración directa con APIs nativas de passkey del navegador para experiencia de usuario fluida.",
+        "passkey.prompt.message": "Por favor autentíquese con Passkey para confirmar la operación",
         "code.title": "Paquete estandarizado",
         "code.1.title": "Definición declarativa",
         "code.1.desc": "Configuración YAML clara con intención, tipo y enlaces de herramientas.",
