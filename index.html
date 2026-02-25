@@ -384,6 +384,36 @@
       box-shadow: var(--glow-purple);
     }
 
+    .video-section {
+      padding: 2rem 2rem 0;
+    }
+
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--glow-cyan);
+      background: var(--bg-card);
+    }
+
+    .video-container .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-container .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
     section {
       position: relative;
       padding: 6rem 2rem;
@@ -993,6 +1023,19 @@
     </div>
   </section>
 
+  <div class="video-section">
+    <div class="video-container fade-in">
+      <div class="video-wrapper">
+        <iframe id="demoVideo"
+          src="https://www.youtube.com/embed/L-dEtjFuuOA"
+          title="MCPlet Demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+
   <section id="concepts">
     <div class="container">
       <div class="section-header">
@@ -1049,7 +1092,7 @@
           <div class="concept-icon">&#128274;</div>
           <h3 class="concept-title" data-i18n="concepts.7.title">Passkey Authentication</h3>
           <p class="concept-desc" data-i18n="concepts.7.desc">
-            Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.
+            Built-in FIDO2 passkey support for secure, passwordless authentication with direct AI Chat integration, enabling fast Human-in-the-loop with ease.
           </p>
         </div>
       </div>
@@ -1115,7 +1158,7 @@
         <span class="section-label" data-i18n="passkey.label">Security</span>
         <h2 class="section-title" data-i18n="passkey.title">Passkey Authentication</h2>
         <p class="section-subtitle" data-i18n="passkey.subtitle">
-          Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.
+          Built-in FIDO2 passkey support for secure, passwordless authentication with direct AI Chat integration, enabling fast Human-in-the-loop with ease.
         </p>
       </div>
       <div class="code-container">
@@ -1133,10 +1176,9 @@
     <span class="code-keyword">resourceUri:</span> <span class="code-string">"ui://restaurant/search-app.html"</span>
     <span class="code-keyword">visibility:</span> [<span class="code-string">"model"</span>]
     <span class="code-keyword">displayMode:</span> <span class="code-string">"inline"</span>
+    <span class="code-keyword">mcpletToolResultSchemaUri:</span> <span class="code-string">"mcplet://tool-result-schema/search_restaurants"</span>
   <span class="code-keyword">auth:</span>
-    <span class="code-keyword">required:</span> <span class="code-keyword">true</span>
-    <span class="code-keyword">fidoServerUrl:</span> <span class="code-string">"https://local.dqj-macpro.com"</span>
-    <span class="code-keyword">authTypes:</span> [<span class="code-string">"passkey"</span>]
+    <span class="code-keyword">required:</span> <span class="code-string">"passkey"</span>
     <span class="code-keyword">promptMessage:</span> <span class="code-string"><span data-i18n="passkey.prompt.message">Please authenticate with Passkey to confirm the operation</span></span>
             </pre>
           </div>
@@ -1262,7 +1304,7 @@
         Start creating AI-first capability units for your applications today.
       </p>
       <div class="hero-cta">
-        <a href="https://github.com/MCP-let/about" class="btn btn-primary" target="_blank" rel="noopener">
+        <a href="files/MCPlet-spec-v202602-07.md" class="btn btn-primary" target="_blank" rel="noopener">
           <span data-i18n="cta.cta">Get Started</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -1321,7 +1363,7 @@
         "concepts.6.title": "Stateless Design",
         "concepts.6.desc": "Pure functional model with no hidden state. All data flows through the Host for transparency.",
         "concepts.7.title": "Passkey Authentication",
-        "concepts.7.desc": "Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.",
+        "concepts.7.desc": "Built-in FIDO2 passkey support for secure, passwordless authentication with direct AI Chat integration, enabling fast Human-in-the-loop with ease.",
         "types.label": "Classification",
         "types.title": "MCPlet Types",
         "types.subtitle": "Every MCPlet declares exactly one type, defining its safety profile and appropriate usage.",
@@ -1367,7 +1409,7 @@
         "philosophy.5.desc": "Explicit side effects, mandatory review for actions. Security by design, not by accident.",
         "passkey.label": "Security",
         "passkey.title": "Passkey Authentication",
-        "passkey.subtitle": "Built-in FIDO2 passkey support for secure, passwordless authentication with direct browser integration.",
+        "passkey.subtitle": "Built-in FIDO2 passkey support for secure, passwordless authentication with direct AI Chat integration, enabling fast Human-in-the-loop with ease.",
         "passkey.1.title": "FIDO2 Standard",
         "passkey.1.desc": "Uses WebAuthn/FIDO2 standards for maximum security and browser compatibility.",
         "passkey.2.title": "No Passwords",
@@ -1423,7 +1465,7 @@
         "concepts.6.title": "ステートレス設計",
         "concepts.6.desc": "隠れた状態を持たない純粋な関数モデルです。すべてのデータはHostを通過し、透明性を確保します。",
         "concepts.7.title": "パスキー認証",
-        "concepts.7.desc": "FIDO2パスキー対応で、ブラウザ直接統合による安全なパスワードレス認証を組み込みサポート。",
+        "concepts.7.desc": "FIDO2パスキー対応で、AI Chat直接統合による安全なパスワードレス認証を組み込みサポートし、高速な Human-in-the-loop を簡単に実現。",
         "types.label": "分類",
         "types.title": "MCPletタイプ",
         "types.subtitle": "各MCPletは1つのタイプを厳密に宣言し、安全性プロファイルと適切な利用方法を定義します。",
@@ -1469,7 +1511,7 @@
         "philosophy.5.desc": "副作用を明示し、アクションは必ずレビューを経ます。偶然ではなく設計による安全性です。",
         "passkey.label": "セキュリティ",
         "passkey.title": "パスキー認証",
-        "passkey.subtitle": "FIDO2パスキー対応で、ブラウザ直接統合による安全なパスワードレス認証を組み込みサポート。",
+        "passkey.subtitle": "FIDO2パスキー対応で、AI Chat直接統合による安全なパスワードレス認証を組み込みサポートし、高速な Human-in-the-loop を簡単に実現。",
         "passkey.1.title": "FIDO2標準",
         "passkey.1.desc": "WebAuthn/FIDO2標準を使用し、最高レベルのセキュリティとブラウザ互換性を提供。",
         "passkey.2.title": "パスワード不要",
@@ -1525,7 +1567,7 @@
         "concepts.6.title": "无状态设计",
         "concepts.6.desc": "纯函数模型，不含隐藏状态。所有数据经由Host流动，确保透明。",
         "concepts.7.title": "Passkey认证",
-        "concepts.7.desc": "内置FIDO2 Passkey支持，提供浏览器直接集成的安全无密码认证。",
+        "concepts.7.desc": "内置FIDO2 Passkey支持，通过AI Chat直接集成实现安全无密码认证，轻松实现快速Human-in-the-loop。",
         "types.label": "分类",
         "types.title": "MCPlet类型",
         "types.subtitle": "每个MCPlet严格声明一种类型，定义其安全配置文件与适用方式。",
@@ -1571,7 +1613,7 @@
         "philosophy.5.desc": "明确副作用，动作必须审查。安全源于设计而非偶然。",
         "passkey.label": "安全",
         "passkey.title": "Passkey认证",
-        "passkey.subtitle": "内置FIDO2 Passkey支持，提供浏览器直接集成的安全无密码认证。",
+        "passkey.subtitle": "内置FIDO2 Passkey支持，通过AI Chat直接集成实现安全无密码认证，轻松实现快速Human-in-the-loop。",
         "passkey.1.title": "FIDO2标准",
         "passkey.1.desc": "使用WebAuthn/FIDO2标准，实现最高安全性和浏览器兼容性。",
         "passkey.2.title": "无需密码",
@@ -1627,7 +1669,7 @@
         "concepts.6.title": "Conception sans état",
         "concepts.6.desc": "Modèle fonctionnel pur, sans état caché. Toutes les données transitent par l'hôte pour assurer la transparence.",
         "concepts.7.title": "Authentification Passkey",
-        "concepts.7.desc": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe du navigateur.",
+        "concepts.7.desc": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe AI Chat, permettant un Human-in-the-loop rapide et facile.",
         "types.label": "Classification",
         "types.title": "Types de MCPlet",
         "types.subtitle": "Chaque MCPlet déclare un type unique, définissant son profil de sécurité et son usage approprié.",
@@ -1673,7 +1715,7 @@
         "philosophy.5.desc": "Effets secondaires explicites, revue obligatoire pour les actions. La sécurité est un choix de conception.",
         "passkey.label": "Sécurité",
         "passkey.title": "Authentification Passkey",
-        "passkey.subtitle": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe du navigateur.",
+        "passkey.subtitle": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe AI Chat, permettant un Human-in-the-loop rapide et facile.",
         "passkey.1.title": "Standard FIDO2",
         "passkey.1.desc": "Utilise les normes WebAuthn/FIDO2 pour une sécurité maximale et une compatibilité navigateur.",
         "passkey.2.title": "Sans mot de passe",
@@ -1729,7 +1771,7 @@
         "concepts.6.title": "Stateless-Design",
         "concepts.6.desc": "Reines Funktionsmodell ohne versteckten Zustand. Alle Daten fließen über den Host für Transparenz.",
         "concepts.7.title": "Passkey-Authentifizierung",
-        "concepts.7.desc": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter Browser-Integration.",
+        "concepts.7.desc": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter AI-Chat-Integration für schnelles und einfaches Human-in-the-loop.",
         "types.label": "Klassifizierung",
         "types.title": "MCPlet-Typen",
         "types.subtitle": "Jedes MCPlet deklariert genau einen Typ und definiert Sicherheitsprofil und angemessene Nutzung.",
@@ -1775,7 +1817,7 @@
         "philosophy.5.desc": "Explizite Nebenwirkungen, verpflichtende Prüfung für Aktionen. Sicherheit ist Designprinzip.",
         "passkey.label": "Sicherheit",
         "passkey.title": "Passkey-Authentifizierung",
-        "passkey.subtitle": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter Browser-Integration.",
+        "passkey.subtitle": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter AI-Chat-Integration für schnelles und einfaches Human-in-the-loop.",
         "passkey.1.title": "FIDO2-Standard",
         "passkey.1.desc": "Verwendet WebAuthn/FIDO2-Standards für maximale Sicherheit und Browser-Kompatibilität.",
         "passkey.2.title": "Keine Passwörter",
@@ -1831,7 +1873,7 @@
         "concepts.6.title": "Diseño sin estado",
         "concepts.6.desc": "Modelo funcional puro sin estado oculto. Todos los datos fluyen a través del Host para garantizar transparencia.",
         "concepts.7.title": "Autenticación Passkey",
-        "concepts.7.desc": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa del navegador.",
+        "concepts.7.desc": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa de AI Chat, permitiendo un Human-in-the-loop rápido y fácil.",
         "types.label": "Clasificación",
         "types.title": "Tipos de MCPlet",
         "types.subtitle": "Cada MCPlet declara exactamente un tipo, definiendo su perfil de seguridad y uso apropiado.",
@@ -1877,7 +1919,7 @@
         "philosophy.5.desc": "Efectos secundarios explícitos, revisión obligatoria para acciones. Seguridad por diseño.",
         "passkey.label": "Seguridad",
         "passkey.title": "Autenticación Passkey",
-        "passkey.subtitle": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa del navegador.",
+        "passkey.subtitle": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa de AI Chat, permitiendo un Human-in-the-loop rápido y fácil.",
         "passkey.1.title": "Estándar FIDO2",
         "passkey.1.desc": "Usa estándares WebAuthn/FIDO2 para máxima seguridad y compatibilidad de navegador.",
         "passkey.2.title": "Sin contraseñas",
@@ -1961,6 +2003,16 @@
       });
 
       document.documentElement.lang = lang;
+
+      // Switch demo video based on language
+      const videoEl = document.getElementById('demoVideo');
+      if (videoEl) {
+        const videoId = lang === 'ja' ? 'sbKEKN83mhs' : 'L-dEtjFuuOA';
+        const newSrc = 'https://www.youtube.com/embed/' + videoId;
+        if (!videoEl.src.includes(videoId)) {
+          videoEl.src = newSrc;
+        }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
