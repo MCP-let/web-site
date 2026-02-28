@@ -372,6 +372,127 @@
       background: rgba(0, 240, 255, 0.05);
     }
 
+    .value-proposition {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.8s ease 0.25s both;
+    }
+
+    .value-equation {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 600;
+      text-align: center;
+      padding: 1.25rem 2rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background-image: linear-gradient(135deg, rgba(0, 240, 255, 0.06), rgba(124, 58, 237, 0.06));
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.1), 0 0 60px rgba(124, 58, 237, 0.05);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+
+    .value-equation .eq-name {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .value-equation .eq-op {
+      color: var(--text-muted);
+      margin: 0 0.15em;
+    }
+
+    .value-equation .eq-ai {
+      color: var(--accent-cyan);
+    }
+
+    .value-equation .eq-ui {
+      color: var(--accent-purple);
+    }
+
+    .value-equation .eq-passkey {
+      color: var(--accent-green);
+    }
+
+    .value-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .value-pillar {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .value-pillar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+    }
+
+    .value-pillar.pillar-ai {
+      border-top: 3px solid var(--accent-cyan);
+    }
+
+    .value-pillar.pillar-ui {
+      border-top: 3px solid var(--accent-purple);
+    }
+
+    .value-pillar.pillar-passkey {
+      border-top: 3px solid var(--accent-green);
+    }
+
+    .value-pillar-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .value-pillar-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .pillar-ai .value-pillar-title {
+      color: var(--accent-cyan);
+    }
+
+    .pillar-ui .value-pillar-title {
+      color: var(--accent-purple);
+    }
+
+    .pillar-passkey .value-pillar-title {
+      color: var(--accent-green);
+    }
+
+    .value-pillar-desc {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .value-pillars {
+        grid-template-columns: 1fr;
+      }
+
+      .value-equation {
+        font-size: 0.85rem;
+        padding: 1rem 1rem;
+      }
+    }
+
     .hero-image {
       margin-top: 4rem;
       animation: fadeInUp 0.8s ease 0.4s both;
@@ -999,15 +1120,41 @@
         MCPlet defines constrained, single-intent units that package business logic with explicit safety constraints.
         Built on MCP and MCP Apps for seamless AI integration.
       </p>
+      <div class="value-proposition">
+        <div class="value-equation">
+          <span class="eq-name">MCPlet</span>
+          <span class="eq-op">=</span>
+          <span class="eq-ai" data-i18n="hero.eq.ai">AI Flexibility</span>
+          <span class="eq-op">+</span>
+          <span class="eq-ui" data-i18n="hero.eq.ui">UI Convenience</span>
+          <span class="eq-op">+</span>
+          <span class="eq-passkey" data-i18n="hero.eq.passkey">Passkey Authenticity</span>
+        </div>
+        <div class="value-pillars">
+          <div class="value-pillar pillar-ai">
+            <div class="value-pillar-icon">&#129302;</div>
+            <div class="value-pillar-title" data-i18n="hero.pillar.ai.title">AI Flexibility</div>
+            <div class="value-pillar-desc" data-i18n="hero.pillar.ai.desc">AI agents handle complex reasoning and tool orchestration with full flexibility</div>
+          </div>
+          <div class="value-pillar pillar-ui">
+            <div class="value-pillar-icon">&#128421;</div>
+            <div class="value-pillar-title" data-i18n="hero.pillar.ui.title">UI Convenience</div>
+            <div class="value-pillar-desc" data-i18n="hero.pillar.ui.desc">Rich interactive interfaces via MCP Apps for intuitive human interaction</div>
+          </div>
+          <div class="value-pillar pillar-passkey">
+            <div class="value-pillar-icon">&#128272;</div>
+            <div class="value-pillar-title" data-i18n="hero.pillar.passkey.title">Passkey Authenticity</div>
+            <div class="value-pillar-desc" data-i18n="hero.pillar.passkey.desc">FIDO2 Passkey ensures real human presence, enabling true Human-in-the-loop</div>
+          </div>
+        </div>
+      </div>
+
       <div class="hero-cta">
         <a href="#concepts" class="btn btn-primary">
           <span data-i18n="hero.cta.primary">Explore MCPlet</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
-        </a>
-        <a href="https://github.com/MCP-let/about" class="btn btn-secondary" target="_blank" rel="noopener">
-          <span data-i18n="hero.cta.secondary">View on GitHub</span>
         </a>
         <a href="mailto:contact@mcplet.ai" class="btn btn-secondary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1304,7 +1451,7 @@
         Start creating AI-first capability units for your applications today.
       </p>
       <div class="hero-cta">
-        <a href="files/MCPlet-spec-v202602-07.md" class="btn btn-primary" target="_blank" rel="noopener">
+        <a href="files/MCPlet-spec-v202602-08.md" class="btn btn-primary" target="_blank" rel="noopener">
           <span data-i18n="cta.cta">Get Started</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -1345,6 +1492,15 @@
         "hero.title.gradient": "AI-First",
         "hero.title.text": "Capability Units<br>for Modern AI Systems",
         "hero.subtitle": "MCPlet defines constrained, single-intent units that package business logic with explicit safety constraints. Built on MCP and MCP Apps for seamless AI integration.",
+        "hero.eq.ai": "AI Flexibility",
+        "hero.eq.ui": "UI Convenience",
+        "hero.eq.passkey": "Passkey Authenticity",
+        "hero.pillar.ai.title": "AI Flexibility",
+        "hero.pillar.ai.desc": "AI agents handle complex reasoning and tool orchestration with full flexibility",
+        "hero.pillar.ui.title": "UI Convenience",
+        "hero.pillar.ui.desc": "Rich interactive interfaces via MCP Apps for intuitive human interaction",
+        "hero.pillar.passkey.title": "Passkey Authenticity",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey ensures real human presence, enabling true Human-in-the-loop",
         "hero.cta.primary": "Explore MCPlet",
         "hero.cta.secondary": "View on GitHub",
         "concepts.label": "Core Concepts",
@@ -1434,7 +1590,7 @@
         "footer.concepts": "Concepts",
         "footer.types": "Types",
         "footer.architecture": "Architecture",
-        "footer.version": "MCPlet Specification v202602-02"
+        "footer.version": "MCPlet Specification v202602-08"
       },
       ja: {
         "title": "MCPlet — モデルコンテキストプロトコル向けAIファースト機能ユニット",
@@ -1447,6 +1603,15 @@
         "hero.title.gradient": "AIファースト",
         "hero.title.text": "機能ユニット<br>モダンAIシステム向け",
         "hero.subtitle": "MCPletは、明確な安全性制約を備えたビジネスロジックを単一インテントでパッケージ化するユニットです。MCPおよびMCP Apps上に構築され、AIとのシームレスな統合を実現します。",
+        "hero.eq.ai": "AIの柔軟性",
+        "hero.eq.ui": "UIの利便性",
+        "hero.eq.passkey": "Passkeyの本人性",
+        "hero.pillar.ai.title": "AIの柔軟性",
+        "hero.pillar.ai.desc": "AIエージェントが複雑な推論とツール連携を柔軟に処理",
+        "hero.pillar.ui.title": "UIの利便性",
+        "hero.pillar.ui.desc": "MCP Appsによるリッチなインタラクティブインターフェースで直感的な操作を実現",
+        "hero.pillar.passkey.title": "Passkeyの本人性",
+        "hero.pillar.passkey.desc": "FIDO2 Passkeyにより本人確認を保証し、確実なHuman-in-the-loopを実現",
         "hero.cta.primary": "MCPletを詳しく見る",
         "hero.cta.secondary": "GitHubで確認",
         "concepts.label": "主要概念",
@@ -1536,7 +1701,7 @@
         "footer.concepts": "概念",
         "footer.types": "タイプ",
         "footer.architecture": "アーキテクチャ",
-        "footer.version": "MCPlet仕様 v202602-02"
+        "footer.version": "MCPlet仕様 v202602-08"
       },
       zh: {
         "title": "MCPlet — 模型上下文协议的AI优先功能单元",
@@ -1549,6 +1714,15 @@
         "hero.title.gradient": "AI优先",
         "hero.title.text": "功能单元<br>面向现代AI系统",
         "hero.subtitle": "MCPlet定义受约束的单一意图单元，将业务逻辑与明确的安全约束打包。构建于MCP与MCP Apps之上，实现与AI的无缝集成。",
+        "hero.eq.ai": "AI的灵活性",
+        "hero.eq.ui": "UI的便捷性",
+        "hero.eq.passkey": "Passkey的真人性",
+        "hero.pillar.ai.title": "AI的灵活性",
+        "hero.pillar.ai.desc": "AI代理灵活处理复杂推理和工具编排",
+        "hero.pillar.ui.title": "UI的便捷性",
+        "hero.pillar.ui.desc": "通过MCP Apps提供丰富的交互界面，直观便捷",
+        "hero.pillar.passkey.title": "Passkey的真人性",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey确保真人在场，实现真正的Human-in-the-loop",
         "hero.cta.primary": "探索MCPlet",
         "hero.cta.secondary": "在GitHub上查看",
         "concepts.label": "核心概念",
@@ -1638,7 +1812,7 @@
         "footer.concepts": "核心概念",
         "footer.types": "类型",
         "footer.architecture": "架构",
-        "footer.version": "MCPlet规范 v202602-02"
+        "footer.version": "MCPlet规范 v202602-08"
       },
       fr: {
         "title": "MCPlet — Unités de capacité AI-first pour le Model Context Protocol",
@@ -1651,6 +1825,15 @@
         "hero.title.gradient": "AI-First",
         "hero.title.text": "Unités de capacité<br>pour les systèmes d'IA modernes",
         "hero.subtitle": "MCPlet définit des unités contraintes à intention unique qui encapsulent la logique métier avec des contraintes de sécurité explicites. Construit sur MCP et MCP Apps pour une intégration fluide avec l'IA.",
+        "hero.eq.ai": "Flexibilité IA",
+        "hero.eq.ui": "Commodité UI",
+        "hero.eq.passkey": "Authenticité Passkey",
+        "hero.pillar.ai.title": "Flexibilité IA",
+        "hero.pillar.ai.desc": "Les agents IA gèrent le raisonnement complexe et l'orchestration des outils avec flexibilité",
+        "hero.pillar.ui.title": "Commodité UI",
+        "hero.pillar.ui.desc": "Interfaces interactives riches via MCP Apps pour une interaction humaine intuitive",
+        "hero.pillar.passkey.title": "Authenticité Passkey",
+        "hero.pillar.passkey.desc": "Le Passkey FIDO2 garantit la présence humaine réelle, assurant un vrai Human-in-the-loop",
         "hero.cta.primary": "Découvrir MCPlet",
         "hero.cta.secondary": "Voir sur GitHub",
         "concepts.label": "Concepts clés",
@@ -1740,7 +1923,7 @@
         "footer.concepts": "Concepts",
         "footer.types": "Types",
         "footer.architecture": "Architecture",
-        "footer.version": "Spécification MCPlet v202602-02"
+        "footer.version": "Spécification MCPlet v202602-08"
       },
       de: {
         "title": "MCPlet — AI-First-Fähigkeitseinheiten für das Model Context Protocol",
@@ -1753,6 +1936,15 @@
         "hero.title.gradient": "AI-First",
         "hero.title.text": "Fähigkeitseinheiten<br>für moderne KI-Systeme",
         "hero.subtitle": "MCPlet definiert eingeschränkte Einheiten mit einer einzelnen Absicht, die Geschäftslogik mit expliziten Sicherheitsbeschränkungen bündeln. Auf MCP und MCP Apps aufgebaut, ermöglicht es eine nahtlose Integration mit KI.",
+        "hero.eq.ai": "KI-Flexibilität",
+        "hero.eq.ui": "UI-Komfort",
+        "hero.eq.passkey": "Passkey-Authentizität",
+        "hero.pillar.ai.title": "KI-Flexibilität",
+        "hero.pillar.ai.desc": "KI-Agenten verarbeiten komplexe Schlussfolgerungen und Werkzeugorchestrierung flexibel",
+        "hero.pillar.ui.title": "UI-Komfort",
+        "hero.pillar.ui.desc": "Reichhaltige interaktive Oberflächen über MCP Apps für intuitive Bedienung",
+        "hero.pillar.passkey.title": "Passkey-Authentizität",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey stellt echte menschliche Präsenz sicher und ermöglicht echtes Human-in-the-loop",
         "hero.cta.primary": "MCPlet erkunden",
         "hero.cta.secondary": "Auf GitHub ansehen",
         "concepts.label": "Kernkonzepte",
@@ -1842,7 +2034,7 @@
         "footer.concepts": "Konzepte",
         "footer.types": "Typen",
         "footer.architecture": "Architektur",
-        "footer.version": "MCPlet-Spezifikation v202602-02"
+        "footer.version": "MCPlet-Spezifikation v202602-08"
       },
       es: {
         "title": "MCPlet — Unidades de capacidad AI-first para el Protocolo de Contexto de Modelo",
@@ -1855,6 +2047,15 @@
         "hero.title.gradient": "AI-First",
         "hero.title.text": "Unidades de capacidad<br>para sistemas de IA modernos",
         "hero.subtitle": "MCPlet define unidades restringidas de intención única que empaquetan lógica empresarial con restricciones de seguridad explícitas. Construido sobre MCP y MCP Apps para una integración fluida con la IA.",
+        "hero.eq.ai": "Flexibilidad IA",
+        "hero.eq.ui": "Comodidad UI",
+        "hero.eq.passkey": "Autenticidad Passkey",
+        "hero.pillar.ai.title": "Flexibilidad IA",
+        "hero.pillar.ai.desc": "Los agentes de IA manejan razonamiento complejo y orquestación de herramientas con flexibilidad",
+        "hero.pillar.ui.title": "Comodidad UI",
+        "hero.pillar.ui.desc": "Interfaces interactivas enriquecidas mediante MCP Apps para interacción humana intuitiva",
+        "hero.pillar.passkey.title": "Autenticidad Passkey",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey garantiza la presencia humana real, habilitando un verdadero Human-in-the-loop",
         "hero.cta.primary": "Explorar MCPlet",
         "hero.cta.secondary": "Ver en GitHub",
         "concepts.label": "Conceptos clave",
@@ -1944,7 +2145,7 @@
         "footer.concepts": "Conceptos",
         "footer.types": "Tipos",
         "footer.architecture": "Arquitectura",
-        "footer.version": "Especificación MCPlet v202602-02"
+        "footer.version": "Especificación MCPlet v202602-08"
       }
     };
 
