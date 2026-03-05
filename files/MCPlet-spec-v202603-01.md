@@ -121,7 +121,7 @@ registerAppTool(
 );
 ```
 
-### 4.2 Recommended Combinations: mcpletType × Visibility × Auth
+### 4.2 Recommended Combinations: mcpletType x Visibility x Auth
 
 The following table provides guidance on recommended combinations of `mcpletType`, `visibility`, and `auth`:
 
@@ -286,7 +286,7 @@ Host is responsible for implementing specific Passkey functionality based on ami
 
 - When authenticating and finding that the user has not registered a Passkey, guide the user to register first, then proceed to authentication
 - Registration alone does NOT authorize tool invocation; authentication MUST always follow
-- Complete flow: Check availability → Resolve userId → Check if registration needed → Register (if needed) → **Authenticate** → Tool invocation
+- Complete flow: Check availability -> Resolve userId -> Check if registration needed -> Register (if needed) -> **Authenticate** -> Tool invocation
 
 ```typescript
 const ensurePasskeyForSensitiveAction = async (options: {
@@ -347,7 +347,7 @@ Host SHOULD provide user-facing functionality to manage Passkey devices:
 - User identity must be verified before Passkey registration (e.g., user is already logged in)
 - Session management (validation, expiration) is Host's responsibility
 
-> **Note**: "Session" here refers to the FIDO2 server session used during the registration/authentication ceremony, NOT a persistent login session. MCPlet Passkey does not maintain persistent sessions — every tool call requiring Passkey triggers a fresh authentication (see Section 7.2).
+> **Note**: "Session" here refers to the FIDO2 server session used during the registration/authentication ceremony, NOT a persistent login session. MCPlet Passkey does not maintain persistent sessions -- every tool call requiring Passkey triggers a fresh authentication (see Section 7.2).
 
 ### 7.2 Passkey Authentication Workflow
 
@@ -465,7 +465,7 @@ The `rpId` is determined as follows (in priority order):
 if (rpId && 0 < rpId.length) {
     attestationOptions.rp = { id: rpId };  // Explicit override
 }
-// If rpId is null, no rp field is sent → server uses its default
+// If rpId is null, no rp field is sent -> server uses its default
 
 // Authentication (doAssertion):
 if (rpId && 0 < rpId.length) {
@@ -527,11 +527,11 @@ Passkey can be disabled at three granularity levels:
 
 Implementations MUST handle:
 
-- WebAuthn API unavailable → stop tool calling and show user guidance
-- User cancellation (Esc key, timeout) → stop tool calling silently (do NOT show error dialog for user-initiated cancellations)
-- FIDO2 server connectivity failure → error message + host-driven retry
-- Attestation/assertion verification failure → specific error reason (e.g., signature mismatch) and stop tool calling
-- Credential not found → prompt for registration if allowed by policy
+- WebAuthn API unavailable -> stop tool calling and show user guidance
+- User cancellation (Esc key, timeout) -> stop tool calling silently (do NOT show error dialog for user-initiated cancellations)
+- FIDO2 server connectivity failure -> error message + host-driven retry
+- Attestation/assertion verification failure -> specific error reason (e.g., signature mismatch) and stop tool calling
+- Credential not found -> prompt for registration if allowed by policy
 
 #### Visibility Coordination
 
@@ -664,7 +664,7 @@ Schema resources SHOULD include:
 
 - breaking schema change MUST use new major schema URI,
 - old versions SHOULD be marked deprecated,
-- deprecation SHOULD provide a sunset window (recommended: ≥ 3 months).
+- deprecation SHOULD provide a sunset window (recommended: >= 3 months).
 
 ---
 
@@ -723,8 +723,8 @@ Before setting pending derived result, host MUST:
 - verify target tool allowlist (only whitelisted tools can receive derived results),
 - resolve target schema URI (e.g., `mcplet://tool-result-schema/search_restaurants`),
 - validate JSON payload against schema,
-- enforce payload size limit (recommended: ≤ 1MB),
-- enforce TTL upper bound (recommended: ≤ 30 seconds),
+- enforce payload size limit (recommended: <= 1MB),
+- enforce TTL upper bound (recommended: <= 30 seconds),
 - enforce revision monotonicity if revision is used.
 
 ### 10.5 iframe Synchronization Protocol
@@ -804,7 +804,7 @@ Host SHOULD emit these events to fullscreen iframe:
 
 v202602-08 defines single-layer derived injection only. Multi-hop derived chains are not standardized.
 
-**Future consideration**: Multi-layer chains (LLM → derived result → iframe → new LLM context) may be standardized in v202603+.
+**Future consideration**: Multi-layer chains (LLM -> derived result -> iframe -> new LLM context) may be standardized in v202603+.
 
 ---
 
@@ -921,33 +921,44 @@ Host MUST:
 - Enforce TTL (recommended: 30 seconds) to prevent stale UI
 - Route derived results only to whitelisted tools
 - Provide clear error feedback if injection fails
-- Support bidirectional communication (host → iframe, iframe → host)
+- Support bidirectional communication (host -> iframe, iframe -> host)
 
 #### Example Implementation Flow
 
 ```
 User Chat Message
-    ↓
+  |
+  v
 LLM Processes (visibility: ['model'] tools)
-    ↓
+  |
+  v
 LLM Generates Text Response
-    ↓
+  |
+  v
 Host Extracts Structured Data from Response
-    ↓
+  |
+  v
 Host Creates Derived Result (matches search_restaurants schema)
-    ↓
+  |
+  v
 Host Validates Against Schema URI
-    ↓
+  |
+  v
 Host Injects via Derived Tool Result Channel
-    ↓
+  |
+  v
 Fullscreen iframe Receives Message Event
-    ↓
+  |
+  v
 iframe Validates Timestamp & Schema
-    ↓
+  |
+  v
 iframe Updates State (setRestaurants())
-    ↓
+  |
+  v
 iframe Re-renders with Synchronized Content
-    ↓
+  |
+  v
 Content is in sync with LLM text response
 ```
 
@@ -1028,8 +1039,8 @@ Specification version format remains `vYYYYMM-REV`.
 ### Version History
 
 - `v202603-01`: Added Section 18 (Intellectual Property Notice) documenting pending patent application disclosure and anticipated standards-aligned licensing commitment principles (including potential RF/FRAND frameworks), with explicit transparency statement for draft implementations.
-- `v202602-08`: Formalized `_meta.mcpletType` field. Key changes: (1) Added `_meta.mcpletType` as a MUST-declare field in tool registration, resolving the gap between Section 4 (classification rules) and Sections 5–6 (metadata contracts) — `mcpletType` is now part of the `_meta` structure alongside `ui` and `auth`; (2) Added Section 4.1 with code example for `mcpletType` declaration; (3) Added Section 4.2 documenting recommended combinations of `mcpletType` × `visibility` × `auth`, including safety rules for `action` tools exposed to model; (4) Updated Section 5.1 to include `_meta.mcpletType` in MUST-provide list and `_meta.auth` in SHOULD-provide list; (5) Renamed Section 6 from "Tool Metadata Contract (`_meta.ui`)" to "Tool Metadata Contract (`_meta`)" to reflect full `_meta` scope including `mcpletType`, `ui`, and `auth`; (6) Added Section 6.1 (`mcpletType`) and Section 6.6 (`auth`) field definitions; (7) Updated all JSON examples and code samples to include `mcpletType`; (8) Updated Sections 8.3, 7.6, 9.1, 10.7, 16.1, 16.2, 17.1 to use formal `mcpletType` references instead of informal terms like "write/sensitive" and "read-only"; (9) Added `mcpletType` to result envelope `_meta` (Section 9.1) for downstream AI reasoning.
-- `v202602-07`: Corrected Passkey authentication specification to align with reference implementation. Key changes: (1) Fixed `auth` field location to `_meta.auth` (not top-level); (2) Corrected authentication workflow — registration alone does NOT authorize tool invocation, authentication MUST always follow; (3) Added Phase 2 (User ID Resolution) and renumbered workflow phases; (4) Added Section 7.4 documenting Relying Party ID (`rpId`) determination rules; (5) Added Section 7.5 documenting how to enable/disable Passkey at global, per-tool, and per-operation levels; (6) Clarified "session" terminology to distinguish FIDO2 ceremony sessions from persistent login sessions; (7) Updated code examples to match actual `registerAppTool` function signature from `@modelcontextprotocol/ext-apps/server`.
+- `v202602-08`: Formalized `_meta.mcpletType` field. Key changes: (1) Added `_meta.mcpletType` as a MUST-declare field in tool registration, resolving the gap between Section 4 (classification rules) and Sections 5-6 (metadata contracts) -- `mcpletType` is now part of the `_meta` structure alongside `ui` and `auth`; (2) Added Section 4.1 with code example for `mcpletType` declaration; (3) Added Section 4.2 documenting recommended combinations of `mcpletType` x `visibility` x `auth`, including safety rules for `action` tools exposed to model; (4) Updated Section 5.1 to include `_meta.mcpletType` in MUST-provide list and `_meta.auth` in SHOULD-provide list; (5) Renamed Section 6 from "Tool Metadata Contract (`_meta.ui`)" to "Tool Metadata Contract (`_meta`)" to reflect full `_meta` scope including `mcpletType`, `ui`, and `auth`; (6) Added Section 6.1 (`mcpletType`) and Section 6.6 (`auth`) field definitions; (7) Updated all JSON examples and code samples to include `mcpletType`; (8) Updated Sections 8.3, 7.6, 9.1, 10.7, 16.1, 16.2, 17.1 to use formal `mcpletType` references instead of informal terms like "write/sensitive" and "read-only"; (9) Added `mcpletType` to result envelope `_meta` (Section 9.1) for downstream AI reasoning.
+- `v202602-07`: Corrected Passkey authentication specification to align with reference implementation. Key changes: (1) Fixed `auth` field location to `_meta.auth` (not top-level); (2) Corrected authentication workflow -- registration alone does NOT authorize tool invocation, authentication MUST always follow; (3) Added Phase 2 (User ID Resolution) and renumbered workflow phases; (4) Added Section 7.4 documenting Relying Party ID (`rpId`) determination rules; (5) Added Section 7.5 documenting how to enable/disable Passkey at global, per-tool, and per-operation levels; (6) Clarified "session" terminology to distinguish FIDO2 ceremony sessions from persistent login sessions; (7) Updated code examples to match actual `registerAppTool` function signature from `@modelcontextprotocol/ext-apps/server`.
 - `v202602-06`: Added Tool Authentication Contract (`_meta.auth`) with Passkey/FIDO2 authentication support, including workflow phases, implementation approaches, security considerations, and testing guidance.
 - `v202602-05`: Code-first primary profile; formalized visibility triad, schema URI versioning, derived-result safety, and display/chat mode rules aligned with reference implementation.
 - `v202602-03`: MCP Apps App SDK lifecycle alignment.
@@ -1053,17 +1064,17 @@ Specification version format remains `vYYYYMM-REV`.
 
 1. `auth` field MUST be inside `_meta` (as `_meta.auth`), not at the top level of tool config.
 2. Passkey workflow now has 5 phases (was 4); Phase 2 (User ID Resolution) is new; old Phase 2 (Registration) now explicitly states authentication MUST follow.
-3. New Section 7.4 (`rpId`) — implementations relying on custom `rpId` should review.
-4. New Section 7.5 (Enable/Disable) — documents three levels of Passkey control.
+3. New Section 7.4 (`rpId`) -- implementations relying on custom `rpId` should review.
+4. New Section 7.5 (Enable/Disable) -- documents three levels of Passkey control.
 
 ---
 
 ## Appendix C: Migration Notes from v202602-07
 
 1. `_meta.mcpletType` is now a MUST-declare field. Existing tools MUST add `mcpletType: 'read' | 'prepare' | 'action'` to their `_meta` at registration time.
-2. `_meta.auth` added to SHOULD-provide list in Section 5.1 — `action` type tools SHOULD declare `_meta.auth`.
+2. `_meta.auth` added to SHOULD-provide list in Section 5.1 -- `action` type tools SHOULD declare `_meta.auth`.
 3. Section 6 expanded from `_meta.ui` scope to full `_meta` scope. New subsections: 6.1 (`mcpletType`), 6.6 (`auth`).
-4. New Section 4.2 defines recommended mcpletType × visibility × auth combinations. Key safety rule: `action` tools with model visibility MUST have authentication enforcement.
+4. New Section 4.2 defines recommended mcpletType x visibility x auth combinations. Key safety rule: `action` tools with model visibility MUST have authentication enforcement.
 5. Result envelope `_meta` (Section 9.1) now includes `mcpletType` for downstream reasoning.
 6. Conformance (Section 17) now requires `mcpletType` declaration and `action` + model-visible authentication enforcement.
 
