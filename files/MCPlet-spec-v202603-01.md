@@ -1,7 +1,7 @@
-# MCPlet Specification v202602-08
+# MCPlet Specification v202603-01
 
 > **Status**: Draft  
-> **Date**: 2026-02-28  
+> **Date**: 2026-03-05  
 > **Relationship to MCP / MCP Apps**: MCPlet is a **convention profile** on top of MCP + MCP Apps. It does not redefine transport, runtime, or sandbox behavior.
 
 ---
@@ -992,7 +992,7 @@ Implementations MUST apply at least:
 
 ## 17. Conformance
 
-### 17.1 A host/server pair claiming MCPlet v202602-08 conformance MUST satisfy:
+### 17.1 A host/server pair claiming MCPlet v202603-01 conformance MUST satisfy:
 
 1. `mcpletType` declaration on all tools and host enforcement,
 2. visibility filtering and enforcement,
@@ -1006,12 +1006,28 @@ Derived-result channel is optional; if implemented, Section 9 becomes mandatory.
 
 ---
 
-## 18. Versioning
+## 18. Intellectual Property Notice
+
+The editors are aware that certain aspects of this specification may be covered by pending patent applications, including:
+
+- **Japanese Patent Application No. 2026-026931**  
+  Title: *Inference Result Injection Control Device, Method, and Program*
+
+The patent holder intends to make any essential patent claims available under terms consistent with widely accepted open standards policies.
+
+If this specification progresses toward formal standardization, the patent holder expects to provide licensing commitments consistent with recognized industry practices, which may include Royalty-Free (RF) or Fair, Reasonable, and Non-Discriminatory (FRAND) terms depending on the requirements of the applicable standards organization.
+
+This notice is provided for transparency and does not impose licensing requirements on implementations of this draft specification.
+
+---
+
+## 19. Versioning
 
 Specification version format remains `vYYYYMM-REV`.
 
 ### Version History
 
+- `v202603-01`: Added Section 18 (Intellectual Property Notice) documenting pending patent application disclosure and anticipated standards-aligned licensing commitment principles (including potential RF/FRAND frameworks), with explicit transparency statement for draft implementations.
 - `v202602-08`: Formalized `_meta.mcpletType` field. Key changes: (1) Added `_meta.mcpletType` as a MUST-declare field in tool registration, resolving the gap between Section 4 (classification rules) and Sections 5–6 (metadata contracts) — `mcpletType` is now part of the `_meta` structure alongside `ui` and `auth`; (2) Added Section 4.1 with code example for `mcpletType` declaration; (3) Added Section 4.2 documenting recommended combinations of `mcpletType` × `visibility` × `auth`, including safety rules for `action` tools exposed to model; (4) Updated Section 5.1 to include `_meta.mcpletType` in MUST-provide list and `_meta.auth` in SHOULD-provide list; (5) Renamed Section 6 from "Tool Metadata Contract (`_meta.ui`)" to "Tool Metadata Contract (`_meta`)" to reflect full `_meta` scope including `mcpletType`, `ui`, and `auth`; (6) Added Section 6.1 (`mcpletType`) and Section 6.6 (`auth`) field definitions; (7) Updated all JSON examples and code samples to include `mcpletType`; (8) Updated Sections 8.3, 7.6, 9.1, 10.7, 16.1, 16.2, 17.1 to use formal `mcpletType` references instead of informal terms like "write/sensitive" and "read-only"; (9) Added `mcpletType` to result envelope `_meta` (Section 9.1) for downstream AI reasoning.
 - `v202602-07`: Corrected Passkey authentication specification to align with reference implementation. Key changes: (1) Fixed `auth` field location to `_meta.auth` (not top-level); (2) Corrected authentication workflow — registration alone does NOT authorize tool invocation, authentication MUST always follow; (3) Added Phase 2 (User ID Resolution) and renumbered workflow phases; (4) Added Section 7.4 documenting Relying Party ID (`rpId`) determination rules; (5) Added Section 7.5 documenting how to enable/disable Passkey at global, per-tool, and per-operation levels; (6) Clarified "session" terminology to distinguish FIDO2 ceremony sessions from persistent login sessions; (7) Updated code examples to match actual `registerAppTool` function signature from `@modelcontextprotocol/ext-apps/server`.
 - `v202602-06`: Added Tool Authentication Contract (`_meta.auth`) with Passkey/FIDO2 authentication support, including workflow phases, implementation approaches, security considerations, and testing guidance.
@@ -1079,4 +1095,4 @@ These files are informative examples, not normative by themselves.
 
 ---
 
-**End of MCPlet Specification v202602-08**
+**End of MCPlet Specification v202603-01**
