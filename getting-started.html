@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCPlet Getting Started — First Steps for Hosts and Tool Authors</title>
+  <meta name="description" content="Getting started with MCPlet v202603-03: choose a host profile, classify tools, register code-first metadata, expose result schemas, and enforce passkey authentication for protected actions.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="MCPlet Working Group">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="canonical" href="https://mcplet.ai/getting-started.html">
+  <meta property="og:title" content="MCPlet Getting Started — First Steps for Hosts and Tool Authors">
+  <meta property="og:description" content="Choose a host profile, classify tools, register code-first metadata, expose result schemas, and add passkey enforcement for protected actions.">
+  <meta property="og:url" content="https://mcplet.ai/getting-started.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MCPlet">
+  <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MCPlet Getting Started — First Steps for Hosts and Tool Authors">
+  <meta name="twitter:description" content="Choose a host profile, classify tools, register code-first metadata, expose result schemas, and add passkey enforcement for protected actions.">
+  <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="shortcut icon" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d14;
+      --bg-card: rgba(20, 20, 30, 0.68);
+      --accent-cyan: #00f0ff;
+      --accent-blue: #0066ff;
+      --accent-purple: #7c3aed;
+      --accent-green: #00ff88;
+      --accent-orange: #ff6b00;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7b;
+      --border-color: rgba(0, 240, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(0, 240, 255, 0.14), transparent 25%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.16), transparent 28%),
+        var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container,
+    .footer-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #0a0a0f;
+    }
+
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .logo-text span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links,
+    .footer-links,
+    .step-list,
+    .decision-list {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .footer-links a,
+    .resource-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .footer-links a:hover,
+    .resource-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    .page-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.08;
+      margin-bottom: 0.9rem;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-grid,
+    .content-grid,
+    .quick-grid,
+    .decision-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-bottom: 1.5rem;
+    }
+
+    .content-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: start;
+      margin-bottom: 1.5rem;
+    }
+
+    .quick-grid,
+    .decision-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.5rem;
+    }
+
+    .meta-card .label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .meta-card .value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.85rem;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p,
+    li,
+    td,
+    th,
+    .resource-links,
+    .callout {
+      color: var(--text-secondary);
+    }
+
+    .step-list,
+    .decision-list {
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .step-list li,
+    .decision-list li {
+      list-style: decimal;
+      margin-left: 1.2rem;
+    }
+
+    .step-card {
+      border-top: 3px solid transparent;
+    }
+
+    .step-card.profile { border-top-color: var(--accent-cyan); }
+    .step-card.classify { border-top-color: var(--accent-green); }
+    .step-card.metadata { border-top-color: var(--accent-orange); }
+    .step-card.auth { border-top-color: #ff3366; }
+
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      text-align: left;
+      vertical-align: top;
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .comparison-table th {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .callout {
+      padding: 1rem 1.15rem;
+      border-left: 3px solid var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.05);
+      border-radius: 0 12px 12px 0;
+      margin-top: 1rem;
+    }
+
+    pre {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(10, 10, 15, 0.9);
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #c6f9ff;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.3rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2rem;
+      background: rgba(13, 13, 20, 0.92);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 860px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav,
+      main,
+      footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Get started with MCPlet",
+      "description": "Choose a host profile, classify tools, register code-first metadata, expose result schemas, and enforce passkey authentication for protected actions.",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Choose a host profile",
+          "text": "Decide whether your implementation is a WebUI Profile host with MCP Apps rendering or an Agent Profile host with orchestrated agents and an externally configured LLM."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Classify each tool",
+          "text": "Declare each MCPlet as read, prepare, or action so the host can apply the correct safety profile."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Register code-first metadata",
+          "text": "Expose _meta.mcpletType, _meta.visibility, optional _meta.ui, and optional _meta.pool at tool registration time."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Add schemas and authentication",
+          "text": "Publish a tool-result schema URI and require strict passkey enforcement for protected model-visible action tools."
+        }
+      ]
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">MCP<span>let</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="spec/">Specification</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="patent-notice.html">Patent Notice</a></li>
+        <li><a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">Raw Markdown</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-label">Getting Started</div>
+    <h1>First steps for MCPlet hosts and tool authors</h1>
+    <p class="subtitle">This guide compresses MCPlet v202603-03 into an implementation path: choose the right host profile, classify tools correctly, expose code-first metadata, and apply stronger enforcement where actions can cause side effects.</p>
+
+    <div class="meta-grid">
+      <div class="card meta-card">
+        <span class="label">Version</span>
+        <span class="value">v202603-03</span>
+      </div>
+      <div class="card meta-card">
+        <span class="label">Maintained by</span>
+        <span class="value">MCPlet Working Group</span>
+      </div>
+      <div class="card meta-card">
+        <span class="label">Normative source</span>
+        <span class="value">Raw markdown draft</span>
+      </div>
+      <div class="card meta-card">
+        <span class="label">Updated</span>
+        <span class="value">2026-04-01</span>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <section class="card">
+        <h2>Implementation path</h2>
+        <ol class="step-list">
+          <li>Choose whether your host is WebUI Profile or Agent Profile. This determines whether MCP Apps rendering is part of your runtime and how confirmation flows are implemented.</li>
+          <li>Classify each tool as read, prepare, or action. This is not documentation only; it is part of the safety model.</li>
+          <li>Register code-first metadata in <strong>_meta</strong>, including <strong>mcpletType</strong>, <strong>visibility</strong>, and optional <strong>ui</strong>, <strong>auth</strong>, and <strong>pool</strong> fields.</li>
+          <li>Expose a tool-result schema URI so the host can validate structured results and downstream consumers can reason about outputs safely.</li>
+          <li>Require strict passkey enforcement when a model-visible action can trigger irreversible side effects.</li>
+        </ol>
+        <div class="callout">If you only remember one rule: never treat MCPlet as a replacement for MCP. MCP is the protocol layer; MCPlet is the convention layer that narrows tool behavior into safer, reviewable units.</div>
+      </section>
+
+      <aside class="card">
+        <h2>Before you implement</h2>
+        <ol class="decision-list">
+          <li>Do you need one business intent per tool? If not, your current design may be too broad for MCPlet.</li>
+          <li>Can the host manage state and confirmation? If not, the architecture is not yet aligned with the spec.</li>
+          <li>Will an action be visible to the model? If yes, plan for passkey enforcement and backend verification.</li>
+        </ol>
+      </aside>
+    </div>
+
+    <div class="quick-grid">
+      <article class="card step-card profile">
+        <h3>1. Choose the host profile</h3>
+        <p>Use <strong>WebUI Profile</strong> if you render MCP Apps UI. Use <strong>Agent Profile</strong> if your host is an orchestration layer of specialized agents with an externally configured LLM.</p>
+      </article>
+      <article class="card step-card classify">
+        <h3>2. Classify the tool</h3>
+        <p>Pick <strong>read</strong> for safe retrieval, <strong>prepare</strong> for staged validation, and <strong>action</strong> for irreversible side effects that need tighter control.</p>
+      </article>
+      <article class="card step-card metadata">
+        <h3>3. Expose code-first metadata</h3>
+        <p>At minimum, declare <strong>_meta.mcpletType</strong> and <strong>_meta.visibility</strong>. Add result schema URIs, UI metadata, auth metadata, and pools where applicable.</p>
+      </article>
+      <article class="card step-card auth">
+        <h3>4. Protect model-visible actions</h3>
+        <p>If an action is visible to the model, require explicit interception and strong confirmation, preferably with strict Passkey enforcement.</p>
+      </article>
+    </div>
+
+    <section class="card">
+      <h2>MCP, MCP Apps, and MCPlet at a glance</h2>
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Primary role</th>
+              <th>What it gives you</th>
+              <th>What it does not give you</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>MCP</strong></td>
+              <td>Protocol</td>
+              <td>Tool and resource transport, discovery, and invocation semantics.</td>
+              <td>Intent modeling, action safety policy, or opinionated tool classification.</td>
+            </tr>
+            <tr>
+              <td><strong>MCP Apps</strong></td>
+              <td>UI integration</td>
+              <td>Host-view rendering, iframe lifecycle, and app bridge behavior.</td>
+              <td>Business intent boundaries, metadata safety rules, or auth conventions.</td>
+            </tr>
+            <tr>
+              <td><strong>MCPlet</strong></td>
+              <td>Convention profile</td>
+              <td>Single-intent units, read/prepare/action classification, visibility constraints, auth requirements, and host-managed safety boundaries.</td>
+              <td>MCP transport, generic runtime behavior, or a mandatory frontend framework.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Minimal code-first metadata example</h2>
+      <p>This example shows the fields most implementations should think about first when mapping a tool into MCPlet.</p>
+      <pre>{
+  "_meta": {
+    "mcpletType": "prepare",
+    "visibility": ["model", "app"],
+    "mcpletToolResultSchemaUri": "mcplet://tool-result-schema/check_order",
+    "ui": {
+      "resourceUri": "ui://orders/check.html",
+      "displayMode": "inline"
+    }
+  }
+}</pre>
+      <p>For irreversible operations, switch the classification to <strong>action</strong> and add <strong>_meta.auth</strong> with stricter enforcement.</p>
+    </section>
+
+    <section class="card">
+      <h2>When to use MCPlet and when not to</h2>
+      <div class="content-grid">
+        <div>
+          <h3>Use MCPlet when</h3>
+          <ol class="decision-list">
+            <li>You want one reviewable business intent per tool.</li>
+            <li>You need the host to enforce clear model-versus-app boundaries.</li>
+            <li>You want a code-first metadata contract on top of MCP.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Do not use MCPlet when</h3>
+          <ol class="decision-list">
+            <li>Your tool surface is intentionally broad and multi-purpose.</li>
+            <li>You are looking for a replacement protocol instead of a convention profile.</li>
+            <li>Your host cannot manage state, interception, or safety policy.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="button-row">
+        <a href="spec/" class="btn btn-primary">Read HTML overview</a>
+        <a href="faq.html" class="btn btn-secondary">Browse FAQ</a>
+        <a href="files/MCPlet-spec-v202603-03.md" class="btn btn-secondary" target="_blank" rel="noopener">Open raw markdown</a>
+      </div>
+      <p class="resource-links">Need licensing context? Review the <a href="patent-notice.html">intellectual property notice</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="spec/">Specification</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="patent-notice.html">Patent Notice</a></li>
+      </ul>
+      <div class="footer-copy">MCPlet Specification v202603-03 · Updated 2026-04-01 · <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a></div>
+    </div>
+  </footer>
+</body>
+</html>

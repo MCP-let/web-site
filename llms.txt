@@ -1,0 +1,28 @@
+# MCPlet
+
+> MCPlet is a code-first convention profile on top of Model Context Protocol (MCP) and MCP Apps. It defines constrained, single-intent capability units with explicit visibility, authentication, and safety boundaries for AI operations.
+
+## Canonical Pages
+- [Homepage](https://mcplet.ai/)
+- [Getting started](https://mcplet.ai/getting-started.html)
+- [Specification overview](https://mcplet.ai/spec/)
+- [Technical FAQ](https://mcplet.ai/faq.html)
+- [Patent notice](https://mcplet.ai/patent-notice.html)
+- [Raw specification markdown](https://mcplet.ai/files/MCPlet-spec-v202603-03.md)
+
+## Current Draft
+- Version: v202603-03
+- Status: Draft
+- Date: 2026-03-27
+
+## Key Concepts
+- Single-intent capability units
+- read / prepare / action classification
+- Code-first `_meta` contract
+- Host-managed orchestration and state
+- Optional MCP Apps UI
+- Passkey authentication for protected actions
+- Getting started path for hosts and tool authors
+
+## Contact
+- contact@mcplet.ai

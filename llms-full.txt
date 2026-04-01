@@ -1,0 +1,51 @@
+# MCPlet Extended Context
+
+MCPlet is a code-first convention profile on top of Model Context Protocol (MCP) and MCP Apps. It defines constrained, single-intent capability units that package business logic with explicit visibility, authentication, and safety boundaries for AI operations.
+
+## Draft Metadata
+- Version: v202603-03
+- Status: Draft
+- Draft date: 2026-03-27
+- Profiles: WebUI Profile and Agent Profile
+
+## Core Summary
+
+### Purpose and Scope
+MCPlet defines an AI-first capability unit with one business intent, one primary MCP tool contract, optional MCP Apps UI, explicit safety boundaries for model versus app invocation, and host-managed orchestration. It does not redefine MCP transport, runtime, or sandbox behavior.
+
+### Host Profiles
+- WebUI Profile: an MCP client or agent shell that discovers tools, invokes them, renders MCP Apps UI, and manages state and policy in a user-facing environment.
+- Agent Profile: an orchestration layer composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.
+
+### Classification Model
+- read: side-effect free and idempotent.
+- prepare: gathers or validates information before commitment.
+- action: causes irreversible side effects and requires stronger confirmation and enforcement.
+
+### Code-First Metadata
+The primary profile is code-first. Hosts inspect registration metadata such as:
+- `_meta.mcpletType`
+- `_meta.visibility`
+- `_meta.auth`
+- `_meta.ui`
+- `_meta.mcpletToolResultSchemaUri`
+- `_meta.pool`
+
+`mcplet.yaml` may still be used as a backward-compatibility source for host defaults, but it is not the single source of truth when code metadata is present.
+
+### Authentication and Passkeys
+Protected MCPlets declare authentication in `_meta.auth`. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects verification material outside business arguments, and the MCPlet backend verifies the assertion before the business action executes.
+
+### Pools and Agent Routing
+MCPlet v202603-03 introduces named Pools and accessible Pool lists for agents. Pools let the host group MCPlets by target system or policy scope. Per-agent Pool grants enforce least-privilege dispatch. The Agent Profile also distinguishes between an internal A2A local protocol bus and an external A2A protocol endpoint for external agents.
+
+## Canonical Resources
+- Homepage: https://mcplet.ai/
+- Getting started: https://mcplet.ai/getting-started.html
+- Specification overview: https://mcplet.ai/spec/
+- Technical FAQ: https://mcplet.ai/faq.html
+- Patent notice: https://mcplet.ai/patent-notice.html
+- Raw specification markdown: https://mcplet.ai/files/MCPlet-spec-v202603-03.md
+
+## Contact
+- contact@mcplet.ai

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCPlet Specification v202603-03 — HTML Overview</title>
+  <meta name="description" content="HTML overview of MCPlet Specification v202603-03, a code-first convention profile on top of MCP and MCP Apps for constrained, single-intent AI capability units.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="MCPlet Working Group">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="canonical" href="https://mcplet.ai/spec/">
+  <meta property="og:title" content="MCPlet Specification v202603-03 — HTML Overview">
+  <meta property="og:description" content="HTML overview of MCPlet Specification v202603-03, including host profiles, classification model, code-first metadata, and passkey enforcement.">
+  <meta property="og:url" content="https://mcplet.ai/spec/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MCPlet">
+  <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MCPlet Specification v202603-03 — HTML Overview">
+  <meta name="twitter:description" content="HTML overview of MCPlet Specification v202603-03, including host profiles, classification model, code-first metadata, and passkey enforcement.">
+  <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="shortcut icon" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d14;
+      --bg-tertiary: #121220;
+      --bg-card: rgba(20, 20, 30, 0.68);
+      --accent-cyan: #00f0ff;
+      --accent-blue: #0066ff;
+      --accent-purple: #7c3aed;
+      --accent-green: #00ff88;
+      --accent-orange: #ff6b00;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7b;
+      --border-color: rgba(0, 240, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(0, 240, 255, 0.12), transparent 26%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.15), transparent 28%),
+        var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container,
+    .footer-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #0a0a0f;
+    }
+
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .logo-text span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links,
+    .footer-links,
+    .toc {
+      display: flex;
+      gap: 1.1rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .footer-links a,
+    .toc a,
+    .resource-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .footer-links a:hover,
+    .toc a:hover,
+    .resource-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    main {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    article {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .page-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      color: var(--text-secondary);
+      font-size: 1.06rem;
+    }
+
+    .meta-grid,
+    .classification-grid,
+    .section-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+
+    .classification-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .section-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.5rem;
+    }
+
+    .meta-card .label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.45rem;
+    }
+
+    .meta-card .value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .section-card h2,
+    .toc-card h2,
+    .code-card h2 {
+      font-size: 1.28rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-card p,
+    .section-card li,
+    .toc-card li,
+    .classification-card p,
+    .resource-links,
+    .callout,
+    .code-card p {
+      color: var(--text-secondary);
+    }
+
+    .section-card ul,
+    .toc-card ul {
+      margin-left: 1.1rem;
+    }
+
+    .section-card li + li,
+    .toc-card li + li {
+      margin-top: 0.45rem;
+    }
+
+    .classification-card {
+      border-top: 3px solid transparent;
+    }
+
+    .classification-card.read {
+      border-top-color: var(--accent-green);
+    }
+
+    .classification-card.prepare {
+      border-top-color: var(--accent-orange);
+    }
+
+    .classification-card.action {
+      border-top-color: #ff3366;
+    }
+
+    .classification-card h3 {
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border-color);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparison-table th {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .comparison-table td {
+      color: var(--text-secondary);
+    }
+
+    .code-card pre {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(10, 10, 15, 0.9);
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #c6f9ff;
+    }
+
+    .callout {
+      padding: 1rem 1.15rem;
+      border-left: 3px solid var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.05);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.6rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.3rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #0a0a0f;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2rem;
+      background: rgba(13, 13, 20, 0.92);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 860px) {
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav,
+      main,
+      footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "MCPlet Specification v202603-03",
+      "description": "HTML overview of MCPlet Specification v202603-03, a code-first convention profile on top of MCP and MCP Apps for constrained, single-intent AI capability units.",
+      "url": "https://mcplet.ai/spec/",
+      "mainEntityOfPage": "https://mcplet.ai/spec/",
+      "datePublished": "2026-03-27",
+      "dateModified": "2026-04-01",
+      "author": {
+        "@type": "Organization",
+        "name": "MCPlet Working Group"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MCPlet"
+      },
+      "image": "https://mcplet.ai/files/mcplet-banner.jpg",
+      "proficiencyLevel": "Expert",
+      "about": [
+        "Model Context Protocol",
+        "MCP Apps",
+        "AI agents",
+        "Passkey authentication",
+        "Code-first metadata"
+      ]
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">MCP<span>let</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../getting-started.html">Getting Started</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+        <li><a href="../patent-notice.html">Patent Notice</a></li>
+        <li><a href="../files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">Raw Markdown</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <article>
+      <div class="page-label">Specification Overview</div>
+      <h1>MCPlet Specification v202603-03</h1>
+      <p class="subtitle">This page is an HTML overview for fast reading and search indexing. The normative draft remains the raw markdown source, but this overview surfaces the major concepts, contracts, and security model in a crawler-friendly format.</p>
+
+      <div class="meta-grid">
+        <div class="card meta-card">
+          <span class="label">Status</span>
+          <span class="value">Draft</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label">Version</span>
+          <span class="value">v202603-03</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label">Draft date</span>
+          <span class="value">2026-03-27</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label">Profiles</span>
+          <span class="value">WebUI and Agent</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label">Maintained by</span>
+          <span class="value">MCPlet Working Group</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label">Canonical source</span>
+          <span class="value">Raw markdown draft</span>
+        </div>
+      </div>
+
+      <div class="section-grid">
+        <section class="card section-card">
+          <h2 id="purpose">Purpose and scope</h2>
+          <p>MCPlet defines constrained, AI-first capability units with one business intent, one primary MCP tool contract, optional MCP Apps UI, explicit model-versus-app safety boundaries, and host-managed orchestration.</p>
+          <p>The goal is predictable, reviewable, and secure AI-tool interaction. MCPlet is a convention profile on top of MCP and MCP Apps; it does not redefine transport, runtime, sandboxing, or backend architecture.</p>
+        </section>
+
+        <aside class="card toc-card">
+          <h2>On this page</h2>
+          <ul class="toc">
+            <li><a href="#purpose">Purpose</a></li>
+            <li><a href="#profiles">Host profiles</a></li>
+            <li><a href="#comparison">Comparison</a></li>
+            <li><a href="#classification">Classification</a></li>
+            <li><a href="#metadata">Code-first metadata</a></li>
+            <li><a href="#security">Passkey enforcement</a></li>
+            <li><a href="#pools">Pools and agents</a></li>
+          </ul>
+        </aside>
+      </div>
+
+      <section class="card section-card" id="profiles">
+        <h2>Host profiles</h2>
+        <p>MCPlet currently supports two host implementation profiles.</p>
+        <ul>
+          <li><strong>WebUI Profile:</strong> an MCP client or agent shell that renders MCP Apps UI, invokes tools, and manages visibility and safety in a user-facing environment.</li>
+          <li><strong>Agent Profile:</strong> an orchestration layer composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.</li>
+        </ul>
+        <p>Both profiles keep MCPlets stateless by default. State, conversation context, and policy enforcement remain host responsibilities.</p>
+      </section>
+
+      <section class="card section-card" id="comparison">
+        <h2>How MCPlet compares to MCP and MCP Apps</h2>
+        <p>MCPlet is easiest to understand when treated as a layer on top of existing standards rather than as a replacement for them.</p>
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Primary role</th>
+                <th>Defines</th>
+                <th>Does not define</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>MCP</strong></td>
+                <td>Protocol layer</td>
+                <td>Tool and resource transport, discovery, and invocation contracts.</td>
+                <td>Intent modeling, action safety policy, or opinionated classification rules.</td>
+              </tr>
+              <tr>
+                <td><strong>MCP Apps</strong></td>
+                <td>UI integration layer</td>
+                <td>Host-view rendering, iframe lifecycle, and app bridge behavior.</td>
+                <td>Business intent boundaries, tool classification, or host security conventions.</td>
+              </tr>
+              <tr>
+                <td><strong>MCPlet</strong></td>
+                <td>Convention profile</td>
+                <td>Single-intent units, read/prepare/action classification, visibility rules, auth requirements, and host-managed safety boundaries.</td>
+                <td>MCP transport, generic runtime behavior, or a mandatory frontend framework.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="classification-grid" id="classification">
+        <article class="card classification-card read">
+          <h3>read</h3>
+          <p>Side-effect free and idempotent. Suitable for autonomous invocation when the host allows model visibility.</p>
+        </article>
+        <article class="card classification-card prepare">
+          <h3>prepare</h3>
+          <p>Gathers or validates information before commitment. Useful as an explicit checkpoint in multi-step workflows.</p>
+        </article>
+        <article class="card classification-card action">
+          <h3>action</h3>
+          <p>Causes irreversible side effects. Requires stronger confirmation and enforcement, especially when visible to the model.</p>
+        </article>
+      </section>
+
+      <section class="card code-card" id="metadata">
+        <h2>Code-first metadata contract</h2>
+        <p>MCPlet v202603-03 is explicitly code-first. Hosts discover MCPlet semantics through registration metadata such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong>, and optional <strong>_meta.pool</strong>.</p>
+        <pre>{
+  "_meta": {
+    "mcpletType": "action",
+    "visibility": ["model", "app"],
+    "mcpletToolResultSchemaUri": "mcplet://tool-result-schema/approve_order",
+    "ui": {
+      "resourceUri": "ui://orders/approve.html",
+      "displayMode": "inline"
+    },
+    "auth": {
+      "required": "passkey",
+      "enforcement": "strict",
+      "promptMessage": "Please authenticate with Passkey to confirm"
+    }
+  }
+}</pre>
+        <p><strong>mcplet.yaml</strong> can still exist for backward-compatibility defaults, but it is not the single source of truth once code metadata is present.</p>
+      </section>
+
+      <section class="card section-card" id="security">
+        <h2>Passkey enforcement and protected actions</h2>
+        <p>Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification payload outside the business arguments, and the MCPlet backend verifies that assertion before any irreversible action executes.</p>
+        <div class="callout">This separation matters because it keeps the LLM focused on business inputs while moving cryptographic confirmation into host-controlled and backend-verifiable paths.</div>
+      </section>
+
+      <section class="card section-card" id="pools">
+        <h2>Pools, agents, and routing boundaries</h2>
+        <p>MCPlet v202603-03 introduces named Pools and accessible Pool lists for agents. Pools let hosts group MCPlets by target system or policy scope, while per-agent Pool grants enforce least-privilege access during dispatch.</p>
+        <p>The Agent Profile also distinguishes between an internal A2A local protocol bus and an external A2A protocol endpoint for external agents. Hosts remain responsible for authentication, policy, and dispatch validation.</p>
+      </section>
+
+      <section class="card section-card">
+        <h2>Read the full draft</h2>
+        <p>The raw markdown file remains the normative draft source. Use the HTML overview for fast scanning, the FAQ for short answers, and the patent notice for licensing context.</p>
+        <div class="button-row">
+          <a href="../getting-started.html" class="btn btn-secondary">Open getting started guide</a>
+          <a href="../files/MCPlet-spec-v202603-03.md" class="btn btn-primary" target="_blank" rel="noopener">Open raw markdown</a>
+          <a href="../faq.html" class="btn btn-secondary">Browse FAQ</a>
+        </div>
+        <p class="resource-links">Need licensing context? Review the <a href="../patent-notice.html">intellectual property notice</a>.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../getting-started.html">Getting Started</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+        <li><a href="../patent-notice.html">Patent Notice</a></li>
+      </ul>
+      <div class="footer-copy">MCPlet Specification v202603-03 · Updated 2026-04-01 · <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a></div>
+    </div>
+  </footer>
+</body>
+</html>

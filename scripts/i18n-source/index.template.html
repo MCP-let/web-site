@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="title">MCPlet — AI-First Capability Units for Model Context Protocol</title>
+  <meta name="description" content="MCPlet is a code-first convention profile on top of MCP and MCP Apps. It defines constrained, single-intent capability units with explicit visibility, authentication, and safety boundaries for AI operations.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="MCPlet Working Group">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="canonical" href="https://mcplet.ai/">
+  <meta property="og:title" content="MCPlet — AI-First Capability Units for Model Context Protocol">
+  <meta property="og:description" content="Code-first capability units for MCP with explicit intent, visibility, and authentication boundaries for safer AI operations.">
+  <meta property="og:url" content="https://mcplet.ai/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MCPlet">
+  <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MCPlet — AI-First Capability Units for Model Context Protocol">
+  <meta name="twitter:description" content="Code-first capability units for MCP with explicit intent, visibility, and authentication boundaries.">
+  <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="shortcut icon" href="./favicon.svg">
+  <link rel="preload" as="image" href="files/mcplet-banner.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d14;
+      --bg-tertiary: #13131f;
+      --bg-card: rgba(20, 20, 30, 0.6);
+      --accent-cyan: #00f0ff;
+      --accent-blue: #0066ff;
+      --accent-purple: #7c3aed;
+      --accent-green: #00ff88;
+      --accent-orange: #ff6b00;
+      --accent-red: #ff3366;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7b;
+      --border-color: rgba(0, 240, 255, 0.15);
+      --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4);
+      --glow-purple: 0 0 20px rgba(124, 58, 237, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 4px;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-orb {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-orb-1 {
+      background: var(--accent-cyan);
+      top: -200px;
+      right: -100px;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .bg-orb-2 {
+      background: var(--accent-purple);
+      bottom: -200px;
+      left: -100px;
+      animation: float 25s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, 30px); }
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-text span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .lang-switcher {
+      position: relative;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
+    }
+
+    .lang-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 140px;
+      display: none;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .lang-dropdown.show {
+      display: block;
+    }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-option:hover {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .lang-option.active {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .lang-flag {
+      width: 20px;
+      height: 14px;
+      border-radius: 2px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 4rem;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+
+    .hero-title .gradient {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-facts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.85rem;
+      max-width: 860px;
+      margin: 0 auto 2rem;
+      animation: fadeInUp 0.8s ease 0.25s both;
+    }
+
+    .hero-fact {
+      min-width: 150px;
+      padding: 0.85rem 1rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .hero-fact-label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-fact-value {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .resource-links {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-top: 1rem;
+    }
+
+    .resource-links a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .resource-links a:hover {
+      text-decoration: underline;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.3s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: var(--bg-primary);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.05);
+    }
+
+    .value-proposition {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.8s ease 0.25s both;
+    }
+
+    .value-equation {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 600;
+      text-align: center;
+      padding: 1.25rem 2rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background-image: linear-gradient(135deg, rgba(0, 240, 255, 0.06), rgba(124, 58, 237, 0.06));
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.1), 0 0 60px rgba(124, 58, 237, 0.05);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+
+    .value-equation .eq-name {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .value-equation .eq-op {
+      color: var(--text-muted);
+      margin: 0 0.15em;
+    }
+
+    .value-equation .eq-ai {
+      color: var(--accent-cyan);
+    }
+
+    .value-equation .eq-ui {
+      color: var(--accent-purple);
+    }
+
+    .value-equation .eq-passkey {
+      color: var(--accent-green);
+    }
+
+    .value-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .value-pillar {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .value-pillar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+    }
+
+    .value-pillar.pillar-ai {
+      border-top: 3px solid var(--accent-cyan);
+    }
+
+    .value-pillar.pillar-ui {
+      border-top: 3px solid var(--accent-purple);
+    }
+
+    .value-pillar.pillar-passkey {
+      border-top: 3px solid var(--accent-green);
+    }
+
+    .value-pillar-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .value-pillar-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .pillar-ai .value-pillar-title {
+      color: var(--accent-cyan);
+    }
+
+    .pillar-ui .value-pillar-title {
+      color: var(--accent-purple);
+    }
+
+    .pillar-passkey .value-pillar-title {
+      color: var(--accent-green);
+    }
+
+    .value-pillar-desc {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .value-pillars {
+        grid-template-columns: 1fr;
+      }
+
+      .value-equation {
+        font-size: 0.85rem;
+        padding: 1rem 1rem;
+      }
+
+      .hero-facts {
+        align-items: stretch;
+      }
+
+      .hero-fact {
+        width: 100%;
+      }
+    }
+
+    .hero-image {
+      max-width: min(100%, 980px);
+      margin: 4rem auto 0;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .hero-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      aspect-ratio: 1536 / 1024;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--glow-purple);
+    }
+
+    .video-section {
+      padding: 2rem 2rem 0;
+    }
+
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--glow-cyan);
+      background: var(--bg-card);
+    }
+
+    .video-container .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-container .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    section {
+      position: relative;
+      padding: 6rem 2rem;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .concept-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .concept-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-cyan);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .concept-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(124, 58, 237, 0.2));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .concept-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .concept-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .types-section {
+      background: var(--bg-secondary);
+    }
+
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .types-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .type-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .type-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .type-card.read {
+      border-top: 3px solid var(--accent-green);
+    }
+
+    .type-card.prepare {
+      border-top: 3px solid var(--accent-orange);
+    }
+
+    .type-card.action {
+      border-top: 3px solid var(--accent-red);
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .type-card.read .type-badge {
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--accent-green);
+    }
+
+    .type-card.prepare .type-badge {
+      background: rgba(255, 107, 0, 0.15);
+      color: var(--accent-orange);
+    }
+
+    .type-card.action .type-badge {
+      background: rgba(255, 51, 102, 0.15);
+      color: var(--accent-red);
+    }
+
+    .type-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .type-desc {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .type-features {
+      text-align: left;
+      list-style: none;
+    }
+
+    .type-features li {
+      padding: 0.5rem 0;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .type-features li::before {
+      content: '→';
+      color: var(--accent-cyan);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .architecture {
+      background: var(--bg-tertiary);
+    }
+
+    .arch-diagram {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 3rem;
+      margin-top: 2rem;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .arch-node {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      min-width: 140px;
+    }
+
+    .arch-node.host {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(0, 102, 255, 0.15));
+      border-color: var(--accent-cyan);
+    }
+
+    .arch-node.mcplet {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(0, 240, 255, 0.15));
+      border-color: var(--accent-purple);
+    }
+
+    .arch-node.mcp {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(124, 58, 237, 0.15));
+      border-color: var(--accent-green);
+    }
+
+    .arch-node-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .arch-node-value {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .arch-arrow {
+      color: var(--accent-cyan);
+      font-size: 1.5rem;
+      animation: arrowPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes arrowPulse {
+      0%, 100% { opacity: 0.5; transform: translateX(0); }
+      50% { opacity: 1; transform: translateX(5px); }
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .philosophy-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .philosophy-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+    }
+
+    .philosophy-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+
+    .philosophy-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .philosophy-desc {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .code-section {
+      background: var(--bg-secondary);
+    }
+
+    .code-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .code-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .code-block {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .code-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .code-dot.red { background: #ff5f56; }
+    .code-dot.yellow { background: #ffbd2e; }
+    .code-dot.green { background: #27ca40; }
+
+    .code-filename {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .code-content {
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .code-content pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .code-keyword { color: var(--accent-cyan); }
+    .code-string { color: var(--accent-green); }
+    .code-number { color: var(--accent-orange); }
+    .code-comment { color: var(--text-muted); font-style: italic; }
+
+    .code-features {
+      list-style: none;
+    }
+
+    .code-features li {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .code-features li:last-child {
+      border-bottom: none;
+    }
+
+    .code-feature-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(0, 240, 255, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .code-feature-text h4 {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .code-feature-text p {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 8rem 2rem;
+    }
+
+    .cta-title {
+      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .cta-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 2rem;
+      background: var(--bg-secondary);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-user-select: all;
+      user-select: all;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 6rem 1rem 3rem;
+      }
+
+      section {
+        padding: 4rem 1rem;
+      }
+
+      .arch-flow {
+        flex-direction: column;
+      }
+
+      .arch-arrow {
+        transform: rotate(90deg);
+      }
+
+      .nav-left {
+        gap: 1rem;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "MCPlet",
+          "url": "https://mcplet.ai/",
+          "logo": "https://mcplet.ai/files/mcplet-banner.jpg",
+          "email": "contact@mcplet.ai",
+          "description": "MCPlet is a code-first convention profile on top of Model Context Protocol and MCP Apps. It defines constrained, single-intent capability units with explicit visibility, authentication, and safety boundaries for AI operations.",
+          "knowsAbout": [
+            "Model Context Protocol",
+            "MCP Apps",
+            "AI capability units",
+            "Passkey authentication",
+            "FIDO2",
+            "WebAuthn"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "name": "MCPlet",
+          "url": "https://mcplet.ai/",
+          "description": "MCPlet is a code-first convention profile on top of MCP and MCP Apps.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "MCPlet"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MCPlet",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Cross-platform",
+          "softwareVersion": "v202603-03",
+          "url": "https://mcplet.ai/",
+          "description": "MCPlet defines constrained, single-intent capability units for AI systems built on MCP and MCP Apps.",
+          "author": {
+            "@type": "Organization",
+            "name": "MCPlet"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "TechArticle",
+          "headline": "MCPlet — AI-First Capability Units for Model Context Protocol",
+          "description": "MCPlet is a code-first convention profile on top of MCP and MCP Apps. It defines constrained, single-intent capability units with explicit visibility, authentication, and safety boundaries for AI operations.",
+          "url": "https://mcplet.ai/",
+          "mainEntityOfPage": "https://mcplet.ai/",
+          "dateModified": "2026-04-01",
+          "datePublished": "2026-03-09",
+          "author": {
+            "@type": "Organization",
+            "name": "MCPlet Working Group"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "MCPlet"
+          },
+          "image": "https://mcplet.ai/files/mcplet-banner.jpg",
+          "about": [
+            "Model Context Protocol",
+            "MCP Apps",
+            "AI agents",
+            "Passkey authentication"
+          ]
+        }
+      ]
+    }
+  </script>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="#" class="logo">
+          <div class="logo-icon">M</div>
+          <div class="logo-text">MCP<span>let</span></div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#concepts" data-i18n="nav.concepts">Concepts</a></li>
+          <li><a href="#types" data-i18n="nav.types">Types</a></li>
+          <li><a href="#passkey" data-i18n="nav.passkey">Passkey</a></li>
+          <li><a href="#architecture" data-i18n="nav.architecture">Architecture</a></li>
+          <li><a href="#philosophy" data-i18n="nav.philosophy">Philosophy</a></li>
+          <li><a href="getting-started.html" data-i18n="nav.gettingStarted">Getting Started</a></li>
+          <li><a href="spec/" data-i18n="nav.specification">Specification</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <div class="lang-switcher">
+          <button class="lang-btn" id="langBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span id="currentLangLabel">EN</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="en">
+              <span class="lang-flag">🇺🇸</span>
+              <span>English</span>
+            </div>
+            <div class="lang-option" data-lang="ja">
+              <span class="lang-flag">🇯🇵</span>
+              <span>日本語</span>
+            </div>
+            <div class="lang-option" data-lang="zh">
+              <span class="lang-flag">🇨🇳</span>
+              <span>中文</span>
+            </div>
+            <div class="lang-option" data-lang="fr">
+              <span class="lang-flag">🇫🇷</span>
+              <span>Français</span>
+            </div>
+            <div class="lang-option" data-lang="de">
+              <span class="lang-flag">🇩🇪</span>
+              <span>Deutsch</span>
+            </div>
+            <div class="lang-option" data-lang="es">
+              <span class="lang-flag">🇪🇸</span>
+              <span>Español</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge" data-i18n="hero.badge">Built on Model Context Protocol</div>
+      <h1 class="hero-title">
+        <span class="gradient" data-i18n="hero.title.gradient">AI-First</span> <span data-i18n="hero.title.text">Capability Units<br>for Modern AI Systems</span>
+      </h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle">
+        MCPlet is a code-first convention profile on top of MCP and MCP Apps that packages business intent with explicit visibility, authentication, and safety boundaries for AI operations.
+      </p>
+      <div class="hero-facts" aria-label="Specification metadata">
+        <div class="hero-fact">
+          <span class="hero-fact-label" data-i18n="hero.fact.status.label">Status</span>
+          <span class="hero-fact-value" data-i18n="hero.fact.status.value">Draft specification</span>
+        </div>
+        <div class="hero-fact">
+          <span class="hero-fact-label" data-i18n="hero.fact.version.label">Current version</span>
+          <span class="hero-fact-value">v202603-03</span>
+        </div>
+        <div class="hero-fact">
+          <span class="hero-fact-label" data-i18n="hero.fact.updated.label">Updated</span>
+          <span class="hero-fact-value">2026-03-27</span>
+        </div>
+        <div class="hero-fact">
+          <span class="hero-fact-label" data-i18n="hero.fact.profiles.label">Host profiles</span>
+          <span class="hero-fact-value" data-i18n="hero.fact.profiles.value">WebUI and Agent</span>
+        </div>
+        <div class="hero-fact">
+          <span class="hero-fact-label" data-i18n="hero.fact.maintained.label">Maintained by</span>
+          <span class="hero-fact-value">MCPlet Working Group</span>
+        </div>
+      </div>
+      <div class="value-proposition">
+        <div class="value-equation">
+          <span class="eq-name">MCPlet</span>
+          <span class="eq-op">=</span>
+          <span class="eq-ai" data-i18n="hero.eq.ai">AI Flexibility</span>
+          <span class="eq-op">+</span>
+          <span class="eq-ui" data-i18n="hero.eq.ui">UI Convenience</span>
+          <span class="eq-op">+</span>
+          <span class="eq-passkey" data-i18n="hero.eq.passkey">Passkey Authenticity</span>
+        </div>
+        <div class="value-pillars">
+          <div class="value-pillar pillar-ai">
+            <div class="value-pillar-icon">&#129302;</div>
+            <div class="value-pillar-title" data-i18n="hero.pillar.ai.title">AI Flexibility</div>
+            <div class="value-pillar-desc" data-i18n="hero.pillar.ai.desc">AI agents handle complex reasoning and tool orchestration with full flexibility</div>
+          </div>
+          <div class="value-pillar pillar-ui">
+            <div class="value-pillar-icon">&#128421;</div>
+            <div class="value-pillar-title" data-i18n="hero.pillar.ui.title">UI Convenience</div>
+            <div class="value-pillar-desc" data-i18n="hero.pillar.ui.desc">Rich interactive interfaces via MCP Apps for intuitive human interaction</div>
+          </div>
+          <div class="value-pillar pillar-passkey">
+            <div class="value-pillar-icon">&#128272;</div>
+            <div class="value-pillar-title" data-i18n="hero.pillar.passkey.title">Passkey Authenticity</div>
+            <div class="value-pillar-desc" data-i18n="hero.pillar.passkey.desc">FIDO2 Passkey ensures real human presence, enabling true Human-in-the-loop</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="spec/" class="btn btn-primary">
+          <span data-i18n="hero.cta.primary">Read Specification</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="faq.html" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 12h6M9 16h6M10 8h4"/>
+            <path d="M4 5h16v14H4z"/>
+          </svg>
+          <span data-i18n="hero.cta.secondary">Technical FAQ</span>
+        </a>
+      </div>
+      <p class="resource-links" data-i18n="hero.resources">
+        Maintained by the MCPlet Working Group. Start with the <a href="getting-started.html">getting started guide</a>, open the <a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">markdown draft</a>, or review the <a href="patent-notice.html">intellectual property notice</a>.
+      </p>
+      <div class="hero-image">
+        <img src="files/mcplet-banner.jpg" alt="MCPlet architecture banner showing AI host, MCPlet intent unit, and MCP server relationships" width="1536" height="1024" fetchpriority="high" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <div class="video-section">
+    <div class="video-container fade-in">
+      <div class="video-wrapper">
+        <iframe id="demoVideo"
+          src="https://www.youtube.com/embed/L-dEtjFuuOA"
+          title="MCPlet Demo"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <section id="concepts">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label" data-i18n="concepts.label">Core Concepts</span>
+        <h2 class="section-title" data-i18n="concepts.title">What is MCPlet?</h2>
+        <p class="section-subtitle" data-i18n="concepts.subtitle">
+          MCPlet is a constrained, single-intent capability unit built on Model Context Protocol. Each MCPlet packages one business intent, explicit safety boundaries, and optional UI so hosts can expose AI tools in a predictable, reviewable, and secure way.
+        </p>
+      </div>
+      <div class="concepts-grid">
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#9672;</div>
+          <h3 class="concept-title" data-i18n="concepts.1.title">Single Intent</h3>
+          <p class="concept-desc" data-i18n="concepts.1.desc">
+            Each MCPlet represents exactly one business intent. No ambiguity, no complexity—just focused, purposeful capability.
+          </p>
+        </div>
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#9881;</div>
+          <h3 class="concept-title" data-i18n="concepts.2.title">MCP Tool Integration</h3>
+          <p class="concept-desc" data-i18n="concepts.2.desc">
+            Each MCPlet wraps one MCP tool invocation, providing a standardized interface for AI systems.
+          </p>
+        </div>
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#128241;</div>
+          <h3 class="concept-title" data-i18n="concepts.3.title">Optional UI</h3>
+          <p class="concept-desc" data-i18n="concepts.3.desc">
+            Deliver rich interactive experiences via MCP Apps, with automatic fallback to text-based responses.
+          </p>
+        </div>
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#128274;</div>
+          <h3 class="concept-title" data-i18n="concepts.4.title">Safety First</h3>
+          <p class="concept-desc" data-i18n="concepts.4.desc">
+            Explicit lifecycle and safety constraints ensure AI systems operate within defined boundaries.
+          </p>
+        </div>
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#128202;</div>
+          <h3 class="concept-title" data-i18n="concepts.5.title">AI Metadata</h3>
+          <p class="concept-desc" data-i18n="concepts.5.desc">
+            Rich output metadata enables AI reasoning about operations, suggestions, and next steps.
+          </p>
+        </div>
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#128640;</div>
+          <h3 class="concept-title" data-i18n="concepts.6.title">Stateless Design</h3>
+          <p class="concept-desc" data-i18n="concepts.6.desc">
+            Pure functional model with no hidden state. All data flows through the Host for transparency.
+          </p>
+        </div>
+        <div class="concept-card fade-in">
+          <div class="concept-icon">&#128274;</div>
+          <h3 class="concept-title" data-i18n="concepts.7.title">Passkey Authentication</h3>
+          <p class="concept-desc" data-i18n="concepts.7.desc">
+            Built-in FIDO2 passkey support for secure, passwordless authentication with direct AI Chat integration, enabling fast Human-in-the-loop with ease.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="types" class="types-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label" data-i18n="types.label">Classification</span>
+        <h2 class="section-title" data-i18n="types.title">What are the three MCPlet types?</h2>
+        <p class="section-subtitle" data-i18n="types.subtitle">
+          MCPlet classifies tools as read, prepare, or action. Read tools are safe and idempotent, prepare tools stage or validate inputs before commitment, and action tools cause side effects and therefore require stronger confirmation and enforcement.
+        </p>
+      </div>
+      <div class="types-grid">
+        <div class="type-card read fade-in">
+          <span class="type-badge">read</span>
+          <h3 class="type-title" data-i18n="types.read.title">Query & Search</h3>
+          <p class="type-desc" data-i18n="types.read.desc">
+            Safe, idempotent operations for data retrieval with no side effects.
+          </p>
+          <ul class="type-features">
+            <li data-i18n="types.read.1">No side effects</li>
+            <li data-i18n="types.read.2">Idempotent by design</li>
+            <li data-i18n="types.read.3">Safe for autonomous AI</li>
+            <li data-i18n="types.read.4">Returns enriched data with metadata</li>
+          </ul>
+        </div>
+        <div class="type-card prepare fade-in">
+          <span class="type-badge">prepare</span>
+          <h3 class="type-title" data-i18n="types.prepare.title">Validation & Setup</h3>
+          <p class="type-desc" data-i18n="types.prepare.desc">
+            Gather or validate information before committing to irreversible actions.
+          </p>
+          <ul class="type-features">
+            <li data-i18n="types.prepare.1">May require confirmation</li>
+            <li data-i18n="types.prepare.2">No irreversible side effects</li>
+            <li data-i18n="types.prepare.3">Returns structured preparation data</li>
+            <li data-i18n="types.prepare.4">Enables progressive workflows</li>
+          </ul>
+        </div>
+        <div class="type-card action fade-in">
+          <span class="type-badge">action</span>
+          <h3 class="type-title" data-i18n="types.action.title">Execute & Commit</h3>
+          <p class="type-desc" data-i18n="types.action.desc">
+            Operations that cause irreversible side effects with mandatory human oversight.
+          </p>
+          <ul class="type-features">
+            <li data-i18n="types.action.1">Explicit human confirmation</li>
+            <li data-i18n="types.action.2">Clear intent surfacing in UI</li>
+            <li data-i18n="types.action.3">Returns results with guidance</li>
+            <li data-i18n="types.action.4">Full audit trail maintained</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="passkey" class="code-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label" data-i18n="passkey.label">Security</span>
+        <h2 class="section-title" data-i18n="passkey.title">How does MCPlet handle authentication?</h2>
+        <p class="section-subtitle" data-i18n="passkey.subtitle">
+          Protected MCPlets declare authentication in code-first `_meta.auth` metadata. For model-visible actions, the host intercepts the call, obtains a Passkey assertion, and the backend verifies it before the business action runs.
+        </p>
+      </div>
+      <div class="code-container">
+        <div class="code-block fade-in">
+          <div class="code-header">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div>
+            <div class="code-filename">_meta contract</div>
+          </div>
+          <div class="code-content">
+            <pre>
+<span class="code-keyword">{</span>
+  <span class="code-keyword">"_meta"</span>: {
+    <span class="code-keyword">"mcpletType"</span>: <span class="code-string">"action"</span>,
+    <span class="code-keyword">"visibility"</span>: [<span class="code-string">"model"</span>, <span class="code-string">"app"</span>],
+    <span class="code-keyword">"mcpletToolResultSchemaUri"</span>: <span class="code-string">"mcplet://tool-result-schema/approve_order"</span>,
+    <span class="code-keyword">"ui"</span>: {
+      <span class="code-keyword">"resourceUri"</span>: <span class="code-string">"ui://orders/approve.html"</span>,
+      <span class="code-keyword">"displayMode"</span>: <span class="code-string">"inline"</span>
+    },
+    <span class="code-keyword">"auth"</span>: {
+      <span class="code-keyword">"required"</span>: <span class="code-string">"passkey"</span>,
+      <span class="code-keyword">"enforcement"</span>: <span class="code-string">"strict"</span>,
+      <span class="code-keyword">"promptMessage"</span>: <span class="code-string"><span data-i18n="passkey.prompt.message">"Please authenticate with Passkey to confirm the operation"</span></span>
+    }
+  }
+<span class="code-keyword">}</span>
+            </pre>
+          </div>
+        </div>
+        <ul class="code-features fade-in">
+          <li>
+            <div class="code-feature-icon">&#128274;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.1.title">FIDO2 Standard</h4>
+              <p data-i18n="passkey.1.desc">Uses WebAuthn/FIDO2 standards for maximum security and browser compatibility.</p>
+            </div>
+          </li>
+          <li>
+            <div class="code-feature-icon">&#128241;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.2.title">Host Interception</h4>
+              <p data-i18n="passkey.2.desc">The host pauses protected action calls, runs the Passkey ceremony, and injects credentials outside business arguments.</p>
+            </div>
+          </li>
+          <li>
+            <div class="code-feature-icon">&#9881;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.3.title">Strict Enforcement</h4>
+              <p data-i18n="passkey.3.desc">Model-visible actions can require backend verification so unconfirmed side effects never execute silently.</p>
+            </div>
+          </li>
+          <li>
+            <div class="code-feature-icon">&#128274;</div>
+            <div class="code-feature-text">
+              <h4 data-i18n="passkey.4.title">Stateless Backend</h4>
+              <p data-i18n="passkey.4.desc">The host owns state and orchestration while the MCPlet backend verifies Passkey assertions without hidden session coupling.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture" class="architecture">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label" data-i18n="architecture.label">How It Works</span>
+        <h2 class="section-title" data-i18n="architecture.title">How does MCPlet architecture work?</h2>
+        <p class="section-subtitle" data-i18n="architecture.subtitle">
+          MCPlet sits between an AI-capable host and an MCP server. The host manages state, policy, and orchestration, while each MCPlet keeps one intent, explicit metadata, and a clear execution path for UI or agent-driven flows.
+        </p>
+      </div>
+      <div class="arch-diagram fade-in">
+        <div class="arch-flow">
+          <div class="arch-node host">
+            <div class="arch-node-label" data-i18n="architecture.host.label">AI Host</div>
+            <div class="arch-node-value" data-i18n="architecture.host.value">AI Agent</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node mcplet">
+            <div class="arch-node-label" data-i18n="architecture.mcplet.label">MCPlet</div>
+            <div class="arch-node-value" data-i18n="architecture.mcplet.value">Intent Unit</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node mcp">
+            <div class="arch-node-label" data-i18n="architecture.mcp.label">MCP Server</div>
+            <div class="arch-node-value" data-i18n="architecture.mcp.value">Tool Provider</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="philosophy">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label" data-i18n="philosophy.label">Design Principles</span>
+        <h2 class="section-title" data-i18n="philosophy.title">What design principles define MCPlet?</h2>
+        <p class="section-subtitle" data-i18n="philosophy.subtitle">
+          MCPlet is designed to make AI operations predictable: one intent per unit, stateless execution, explicit visibility, progressive enhancement, and security controls that keep side effects reviewable.
+        </p>
+      </div>
+      <div class="philosophy-grid">
+        <div class="philosophy-card fade-in">
+          <span class="philosophy-number">01</span>
+          <h3 class="philosophy-title" data-i18n="philosophy.1.title">Single Intent</h3>
+          <p class="philosophy-desc" data-i18n="philosophy.1.desc">
+            Each MCPlet does one thing well. No Swiss Army knives—just focused, purposeful capability.
+          </p>
+        </div>
+        <div class="philosophy-card fade-in">
+          <span class="philosophy-number">02</span>
+          <h3 class="philosophy-title" data-i18n="philosophy.2.title">Stateless by Default</h3>
+          <p class="philosophy-desc" data-i18n="philosophy.2.desc">
+            No hidden state, all data flows through the Host. Transparency as a design requirement.
+          </p>
+        </div>
+        <div class="philosophy-card fade-in">
+          <span class="philosophy-number">03</span>
+          <h3 class="philosophy-title" data-i18n="philosophy.3.title">AI-First Design</h3>
+          <p class="philosophy-desc" data-i18n="philosophy.3.desc">
+            Output includes rich metadata specifically designed for AI reasoning and decision-making.
+          </p>
+        </div>
+        <div class="philosophy-card fade-in">
+          <span class="philosophy-number">04</span>
+          <h3 class="philosophy-title" data-i18n="philosophy.4.title">Progressive Enhancement</h3>
+          <p class="philosophy-desc" data-i18n="philosophy.4.desc">
+            Works perfectly in text mode, enhanced with rich UI when MCP Apps support is available.
+          </p>
+        </div>
+        <div class="philosophy-card fade-in">
+          <span class="philosophy-number">05</span>
+          <h3 class="philosophy-title" data-i18n="philosophy.5.title">Safety Constraints</h3>
+          <p class="philosophy-desc" data-i18n="philosophy.5.desc">
+            Explicit side effects, mandatory review for actions. Security by design, not by accident.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="cta-title" data-i18n="cta.title">Start with the canonical draft</h2>
+      <p class="cta-subtitle" data-i18n="cta.subtitle">
+        Use the HTML specification overview for quick reading, the raw markdown for normative source text, and the FAQ for direct answers to adoption questions.
+      </p>
+      <div class="hero-cta">
+        <a href="spec/" class="btn btn-primary">
+          <span data-i18n="cta.primary">Open HTML overview</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="files/MCPlet-spec-v202603-03.md" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="cta.secondary">Open raw markdown</a>
+      </div>
+      <p class="resource-links" data-i18n="cta.resource">Need the short version first? Read the <a href="faq.html">technical FAQ</a>.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="logo">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">MCP<span>let</span></div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#concepts" data-i18n="footer.concepts">Concepts</a></li>
+        <li><a href="#types" data-i18n="footer.types">Types</a></li>
+        <li><a href="#architecture" data-i18n="footer.architecture">Architecture</a></li>
+        <li><a href="getting-started.html" data-i18n="footer.gettingStarted">Getting Started</a></li>
+        <li><a href="spec/" data-i18n="footer.specification">Specification</a></li>
+        <li><a href="faq.html" data-i18n="footer.faq">FAQ</a></li>
+        <li><a href="https://modelcontextprotocol.io" target="_blank" rel="noopener" data-i18n="footer.mcpDocs">MCP Docs</a></li>
+        <li><a href="patent-notice.html" data-i18n="footer.patent">Patent Notice</a></li>
+      </ul>
+      <div class="footer-copy">
+        <span data-i18n="footer.version">MCPlet Specification v202603-03</span>
+        &nbsp;·&nbsp;
+        <span data-i18n="footer.updated">Updated 2026-04-01</span>
+        &nbsp;·&nbsp;
+        <a href="mailto:contact@mcplet.ai" style="color:inherit;text-decoration:none;user-select:all;">contact@mcplet.ai</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        "title": "MCPlet — AI-First Capability Units for Model Context Protocol",
+        "nav.concepts": "Concepts",
+        "nav.types": "Types",
+        "nav.passkey": "Passkey",
+        "nav.architecture": "Architecture",
+        "nav.philosophy": "Philosophy",
+        "hero.badge": "Built on Model Context Protocol",
+        "hero.title.gradient": "AI-Native Design",
+        "hero.title.text": "Security-First<br>Web Standard for the AI Era",
+        "hero.subtitle": "MCPlet is a code-first convention profile on top of MCP and MCP Apps that packages business intent with explicit visibility, authentication, and safety boundaries for AI operations.",
+        "hero.eq.ai": "AI Flexibility",
+        "hero.eq.ui": "UI Convenience",
+        "hero.eq.passkey": "Passkey Authenticity",
+        "hero.pillar.ai.title": "AI Flexibility",
+        "hero.pillar.ai.desc": "AI agents handle complex reasoning and tool orchestration with full flexibility",
+        "hero.pillar.ui.title": "UI Convenience",
+        "hero.pillar.ui.desc": "Rich interactive interfaces via MCP Apps for intuitive human interaction",
+        "hero.pillar.passkey.title": "Passkey Authenticity",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey ensures real human presence, enabling true Human-in-the-loop",
+        "hero.cta.primary": "Explore MCPlet",
+        "concepts.label": "Core Concepts",
+        "concepts.title": "What is MCPlet?",
+        "concepts.subtitle": "MCPlet is a constrained, single-intent capability unit built on Model Context Protocol. Each MCPlet packages one business intent, explicit safety boundaries, and optional UI so hosts can expose AI tools in a predictable, reviewable, and secure way.",
+        "concepts.1.title": "Single Intent",
+        "concepts.1.desc": "Each MCPlet represents exactly one business intent. No ambiguity, no complexity—just focused, purposeful capability.",
+        "concepts.2.title": "MCP Tool Integration",
+        "concepts.2.desc": "Each MCPlet wraps one MCP tool invocation, providing a standardized interface for AI systems.",
+        "concepts.3.title": "Optional UI",
+        "concepts.3.desc": "Deliver rich interactive experiences via MCP Apps, with automatic fallback to text-based responses.",
+        "concepts.4.title": "Safety First",
+        "concepts.4.desc": "Explicit lifecycle and safety constraints ensure AI systems operate within defined boundaries.",
+        "concepts.5.title": "AI Metadata",
+        "concepts.5.desc": "Rich output metadata enables AI reasoning about operations, suggestions, and next steps.",
+        "concepts.6.title": "Stateless Design",
+        "concepts.6.desc": "Pure functional model with no hidden state. All data flows through the Host for transparency.",
+        "concepts.7.title": "Passkey Authentication",
+        "concepts.7.desc": "Built-in FIDO2 passkey support for secure, passwordless authentication with direct AI Chat integration, enabling fast Human-in-the-loop with ease.",
+        "types.label": "Classification",
+        "types.title": "What are the three MCPlet types?",
+        "types.subtitle": "MCPlet classifies tools as read, prepare, or action. Read tools are safe and idempotent, prepare tools stage or validate inputs before commitment, and action tools cause side effects and therefore require stronger confirmation and enforcement.",
+        "types.read.title": "Query & Search",
+        "types.read.desc": "Safe, idempotent operations for data retrieval with no side effects.",
+        "types.read.1": "No side effects",
+        "types.read.2": "Idempotent by design",
+        "types.read.3": "Safe for autonomous AI",
+        "types.read.4": "Returns enriched data with metadata",
+        "types.prepare.title": "Validation & Setup",
+        "types.prepare.desc": "Gather or validate information before committing to irreversible actions.",
+        "types.prepare.1": "May require confirmation",
+        "types.prepare.2": "No irreversible side effects",
+        "types.prepare.3": "Returns structured preparation data",
+        "types.prepare.4": "Enables progressive workflows",
+        "types.action.title": "Execute & Commit",
+        "types.action.desc": "Operations that cause irreversible side effects with mandatory human oversight.",
+        "types.action.1": "Explicit human confirmation",
+        "types.action.2": "Clear intent surfacing in UI",
+        "types.action.3": "Returns results with guidance",
+        "types.action.4": "Full audit trail maintained",
+        "architecture.label": "How It Works",
+        "architecture.title": "How does MCPlet architecture work?",
+        "architecture.subtitle": "MCPlet sits between an AI-capable host and an MCP server. The host manages state, policy, and orchestration, while each MCPlet keeps one intent, explicit metadata, and a clear execution path for UI or agent-driven flows.",
+        "architecture.host.label": "AI Host",
+        "architecture.host.value": "AI Agent",
+        "architecture.mcplet.label": "MCPlet",
+        "architecture.mcplet.value": "Intent Unit",
+        "architecture.mcp.label": "MCP Server",
+        "architecture.mcp.value": "Tool Provider",
+        "philosophy.label": "Design Principles",
+        "philosophy.title": "What design principles define MCPlet?",
+        "philosophy.subtitle": "MCPlet is designed to make AI operations predictable: one intent per unit, stateless execution, explicit visibility, progressive enhancement, and security controls that keep side effects reviewable.",
+        "philosophy.1.title": "Single Intent",
+        "philosophy.1.desc": "Each MCPlet does one thing well. No Swiss Army knives—just focused, purposeful capability.",
+        "philosophy.2.title": "Stateless by Default",
+        "philosophy.2.desc": "No hidden state, all data flows through the Host. Transparency as a design requirement.",
+        "philosophy.3.title": "AI-First Design",
+        "philosophy.3.desc": "Output includes rich metadata specifically designed for AI reasoning and decision-making.",
+        "philosophy.4.title": "Progressive Enhancement",
+        "philosophy.4.desc": "Works perfectly in text mode, enhanced with rich UI when MCP Apps support is available.",
+        "philosophy.5.title": "Safety Constraints",
+        "philosophy.5.desc": "Explicit side effects, mandatory review for actions. Security by design, not by accident.",
+        "passkey.label": "Security",
+        "passkey.title": "How does MCPlet handle authentication?",
+        "passkey.subtitle": "Protected MCPlets declare authentication in code-first `_meta.auth` metadata. For model-visible actions, the host intercepts the call, obtains a Passkey assertion, and the backend verifies it before the business action runs.",
+        "passkey.1.title": "FIDO2 Standard",
+        "passkey.1.desc": "Uses WebAuthn/FIDO2 standards for maximum security and browser compatibility.",
+        "passkey.2.title": "Host Interception",
+        "passkey.2.desc": "The host pauses protected action calls, runs the Passkey ceremony, and injects credentials outside business arguments.",
+        "passkey.3.title": "Strict Enforcement",
+        "passkey.3.desc": "Model-visible actions can require backend verification so unconfirmed side effects never execute silently.",
+        "passkey.4.title": "Stateless Backend",
+        "passkey.4.desc": "The host owns state and orchestration while the MCPlet backend verifies Passkey assertions without hidden session coupling.",
+        "passkey.prompt.message": "Please authenticate with Passkey to confirm the operation",
+        "code.title": "Standardized Package",
+        "code.1.title": "Declarative Definition",
+        "code.1.desc": "Clear YAML configuration with intent, type, and tool bindings.",
+        "code.2.title": "JSON Schemas",
+        "code.2.desc": "Input and output schemas ensure type safety and AI understanding.",
+        "code.3.title": "Provenance Tracking",
+        "code.3.desc": "Metadata for security review and audit compliance.",
+        "code.4.title": "Smart Suggestions",
+        "code.4.desc": "Built-in next-step hints for AI decision-making.",
+        "cta.title": "Ready to Build with MCPlet?",
+        "cta.subtitle": "Start creating AI-first capability units for your applications today.",
+        "cta.cta": "Get Started",
+        "footer.concepts": "Concepts",
+        "footer.types": "Types",
+        "footer.architecture": "Architecture",
+        "footer.patent": "Patent Notice",
+        "footer.version": "MCPlet Specification v202603-03"
+      },
+      ja: {
+        "title": "MCPlet — モデルコンテキストプロトコル向けAIファースト機能ユニット",
+        "nav.concepts": "概念",
+        "nav.types": "タイプ",
+        "nav.passkey": "パスキー",
+        "nav.architecture": "アーキテクチャ",
+        "nav.philosophy": "設計思想",
+        "hero.badge": "モデルコンテキストプロトコル上に構築",
+        "hero.title.gradient": "AIネイティブ設計",
+        "hero.title.text": "セキュリティファースト<br>AI時代のWebスタンダード",
+        "hero.subtitle": "MCPletは、明確な安全性制約を備えたビジネスロジックをパッケージ化した制約付き単一インテントユニットです。<br>MCPおよびMCP Apps上に構築され、AIとのシームレスな統合を実現します。",
+        "hero.eq.ai": "AIの柔軟性",
+        "hero.eq.ui": "UIの利便性",
+        "hero.eq.passkey": "Passkeyの本人性",
+        "hero.pillar.ai.title": "AIの柔軟性",
+        "hero.pillar.ai.desc": "AIエージェントが複雑な推論とツール連携を柔軟に処理",
+        "hero.pillar.ui.title": "UIの利便性",
+        "hero.pillar.ui.desc": "MCP Appsによるリッチなインタラクティブインターフェースで直感的な操作を実現",
+        "hero.pillar.passkey.title": "Passkeyの本人性",
+        "hero.pillar.passkey.desc": "FIDO2 Passkeyにより本人確認を保証し、確実なHuman-in-the-loopを実現",
+        "hero.cta.primary": "MCPletを詳しく見る",
+        "concepts.label": "主要概念",
+        "concepts.title": "MCPletの理解",
+        "concepts.subtitle": "MCPletは、デプロイ可能かつレビュー可能な最小のAI操作ユニットであり、正確に1つのビジネスインテントを表現します。",
+        "concepts.1.title": "単一インテント",
+        "concepts.1.desc": "各MCPletは正確に1つのビジネスインテントを表現します。曖昧さや複雑さは排し、目的に沿った機能に集中します。",
+        "concepts.2.title": "MCPツール統合",
+        "concepts.2.desc": "各MCPletは1件のMCPツール呼び出しをラップし、AIシステム向けに標準化されたインターフェースを提供します。",
+        "concepts.3.title": "オプションUI",
+        "concepts.3.desc": "MCP Appsを通じてリッチな対話体験を提供し、テキストベースへの自動フォールバックを備えます。",
+        "concepts.4.title": "安全性重視",
+        "concepts.4.desc": "明示的なライフサイクルと安全性制約により、AIシステムが定義された境界内で動作することを保証します。",
+        "concepts.5.title": "AIメタデータ",
+        "concepts.5.desc": "豊富な出力メタデータにより、AIは操作、提案、次のステップを推論できます。",
+        "concepts.6.title": "ステートレス設計",
+        "concepts.6.desc": "隠れた状態を持たない純粋な関数モデルです。すべてのデータはHostを通過し、透明性を確保します。",
+        "concepts.7.title": "パスキー認証",
+        "concepts.7.desc": "FIDO2パスキー対応で、AI Chat直接統合による安全なパスワードレス認証を組み込みサポートし、高速な Human-in-the-loop を簡単に実現。",
+        "types.label": "分類",
+        "types.title": "MCPletタイプ",
+        "types.subtitle": "各MCPletは1つのタイプを厳密に宣言し、安全性プロファイルと適切な利用方法を定義します。",
+        "types.read.title": "クエリと検索",
+        "types.read.desc": "副作用のない安全で冪等なデータ取得操作です。",
+        "types.read.1": "副作用なし",
+        "types.read.2": "設計上の冪等性",
+        "types.read.3": "自律AIに安全",
+        "types.read.4": "メタデータ付きの拡張データを返却",
+        "types.prepare.title": "検証と準備",
+        "types.prepare.desc": "不可逆的なアクションの前に情報を収集または検証します。",
+        "types.prepare.1": "確認が必要となる場合あり",
+        "types.prepare.2": "不可逆的な副作用なし",
+        "types.prepare.3": "構造化された準備データを返却",
+        "types.prepare.4": "段階的ワークフローを支援",
+        "types.action.title": "実行とコミット",
+        "types.action.desc": "不可逆的な副作用を伴う操作で、必須の人間による監督が必要です。",
+        "types.action.1": "明示的な人間の確認",
+        "types.action.2": "UI上で意図を明確化",
+        "types.action.3": "ガイダンス付きの結果を返却",
+        "types.action.4": "完全な監査証跡を維持",
+        "architecture.label": "動作原理",
+        "architecture.title": "アーキテクチャ概要",
+        "architecture.subtitle": "MCPletはMCPエコシステム内で動作し、Hostが状態とAI推論を管理します。",
+        "architecture.host.label": "AIホスト",
+        "architecture.host.value": "AIエージェント",
+        "architecture.mcplet.label": "MCPlet",
+        "architecture.mcplet.value": "インテントユニット",
+        "architecture.mcp.label": "MCPサーバー",
+        "architecture.mcp.value": "ツールプロバイダー",
+        "philosophy.label": "設計原則",
+        "philosophy.title": "MCPletの設計思想",
+        "philosophy.subtitle": "AIインタラクションを堅牢で予測可能、かつレビュー可能にする5つの原則に基づいています。",
+        "philosophy.1.title": "単一インテント",
+        "philosophy.1.desc": "各MCPletは1つの役割に専念します。多機能化を避け、目的に沿った能力を提供します。",
+        "philosophy.2.title": "デフォルトでステートレス",
+        "philosophy.2.desc": "隠れた状態は持ちません。すべてのデータはHostを通過します。",
+        "philosophy.3.title": "AIファースト設計",
+        "philosophy.3.desc": "出力にはAI推論と意思決定に最適化されたメタデータが含まれます。",
+        "philosophy.4.title": "プログレッシブエンハンスメント",
+        "philosophy.4.desc": "テキストモードで完全に動作し、MCP Apps対応時にリッチUIで強化されます。",
+        "philosophy.5.title": "安全性制約",
+        "philosophy.5.desc": "副作用を明示し、アクションは必ずレビューを経ます。偶然ではなく設計による安全性です。",
+        "passkey.label": "セキュリティ",
+        "passkey.title": "パスキー認証",
+        "passkey.subtitle": "FIDO2パスキー対応で、AI Chat直接統合による安全なパスワードレス認証を組み込みサポートし、高速な Human-in-the-loop を簡単に実現。",
+        "passkey.1.title": "FIDO2標準",
+        "passkey.1.desc": "WebAuthn/FIDO2標準を使用し、最高レベルのセキュリティとブラウザ互換性を提供。",
+        "passkey.2.title": "パスワード不要",
+        "passkey.2.desc": "パスワードレス認証により、クレデンシャルスタッフィングとフィッシング攻撃を排除。",
+        "passkey.3.title": "柔軟な設定",
+        "passkey.3.desc": "サーバーURLと認証プロンプトをカスタマイズ可能なシンプルなYAML設定。",
+        "passkey.4.title": "ブラウザネイティブ",
+        "passkey.4.desc": "ブラウザネイティブのパスキーAPIと直接統合し、シームレスなユーザー体験を提供。",
+        "passkey.prompt.message": "パスキー認証を行って操作を確認してください",
+        "code.title": "標準化パッケージ",
+        "code.1.title": "宣言的定義",
+        "code.1.desc": "インテント、タイプ、ツールバインディングを含む明確なYAML設定です。",
+        "code.2.title": "JSONスキーマ",
+        "code.2.desc": "入力と出力のスキーマで型安全性とAI理解を担保します。",
+        "code.3.title": "プロベナンス追跡",
+        "code.3.desc": "セキュリティレビューと監査コンプライアンスのためのメタデータです。",
+        "code.4.title": "スマートサジェスト",
+        "code.4.desc": "AIの意思決定に向けた次のステップ提案を内蔵しています。",
+        "cta.title": "MCPletで構築する準備はできましたか？",
+        "cta.subtitle": "今日からAIファーストな機能ユニットの作成を開始しましょう。",
+        "cta.cta": "開始する",
+        "footer.concepts": "概念",
+        "footer.types": "タイプ",
+        "footer.architecture": "アーキテクチャ",
+        "footer.patent": "特許表示",
+        "footer.version": "MCPlet仕様 v202603-03"
+      },
+      zh: {
+        "title": "MCPlet — 基于MCP协议的AI优先功能单元",
+        "nav.concepts": "核心概念",
+        "nav.types": "类型",
+        "nav.passkey": "Passkey",
+        "nav.architecture": "架构",
+        "nav.philosophy": "设计理念",
+        "hero.badge": "基于MCP协议构建",
+        "hero.title.gradient": "AI原生设计",
+        "hero.title.text": "安全优先<br>AI时代的Web标准",
+        "hero.subtitle": "MCPlet定义受约束的单一意图单元，将业务逻辑与明确的安全约束打包。<br>构建于MCP与MCP Apps之上，实现与AI的无缝集成。",
+        "hero.eq.ai": "AI的灵活性",
+        "hero.eq.ui": "UI的便捷性",
+        "hero.eq.passkey": "Passkey的真人性",
+        "hero.pillar.ai.title": "AI的灵活性",
+        "hero.pillar.ai.desc": "AI代理灵活处理复杂推理和工具编排",
+        "hero.pillar.ui.title": "UI的便捷性",
+        "hero.pillar.ui.desc": "通过MCP Apps提供丰富的交互界面，直观便捷",
+        "hero.pillar.passkey.title": "Passkey的真人性",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey确保真人在场，实现真正的Human-in-the-loop",
+        "hero.cta.primary": "探索MCPlet",
+        "concepts.label": "核心概念",
+        "concepts.title": "理解MCPlet",
+        "concepts.subtitle": "MCPlet是最小的可部署、可审查的AI可操作单元，准确表达一个业务意图。",
+        "concepts.1.title": "单一意图",
+        "concepts.1.desc": "每个MCPlet准确表达一个业务意图。避免歧义与复杂性，专注于明确目的的能力。",
+        "concepts.2.title": "MCP工具集成",
+        "concepts.2.desc": "每个MCPlet包装一个MCP工具调用，为AI系统提供标准化接口。",
+        "concepts.3.title": "可选UI",
+        "concepts.3.desc": "通过MCP Apps提供丰富的交互体验，并自动回退到文本响应。",
+        "concepts.4.title": "安全优先",
+        "concepts.4.desc": "明确的生命周期与安全约束确保AI系统在定义的边界内运行。",
+        "concepts.5.title": "AI元数据",
+        "concepts.5.desc": "丰富的输出元数据使AI能够推理操作、建议与后续步骤。",
+        "concepts.6.title": "无状态设计",
+        "concepts.6.desc": "纯函数模型，不含隐藏状态。所有数据经由Host流动，确保透明。",
+        "concepts.7.title": "Passkey认证",
+        "concepts.7.desc": "内置FIDO2 Passkey支持，通过AI Chat直接集成实现安全无密码认证，轻松实现快速Human-in-the-loop。",
+        "types.label": "分类",
+        "types.title": "MCPlet类型",
+        "types.subtitle": "每个MCPlet严格声明一种类型，定义其安全配置文件与适用方式。",
+        "types.read.title": "查询与搜索",
+        "types.read.desc": "安全、幂等的数据检索操作，无副作用。",
+        "types.read.1": "无副作用",
+        "types.read.2": "设计上的幂等性",
+        "types.read.3": "对自主AI安全",
+        "types.read.4": "返回包含元数据的增强数据",
+        "types.prepare.title": "验证与准备",
+        "types.prepare.desc": "在执行不可逆操作前收集或验证信息。",
+        "types.prepare.1": "可能需要确认",
+        "types.prepare.2": "无不可逆副作用",
+        "types.prepare.3": "返回结构化的准备数据",
+        "types.prepare.4": "支持渐进式工作流",
+        "types.action.title": "执行与提交",
+        "types.action.desc": "会产生不可逆副作用的操作，必须有人类监督。",
+        "types.action.1": "明确的人工确认",
+        "types.action.2": "在UI中明确呈现意图",
+        "types.action.3": "返回带指导的结果",
+        "types.action.4": "维护完整审计追踪",
+        "architecture.label": "工作原理",
+        "architecture.title": "架构概述",
+        "architecture.subtitle": "MCPlet在MCP生态系统内运行，Host管理状态和AI推理。",
+        "architecture.host.label": "AI主机",
+        "architecture.host.value": "AI代理",
+        "architecture.mcplet.label": "MCPlet",
+        "architecture.mcplet.value": "意图单元",
+        "architecture.mcp.label": "MCP服务器",
+        "architecture.mcp.value": "工具提供者",
+        "philosophy.label": "设计原则",
+        "philosophy.title": "MCPlet设计理念",
+        "philosophy.subtitle": "基于五项核心原则，使AI交互可预测、可审查且稳定。",
+        "philosophy.1.title": "单一意图",
+        "philosophy.1.desc": "每个MCPlet只专注于一件事，避免多功能化，提供明确目的的能力。",
+        "philosophy.2.title": "默认无状态",
+        "philosophy.2.desc": "不隐藏状态，所有数据经由Host流动。",
+        "philosophy.3.title": "AI优先设计",
+        "philosophy.3.desc": "输出包含专为AI推理与决策设计的丰富元数据。",
+        "philosophy.4.title": "渐进增强",
+        "philosophy.4.desc": "文本模式下完全可用，在MCP Apps支持时以丰富UI增强。",
+        "philosophy.5.title": "安全约束",
+        "philosophy.5.desc": "明确副作用，动作必须审查。安全源于设计而非偶然。",
+        "passkey.label": "安全",
+        "passkey.title": "Passkey认证",
+        "passkey.subtitle": "内置FIDO2 Passkey支持，通过AI Chat直接集成实现安全无密码认证，轻松实现快速Human-in-the-loop。",
+        "passkey.1.title": "FIDO2标准",
+        "passkey.1.desc": "使用WebAuthn/FIDO2标准，实现最高安全性和浏览器兼容性。",
+        "passkey.2.title": "无需密码",
+        "passkey.2.desc": "无密码认证消除了凭据填充和钓鱼攻击。",
+        "passkey.3.title": "灵活配置",
+        "passkey.3.desc": "简单的YAML配置，支持自定义服务器URL和认证提示。",
+        "passkey.4.title": "浏览器原生",
+        "passkey.4.desc": "与浏览器原生Passkey API直接集成，提供无缝用户体验。",
+        "passkey.prompt.message": "请进行Passkey认证以确认操作",
+        "code.title": "标准化包",
+        "code.1.title": "声明式定义",
+        "code.1.desc": "包含意图、类型和工具绑定的清晰YAML配置。",
+        "code.2.title": "JSON模式",
+        "code.2.desc": "输入和输出模式确保类型安全和AI理解。",
+        "code.3.title": "来源跟踪",
+        "code.3.desc": "用于安全审查和审计合规的元数据。",
+        "code.4.title": "智能建议",
+        "code.4.desc": "内置用于AI决策的下一步提示。",
+        "cta.title": "准备好用MCPlet构建了吗？",
+        "cta.subtitle": "立即开始为您的应用创建AI优先的功能单元。",
+        "cta.cta": "开始使用",
+        "footer.concepts": "核心概念",
+        "footer.types": "类型",
+        "footer.architecture": "架构",
+        "footer.patent": "专利声明",
+        "footer.version": "MCPlet规范 v202603-03"
+      },
+      fr: {
+        "title": "MCPlet — Unités de capacité AI-first pour le Model Context Protocol",
+        "nav.concepts": "Concepts",
+        "nav.types": "Types",
+        "nav.passkey": "Passkey",
+        "nav.architecture": "Architecture",
+        "nav.philosophy": "Philosophie",
+        "hero.badge": "Construit sur le Model Context Protocol",
+        "hero.title.gradient": "Conception IA Native",
+        "hero.title.text": "La Sécurité d'Abord<br>Standard Web pour l'Ère IA",
+        "hero.subtitle": "MCPlet définit des unités contraintes à intention unique qui encapsulent la logique métier avec des contraintes de sécurité explicites.<br>Construit sur MCP et MCP Apps pour une intégration fluide avec l'IA.",
+        "hero.eq.ai": "Flexibilité IA",
+        "hero.eq.ui": "Commodité UI",
+        "hero.eq.passkey": "Authenticité Passkey",
+        "hero.pillar.ai.title": "Flexibilité IA",
+        "hero.pillar.ai.desc": "Les agents IA gèrent le raisonnement complexe et l'orchestration des outils avec flexibilité",
+        "hero.pillar.ui.title": "Commodité UI",
+        "hero.pillar.ui.desc": "Interfaces interactives riches via MCP Apps pour une interaction humaine intuitive",
+        "hero.pillar.passkey.title": "Authenticité Passkey",
+        "hero.pillar.passkey.desc": "Le Passkey FIDO2 garantit la présence humaine réelle, assurant un vrai Human-in-the-loop",
+        "hero.cta.primary": "Découvrir MCPlet",
+        "concepts.label": "Concepts clés",
+        "concepts.title": "Comprendre MCPlet",
+        "concepts.subtitle": "MCPlet est la plus petite unité IA-opérationnelle déployable et révisable, représentant exactement une intention métier.",
+        "concepts.1.title": "Intention unique",
+        "concepts.1.desc": "Chaque MCPlet représente exactement une intention métier. Pas d'ambiguïté ni de complexité, uniquement une capacité ciblée et pertinente.",
+        "concepts.2.title": "Intégration des outils MCP",
+        "concepts.2.desc": "Chaque MCPlet encapsule un appel d'outil MCP, fournissant une interface standardisée pour les systèmes d'IA.",
+        "concepts.3.title": "UI optionnelle",
+        "concepts.3.desc": "Fournit des expériences interactives riches via MCP Apps, avec repli automatique vers des réponses textuelles.",
+        "concepts.4.title": "Sécurité avant tout",
+        "concepts.4.desc": "Des contraintes explicites de cycle de vie et de sécurité garantissent que les systèmes d'IA opèrent dans des limites définies.",
+        "concepts.5.title": "Métadonnées IA",
+        "concepts.5.desc": "Des métadonnées de sortie riches permettent à l'IA de raisonner sur les opérations, les suggestions et les étapes suivantes.",
+        "concepts.6.title": "Conception sans état",
+        "concepts.6.desc": "Modèle fonctionnel pur, sans état caché. Toutes les données transitent par l'hôte pour assurer la transparence.",
+        "concepts.7.title": "Authentification Passkey",
+        "concepts.7.desc": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe AI Chat, permettant un Human-in-the-loop rapide et facile.",
+        "types.label": "Classification",
+        "types.title": "Types de MCPlet",
+        "types.subtitle": "Chaque MCPlet déclare un type unique, définissant son profil de sécurité et son usage approprié.",
+        "types.read.title": "Requête et recherche",
+        "types.read.desc": "Opérations sûres et idempotentes pour la récupération de données, sans effets secondaires.",
+        "types.read.1": "Aucun effet secondaire",
+        "types.read.2": "Idempotent par conception",
+        "types.read.3": "Sûr pour l'IA autonome",
+        "types.read.4": "Renvoie des données enrichies avec métadonnées",
+        "types.prepare.title": "Validation et préparation",
+        "types.prepare.desc": "Recueillir ou valider les informations avant de s'engager dans des actions irréversibles.",
+        "types.prepare.1": "Peut nécessiter une confirmation",
+        "types.prepare.2": "Aucun effet secondaire irréversible",
+        "types.prepare.3": "Renvoie des données de préparation structurées",
+        "types.prepare.4": "Permet des workflows progressifs",
+        "types.action.title": "Exécuter et valider",
+        "types.action.desc": "Opérations entraînant des effets secondaires irréversibles avec supervision humaine obligatoire.",
+        "types.action.1": "Confirmation humaine explicite",
+        "types.action.2": "Intention clairement exposée dans l'UI",
+        "types.action.3": "Renvoie des résultats avec guidance",
+        "types.action.4": "Piste d'audit complète maintenue",
+        "architecture.label": "Fonctionnement",
+        "architecture.title": "Vue d'ensemble de l'architecture",
+        "architecture.subtitle": "MCPlet opère au sein de l'écosystème MCP, l'hôte gérant l'état et le raisonnement de l'IA.",
+        "architecture.host.label": "Hôte IA",
+        "architecture.host.value": "Agent IA",
+        "architecture.mcplet.label": "MCPlet",
+        "architecture.mcplet.value": "Unité d'intention",
+        "architecture.mcp.label": "Serveur MCP",
+        "architecture.mcp.value": "Fournisseur d'outils",
+        "philosophy.label": "Principes de conception",
+        "philosophy.title": "Philosophie MCPlet",
+        "philosophy.subtitle": "Basée sur cinq principes fondamentaux qui rendent l'interaction avec l'IA fiable, prévisible et révisable.",
+        "philosophy.1.title": "Intention unique",
+        "philosophy.1.desc": "Chaque MCPlet fait une seule chose avec rigueur. Pas de couteau suisse, uniquement une capacité ciblée et pertinente.",
+        "philosophy.2.title": "Sans état par défaut",
+        "philosophy.2.desc": "Aucun état caché ; toutes les données transitent par l'hôte. La transparence est une exigence de conception.",
+        "philosophy.3.title": "Conception AI-first",
+        "philosophy.3.desc": "La sortie inclut des métadonnées riches conçues pour le raisonnement et la prise de décision de l'IA.",
+        "philosophy.4.title": "Amélioration progressive",
+        "philosophy.4.desc": "Fonctionne parfaitement en mode texte, puis s'enrichit d'une UI riche lorsque MCP Apps est disponible.",
+        "philosophy.5.title": "Contraintes de sécurité",
+        "philosophy.5.desc": "Effets secondaires explicites, revue obligatoire pour les actions. La sécurité est un choix de conception.",
+        "passkey.label": "Sécurité",
+        "passkey.title": "Authentification Passkey",
+        "passkey.subtitle": "Support intégré FIDO2 pour une authentification sécurisée sans mot de passe avec intégration directe AI Chat, permettant un Human-in-the-loop rapide et facile.",
+        "passkey.1.title": "Standard FIDO2",
+        "passkey.1.desc": "Utilise les normes WebAuthn/FIDO2 pour une sécurité maximale et une compatibilité navigateur.",
+        "passkey.2.title": "Sans mot de passe",
+        "passkey.2.desc": "L'authentification sans mot de passe élimine les attaques par credential stuffing et phishing.",
+        "passkey.3.title": "Configuration flexible",
+        "passkey.3.desc": "Configuration YAML simple avec URL de serveur personnalisable et invites d'authentification.",
+        "passkey.4.title": "Natif navigateur",
+        "passkey.4.desc": "Intégration directe avec les API natives de passkey du navigateur pour une expérience utilisateur transparente.",
+        "passkey.prompt.message": "Veuillez vous authentifier avec Passkey pour confirmer l'opération",
+        "code.title": "Package standardisé",
+        "code.1.title": "Définition déclarative",
+        "code.1.desc": "Configuration YAML claire avec intention, type et liaisons d'outils.",
+        "code.2.title": "Schémas JSON",
+        "code.2.desc": "Les schémas d'entrée et de sortie garantissent la sécurité des types et la compréhension par l'IA.",
+        "code.3.title": "Suivi de provenance",
+        "code.3.desc": "Métadonnées pour la revue de sécurité et la conformité d'audit.",
+        "code.4.title": "Suggestions intelligentes",
+        "code.4.desc": "Suggestions intégrées pour les prochaines étapes de décision de l'IA.",
+        "cta.title": "Prêt à construire avec MCPlet ?",
+        "cta.subtitle": "Commencez dès aujourd'hui à créer des unités de capacité AI-first pour vos applications.",
+        "cta.cta": "Commencer",
+        "footer.concepts": "Concepts",
+        "footer.types": "Types",
+        "footer.architecture": "Architecture",
+        "footer.patent": "Avis de brevet",
+        "footer.version": "Spécification MCPlet v202603-03"
+      },
+      de: {
+        "title": "MCPlet — AI-First-Fähigkeitseinheiten für das Model Context Protocol",
+        "nav.concepts": "Konzepte",
+        "nav.types": "Typen",
+        "nav.passkey": "Passkey",
+        "nav.architecture": "Architektur",
+        "nav.philosophy": "Philosophie",
+        "hero.badge": "Aufgebaut auf dem Model Context Protocol",
+        "hero.title.gradient": "KI-natives Design",
+        "hero.title.text": "Sicherheit zuerst<br>Webstandard für das KI-Zeitalter",
+        "hero.subtitle": "MCPlet definiert eingeschränkte Einheiten mit einer einzelnen Absicht, die Geschäftslogik mit expliziten Sicherheitsbeschränkungen bündeln.<br>Auf MCP und MCP Apps aufgebaut, ermöglicht es eine nahtlose Integration mit KI.",
+        "hero.eq.ai": "KI-Flexibilität",
+        "hero.eq.ui": "UI-Komfort",
+        "hero.eq.passkey": "Passkey-Authentizität",
+        "hero.pillar.ai.title": "KI-Flexibilität",
+        "hero.pillar.ai.desc": "KI-Agenten verarbeiten komplexe Schlussfolgerungen und Werkzeugorchestrierung flexibel",
+        "hero.pillar.ui.title": "UI-Komfort",
+        "hero.pillar.ui.desc": "Reichhaltige interaktive Oberflächen über MCP Apps für intuitive Bedienung",
+        "hero.pillar.passkey.title": "Passkey-Authentizität",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey stellt echte menschliche Präsenz sicher und ermöglicht echtes Human-in-the-loop",
+        "hero.cta.primary": "MCPlet erkunden",
+        "concepts.label": "Kernkonzepte",
+        "concepts.title": "MCPlet verstehen",
+        "concepts.subtitle": "MCPlet ist die kleinste bereitstellbare, prüfbare, KI-bedienbare Einheit und repräsentiert genau eine Geschäftsabsicht.",
+        "concepts.1.title": "Einzelne Absicht",
+        "concepts.1.desc": "Jedes MCPlet repräsentiert genau eine Geschäftsabsicht. Keine Mehrdeutigkeit, keine Komplexität, sondern fokussierte, zweckgerichtete Fähigkeit.",
+        "concepts.2.title": "MCP-Tool-Integration",
+        "concepts.2.desc": "Jedes MCPlet kapselt einen MCP-Tool-Aufruf und bietet eine standardisierte Schnittstelle für KI-Systeme.",
+        "concepts.3.title": "Optionale UI",
+        "concepts.3.desc": "Bietet reichhaltige interaktive Erlebnisse über MCP Apps, mit automatischem Fallback auf textbasierte Antworten.",
+        "concepts.4.title": "Sicherheit zuerst",
+        "concepts.4.desc": "Explizite Lebenszyklus- und Sicherheitsbeschränkungen stellen sicher, dass KI-Systeme innerhalb definierter Grenzen arbeiten.",
+        "concepts.5.title": "KI-Metadaten",
+        "concepts.5.desc": "Reichhaltige Ausgabemetadaten ermöglichen KI-Überlegungen zu Operationen, Vorschlägen und nächsten Schritten.",
+        "concepts.6.title": "Stateless-Design",
+        "concepts.6.desc": "Reines Funktionsmodell ohne versteckten Zustand. Alle Daten fließen über den Host für Transparenz.",
+        "concepts.7.title": "Passkey-Authentifizierung",
+        "concepts.7.desc": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter AI-Chat-Integration für schnelles und einfaches Human-in-the-loop.",
+        "types.label": "Klassifizierung",
+        "types.title": "MCPlet-Typen",
+        "types.subtitle": "Jedes MCPlet deklariert genau einen Typ und definiert Sicherheitsprofil und angemessene Nutzung.",
+        "types.read.title": "Abfrage und Suche",
+        "types.read.desc": "Sichere, idempotente Operationen zur Datenabfrage ohne Nebenwirkungen.",
+        "types.read.1": "Keine Nebenwirkungen",
+        "types.read.2": "Idempotent durch Design",
+        "types.read.3": "Sicher für autonome KI",
+        "types.read.4": "Gibt angereicherte Daten mit Metadaten zurück",
+        "types.prepare.title": "Validierung und Vorbereitung",
+        "types.prepare.desc": "Informationen sammeln oder validieren, bevor irreversible Aktionen ausgeführt werden.",
+        "types.prepare.1": "Kann Bestätigung erfordern",
+        "types.prepare.2": "Keine irreversiblen Nebenwirkungen",
+        "types.prepare.3": "Gibt strukturierte Vorbereitungsdaten zurück",
+        "types.prepare.4": "Ermöglicht schrittweise Workflows",
+        "types.action.title": "Ausführen und Bestätigen",
+        "types.action.desc": "Operationen mit irreversiblen Nebenwirkungen und verpflichtender menschlicher Aufsicht.",
+        "types.action.1": "Explizite menschliche Bestätigung",
+        "types.action.2": "Klare Absicht in der UI",
+        "types.action.3": "Gibt Ergebnisse mit Anleitung zurück",
+        "types.action.4": "Vollständige Auditspur wird geführt",
+        "architecture.label": "Wie es funktioniert",
+        "architecture.title": "Architekturübersicht",
+        "architecture.subtitle": "MCPlet arbeitet im MCP-Ökosystem, wobei der Host den Zustand und das KI-Denken verwaltet.",
+        "architecture.host.label": "KI-Host",
+        "architecture.host.value": "KI-Agent",
+        "architecture.mcplet.label": "MCPlet",
+        "architecture.mcplet.value": "Absichtseinheit",
+        "architecture.mcp.label": "MCP-Server",
+        "architecture.mcp.value": "Werkzeuganbieter",
+        "philosophy.label": "Designprinzipien",
+        "philosophy.title": "MCPlet-Philosophie",
+        "philosophy.subtitle": "Auf fünf Kernprinzipien aufgebaut, die KI-Interaktion verlässlich, vorhersehbar und prüfbar machen.",
+        "philosophy.1.title": "Einzelne Absicht",
+        "philosophy.1.desc": "Jedes MCPlet erledigt genau eine Sache. Kein Schweizer Taschenmesser, sondern fokussierte, zweckgerichtete Fähigkeit.",
+        "philosophy.2.title": "Standardmäßig stateless",
+        "philosophy.2.desc": "Kein versteckter Zustand; alle Daten fließen über den Host. Transparenz ist Designanforderung.",
+        "philosophy.3.title": "KI-First-Design",
+        "philosophy.3.desc": "Die Ausgabe enthält speziell für KI-Denken und Entscheidungsfindung entwickelte reichhaltige Metadaten.",
+        "philosophy.4.title": "Fortschrittliche Verbesserung",
+        "philosophy.4.desc": "Funktioniert im Textmodus vollständig und wird bei MCP-Apps-Unterstützung durch eine rich UI erweitert.",
+        "philosophy.5.title": "Sicherheitsbeschränkungen",
+        "philosophy.5.desc": "Explizite Nebenwirkungen, verpflichtende Prüfung für Aktionen. Sicherheit ist Designprinzip.",
+        "passkey.label": "Sicherheit",
+        "passkey.title": "Passkey-Authentifizierung",
+        "passkey.subtitle": "Integrierte FIDO2-Passkey-Unterstützung für sichere, passwortlose Authentifizierung mit direkter AI-Chat-Integration für schnelles und einfaches Human-in-the-loop.",
+        "passkey.1.title": "FIDO2-Standard",
+        "passkey.1.desc": "Verwendet WebAuthn/FIDO2-Standards für maximale Sicherheit und Browser-Kompatibilität.",
+        "passkey.2.title": "Keine Passwörter",
+        "passkey.2.desc": "Passwortlose Authentifizierung eliminiert Credential-Stuffing- und Phishing-Angriffe.",
+        "passkey.3.title": "Flexible Konfiguration",
+        "passkey.3.desc": "Einfache YAML-Konfiguration mit anpassbarer Server-URL und Authentifizierungsaufforderungen.",
+        "passkey.4.title": "Browser-Nativ",
+        "passkey.4.desc": "Direkte Integration mit nativen Passkey-APIs des Browsers für nahtloses Benutzererlebnis.",
+        "passkey.prompt.message": "Bitte authentifizieren Sie sich mit Passkey, um den Vorgang zu bestätigen",
+        "code.title": "Standardisiertes Paket",
+        "code.1.title": "Deklarative Definition",
+        "code.1.desc": "Klare YAML-Konfiguration mit Absicht, Typ und Tool-Bindungen.",
+        "code.2.title": "JSON-Schemata",
+        "code.2.desc": "Eingabe- und Ausgabeschemata gewährleisten Typsicherheit und KI-Verständnis.",
+        "code.3.title": "Herkunftsverfolgung",
+        "code.3.desc": "Metadaten für Sicherheitsüberprüfung und Audit-Konformität.",
+        "code.4.title": "Intelligente Vorschläge",
+        "code.4.desc": "Integrierte Hinweise für nächste Schritte der KI-Entscheidungsfindung.",
+        "cta.title": "Bereit zum Bauen mit MCPlet?",
+        "cta.subtitle": "Beginnen Sie noch heute mit der Erstellung von AI-first Fähigkeitseinheiten für Ihre Anwendungen.",
+        "cta.cta": "Loslegen",
+        "footer.concepts": "Konzepte",
+        "footer.types": "Typen",
+        "footer.architecture": "Architektur",
+        "footer.patent": "Patenthinweis",
+        "footer.version": "MCPlet-Spezifikation v202603-03"
+      },
+      es: {
+        "title": "MCPlet — Unidades de capacidad AI-first para el Protocolo de Contexto de Modelo",
+        "nav.concepts": "Conceptos",
+        "nav.types": "Tipos",
+        "nav.passkey": "Passkey",
+        "nav.architecture": "Arquitectura",
+        "nav.philosophy": "Filosofía",
+        "hero.badge": "Construido sobre el Protocolo de Contexto de Modelo",
+        "hero.title.gradient": "Diseño IA Nativo",
+        "hero.title.text": "Seguridad Primero<br>Estándar Web para la Era IA",
+        "hero.subtitle": "MCPlet define unidades restringidas de intención única que empaquetan lógica empresarial con restricciones de seguridad explícitas.<br>Construido sobre MCP y MCP Apps para una integración fluida con la IA.",
+        "hero.eq.ai": "Flexibilidad IA",
+        "hero.eq.ui": "Comodidad UI",
+        "hero.eq.passkey": "Autenticidad Passkey",
+        "hero.pillar.ai.title": "Flexibilidad IA",
+        "hero.pillar.ai.desc": "Los agentes de IA manejan razonamiento complejo y orquestación de herramientas con flexibilidad",
+        "hero.pillar.ui.title": "Comodidad UI",
+        "hero.pillar.ui.desc": "Interfaces interactivas enriquecidas mediante MCP Apps para interacción humana intuitiva",
+        "hero.pillar.passkey.title": "Autenticidad Passkey",
+        "hero.pillar.passkey.desc": "FIDO2 Passkey garantiza la presencia humana real, habilitando un verdadero Human-in-the-loop",
+        "hero.cta.primary": "Explorar MCPlet",
+        "concepts.label": "Conceptos clave",
+        "concepts.title": "Comprender MCPlet",
+        "concepts.subtitle": "MCPlet es la unidad IA-operativa más pequeña, desplegable y revisable, que representa exactamente una intención empresarial.",
+        "concepts.1.title": "Intención única",
+        "concepts.1.desc": "Cada MCPlet representa exactamente una intención empresarial. Sin ambigüedad ni complejidad, solo una capacidad enfocada y con propósito.",
+        "concepts.2.title": "Integración de herramientas MCP",
+        "concepts.2.desc": "Cada MCPlet envuelve una invocación de herramienta MCP, proporcionando una interfaz estandarizada para sistemas de IA.",
+        "concepts.3.title": "UI opcional",
+        "concepts.3.desc": "Ofrece experiencias interactivas enriquecidas mediante MCP Apps, con retroceso automático a respuestas basadas en texto.",
+        "concepts.4.title": "Seguridad primero",
+        "concepts.4.desc": "Las restricciones explícitas de ciclo de vida y seguridad aseguran que los sistemas de IA operen dentro de límites definidos.",
+        "concepts.5.title": "Metadatos de IA",
+        "concepts.5.desc": "Los metadatos de salida ricos permiten a la IA razonar sobre operaciones, sugerencias y pasos siguientes.",
+        "concepts.6.title": "Diseño sin estado",
+        "concepts.6.desc": "Modelo funcional puro sin estado oculto. Todos los datos fluyen a través del Host para garantizar transparencia.",
+        "concepts.7.title": "Autenticación Passkey",
+        "concepts.7.desc": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa de AI Chat, permitiendo un Human-in-the-loop rápido y fácil.",
+        "types.label": "Clasificación",
+        "types.title": "Tipos de MCPlet",
+        "types.subtitle": "Cada MCPlet declara exactamente un tipo, definiendo su perfil de seguridad y uso apropiado.",
+        "types.read.title": "Consulta y búsqueda",
+        "types.read.desc": "Operaciones seguras e idempotentes para recuperación de datos sin efectos secundarios.",
+        "types.read.1": "Sin efectos secundarios",
+        "types.read.2": "Idempotente por diseño",
+        "types.read.3": "Seguro para IA autónoma",
+        "types.read.4": "Devuelve datos enriquecidos con metadatos",
+        "types.prepare.title": "Validación y preparación",
+        "types.prepare.desc": "Recopilar o validar información antes de comprometer acciones irreversibles.",
+        "types.prepare.1": "Puede requerir confirmación",
+        "types.prepare.2": "Sin efectos secundarios irreversibles",
+        "types.prepare.3": "Devuelve datos de preparación estructurados",
+        "types.prepare.4": "Habilita flujos de trabajo progresivos",
+        "types.action.title": "Ejecutar y confirmar",
+        "types.action.desc": "Operaciones que causan efectos secundarios irreversibles con supervisión humana obligatoria.",
+        "types.action.1": "Confirmación humana explícita",
+        "types.action.2": "Intención clara en la UI",
+        "types.action.3": "Devuelve resultados con orientación",
+        "types.action.4": "Se mantiene una pista de auditoría completa",
+        "architecture.label": "Cómo funciona",
+        "architecture.title": "Vista general de la arquitectura",
+        "architecture.subtitle": "MCPlet opera dentro del ecosistema MCP, con el Host gestionando el estado y el razonamiento de IA.",
+        "architecture.host.label": "Host de IA",
+        "architecture.host.value": "Agente de IA",
+        "architecture.mcplet.label": "MCPlet",
+        "architecture.mcplet.value": "Unidad de intención",
+        "architecture.mcp.label": "Servidor MCP",
+        "architecture.mcp.value": "Proveedor de herramientas",
+        "philosophy.label": "Principios de diseño",
+        "philosophy.title": "Filosofía MCPlet",
+        "philosophy.subtitle": "Basado en cinco principios fundamentales que hacen la interacción con la IA fiable, predecible y revisable.",
+        "philosophy.1.title": "Intención única",
+        "philosophy.1.desc": "Cada MCPlet hace una sola cosa bien. Sin navajas suizas, solo capacidad enfocada y con propósito.",
+        "philosophy.2.title": "Sin estado por defecto",
+        "philosophy.2.desc": "Sin estado oculto; todos los datos fluyen a través del Host. La transparencia es un requisito de diseño.",
+        "philosophy.3.title": "Diseño AI-first",
+        "philosophy.3.desc": "La salida incluye metadatos ricos diseñados específicamente para el razonamiento y la toma de decisiones de IA.",
+        "philosophy.4.title": "Mejora progresiva",
+        "philosophy.4.desc": "Funciona perfectamente en modo texto y se mejora con una UI rica cuando MCP Apps está disponible.",
+        "philosophy.5.title": "Restricciones de seguridad",
+        "philosophy.5.desc": "Efectos secundarios explícitos, revisión obligatoria para acciones. Seguridad por diseño.",
+        "passkey.label": "Seguridad",
+        "passkey.title": "Autenticación Passkey",
+        "passkey.subtitle": "Soporte integrado FIDO2 para autenticación segura sin contraseña con integración directa de AI Chat, permitiendo un Human-in-the-loop rápido y fácil.",
+        "passkey.1.title": "Estándar FIDO2",
+        "passkey.1.desc": "Usa estándares WebAuthn/FIDO2 para máxima seguridad y compatibilidad de navegador.",
+        "passkey.2.title": "Sin contraseñas",
+        "passkey.2.desc": "La autenticación sin contraseña elimina ataques de relleno de credenciales y phishing.",
+        "passkey.3.title": "Configuración flexible",
+        "passkey.3.desc": "Configuración YAML simple con URL de servidor personalizable y mensajes de autenticación.",
+        "passkey.4.title": "Nativo del navegador",
+        "passkey.4.desc": "Integración directa con APIs nativas de passkey del navegador para experiencia de usuario fluida.",
+        "passkey.prompt.message": "Por favor autentíquese con Passkey para confirmar la operación",
+        "code.title": "Paquete estandarizado",
+        "code.1.title": "Definición declarativa",
+        "code.1.desc": "Configuración YAML clara con intención, tipo y enlaces de herramientas.",
+        "code.2.title": "Esquemas JSON",
+        "code.2.desc": "Los esquemas de entrada y salida aseguran seguridad de tipos y comprensión de IA.",
+        "code.3.title": "Seguimiento de procedencia",
+        "code.3.desc": "Metadatos para revisión de seguridad y cumplimiento de auditoría.",
+        "code.4.title": "Sugerencias inteligentes",
+        "code.4.desc": "Sugerencias integradas para los próximos pasos de decisión de la IA.",
+        "cta.title": "¿Listo para construir con MCPlet?",
+        "cta.subtitle": "Comience hoy a crear unidades de capacidad AI-first para sus aplicaciones.",
+        "cta.cta": "Comenzar",
+        "footer.concepts": "Conceptos",
+        "footer.types": "Tipos",
+        "footer.architecture": "Arquitectura",
+        "footer.patent": "Aviso de patente",
+        "footer.version": "Especificación MCPlet v202603-03"
+      }
+    };
+
+    const langLabels = {
+      en: "EN",
+      ja: "日本語",
+      zh: "中文",
+      fr: "FR",
+      de: "DE",
+      es: "ES"
+    };
+
+    const supportedLangs = new Set(['en', 'ja', 'zh', 'fr', 'de', 'es']);
+
+    function getBrowserLang() {
+      const browserLangs = navigator.languages || [navigator.language || 'en'];
+      for (const lang of browserLangs) {
+        const shortLang = lang.split('-')[0].toLowerCase();
+        if (supportedLangs.has(shortLang)) {
+          return shortLang;
+        }
+        if (lang.includes('zh')) return 'zh';
+        if (lang.includes('ja') || lang.includes('jp')) return 'ja';
+        if (lang.includes('fr')) return 'fr';
+        if (lang.includes('de')) return 'de';
+        if (lang.includes('es')) return 'es';
+      }
+      return 'en';
+    }
+
+    const savedLang = localStorage.getItem('mcplet-lang');
+    const savedLangLocked = localStorage.getItem('mcplet-lang-locked') === 'true';
+    const hasValidSavedLang = savedLang && supportedLangs.has(savedLang);
+    let currentLang = (savedLangLocked && hasValidSavedLang) ? savedLang : getBrowserLang();
+
+    function setLanguage(lang, persist = true) {
+      currentLang = lang;
+      if (persist) {
+        localStorage.setItem('mcplet-lang', lang);
+      }
+      document.getElementById('currentLangLabel').textContent = langLabels[lang];
+
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.lang === lang);
+      });
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang] && translations[lang][key]) {
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = translations[lang][key];
+          } else {
+            el.innerHTML = translations[lang][key];
+          }
+        }
+      });
+
+      document.documentElement.lang = lang;
+
+      // Switch demo video based on language
+      const videoEl = document.getElementById('demoVideo');
+      if (videoEl) {
+        const videoId = lang === 'ja' ? 'sbKEKN83mhs' : 'L-dEtjFuuOA';
+        const newSrc = 'https://www.youtube.com/embed/' + videoId;
+        if (!videoEl.src.includes(videoId)) {
+          videoEl.src = newSrc;
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setLanguage(currentLang, false);
+
+      const langBtn = document.getElementById('langBtn');
+      const langDropdown = document.getElementById('langDropdown');
+
+      langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langDropdown.classList.toggle('show');
+      });
+
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          setLanguage(opt.dataset.lang, true);
+          localStorage.setItem('mcplet-lang-locked', 'true');
+          langDropdown.classList.remove('show');
+        });
+      });
+
+      document.addEventListener('click', () => {
+        langDropdown.classList.remove('show');
+      });
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

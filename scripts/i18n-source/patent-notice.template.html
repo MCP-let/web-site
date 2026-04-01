@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intellectual Property Notice — MCPlet</title>
+  <meta name="description" content="Patent and licensing notice for the MCPlet specification draft, including pending application details and licensing intent.">
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+  <meta name="author" content="MCPlet Working Group">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="canonical" href="https://mcplet.ai/patent-notice.html">
+  <meta property="og:title" content="Intellectual Property Notice — MCPlet">
+  <meta property="og:description" content="Patent and licensing notice for the MCPlet specification draft.">
+  <meta property="og:url" content="https://mcplet.ai/patent-notice.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MCPlet">
+  <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Intellectual Property Notice — MCPlet">
+  <meta name="twitter:description" content="Patent and licensing notice for the MCPlet specification draft.">
+  <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="shortcut icon" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d14;
+      --bg-card: rgba(20, 20, 30, 0.6);
+      --accent-cyan: #00f0ff;
+      --accent-purple: #7c3aed;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7b;
+      --border-color: rgba(0, 240, 255, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #0a0a0f;
+    }
+
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .logo-text span { color: var(--accent-cyan); }
+
+    .nav-back {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-back:hover { color: var(--accent-cyan); }
+
+    .nav-right { margin-left: auto; }
+
+    /* ── Lang switcher ── */
+    .lang-switcher { position: relative; }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
+    }
+
+    .lang-btn svg { width: 16px; height: 16px; }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 140px;
+      display: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .lang-dropdown.show { display: block; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-option:hover {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .lang-option.active {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .lang-flag { width: 20px; font-size: 1rem; }
+
+    /* ── Main content ── */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    .page-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .section p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .patent-entry {
+      background: rgba(0, 240, 255, 0.04);
+      border-left: 3px solid var(--accent-cyan);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .resource-links {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    .resource-links a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .resource-links a:hover {
+      text-decoration: underline;
+    }
+
+    .patent-entry .field {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.2rem;
+    }
+
+    .patent-entry .value {
+      color: var(--text-primary);
+      font-size: 0.93rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .patent-entry .value:last-child { margin-bottom: 0; }
+
+    .patent-entry .mono {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-cyan);
+    }
+
+    .highlight-box {
+      background: rgba(124, 58, 237, 0.08);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      border-radius: 8px;
+      padding: 1.1rem 1.4rem;
+      margin-top: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      font-style: italic;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 2rem;
+      background: var(--bg-secondary);
+    }
+
+    .footer-container {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover { color: var(--accent-cyan); }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-user-select: all;
+      user-select: all;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">
+      <div class="logo-icon">M</div>
+      <div class="logo-text">MCP<span>let</span></div>
+    </a>
+    <a href="index.html" class="nav-back" data-i18n="nav.back">← Back to MCPlet</a>
+    <div class="nav-right">
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span id="currentLangLabel">EN</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option active" data-lang="en">
+            <span class="lang-flag">🇺🇸</span><span>English</span>
+          </div>
+          <div class="lang-option" data-lang="ja">
+            <span class="lang-flag">🇯🇵</span><span>日本語</span>
+          </div>
+          <div class="lang-option" data-lang="zh">
+            <span class="lang-flag">🇨🇳</span><span>中文</span>
+          </div>
+          <div class="lang-option" data-lang="fr">
+            <span class="lang-flag">🇫🇷</span><span>Français</span>
+          </div>
+          <div class="lang-option" data-lang="de">
+            <span class="lang-flag">🇩🇪</span><span>Deutsch</span>
+          </div>
+          <div class="lang-option" data-lang="es">
+            <span class="lang-flag">🇪🇸</span><span>Español</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-label" data-i18n="label">Intellectual Property Notice</div>
+    <h1 data-i18n="title">Intellectual Property Notice</h1>
+    <p class="subtitle" data-i18n="subtitle">Intellectual property notice for the MCPlet specification draft</p>
+
+    <div class="section">
+      <h2 data-i18n="s1.heading">Pending Patent Applications</h2>
+      <p data-i18n="s1.body">The editors are aware that certain aspects of this specification may be covered by pending patent applications, including:</p>
+      <div class="patent-entry">
+        <div class="field" data-i18n="entry.jurisdiction.label">Jurisdiction</div>
+        <div class="value" data-i18n="entry.jurisdiction.value">Japan</div>
+        <div class="field" data-i18n="entry.appnum.label">Application Number</div>
+        <div class="value mono">2026-026931</div>
+        <div class="field" data-i18n="entry.title.label">Title</div>
+        <div class="value" data-i18n="entry.title.value">Inference Result Injection Control Device, Method, and Program</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="s2.heading">Licensing Intent</h2>
+      <p data-i18n="s2.body">The patent holder intends to make any essential patent claims available under terms consistent with widely accepted open standards policies.</p>
+      <div class="highlight-box" data-i18n="s2.note">
+        If this specification progresses toward formal standardization, the patent holder expects to provide licensing commitments consistent with recognized industry practices, which may include Royalty-Free (RF) or Fair, Reasonable, and Non-Discriminatory (FRAND) terms depending on the requirements of the applicable standards organization.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="s3.heading">Transparency Notice</h2>
+      <p data-i18n="s3.body1">This notice is provided for transparency and does not impose licensing requirements on implementations of this draft specification.</p>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="resources.heading">Related Resources</h2>
+      <p data-i18n="resources.body">Use the HTML overview for fast reading, the raw markdown draft for normative source text, and the FAQ for direct adoption questions.</p>
+      <p class="resource-links">
+        <a href="getting-started.html" data-i18n="resources.gettingStarted">Getting Started</a>
+        &nbsp;·&nbsp;
+        <a href="spec/" data-i18n="resources.specification">Specification Overview</a>
+        &nbsp;·&nbsp;
+        <a href="faq.html" data-i18n="resources.faq">Technical FAQ</a>
+        &nbsp;·&nbsp;
+        <a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener" data-i18n="resources.markdown">Raw Markdown Draft</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="index.html#concepts" data-i18n="footer.concepts">Concepts</a></li>
+        <li><a href="index.html#types" data-i18n="footer.types">Types</a></li>
+        <li><a href="index.html#architecture" data-i18n="footer.architecture">Architecture</a></li>
+        <li><a href="getting-started.html" data-i18n="footer.gettingStarted">Getting Started</a></li>
+        <li><a href="spec/" data-i18n="footer.specification">Specification</a></li>
+        <li><a href="faq.html" data-i18n="footer.faq">FAQ</a></li>
+        <li><a href="patent-notice.html" data-i18n="footer.patent">Patent Notice</a></li>
+      </ul>
+      <div class="footer-copy">
+        <span data-i18n="footer.version">MCPlet Specification v202603-03</span>
+        &nbsp;·&nbsp;
+        <span data-i18n="footer.updated">Updated 2026-04-01</span>
+        &nbsp;·&nbsp;
+        <a href="mailto:contact@mcplet.ai" style="color:inherit;text-decoration:none;user-select:all;">contact@mcplet.ai</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        "nav.back": "← Back to MCPlet",
+        "label": "Intellectual Property Notice",
+        "title": "Intellectual Property Notice",
+        "subtitle": "Intellectual property notice for the MCPlet specification draft",
+        "s1.heading": "Pending Patent Applications",
+        "s1.body": "The editors are aware that certain aspects of this specification may be covered by pending patent applications, including:",
+        "entry.jurisdiction.label": "Jurisdiction",
+        "entry.jurisdiction.value": "Japan",
+        "entry.appnum.label": "Application Number",
+        "entry.title.label": "Title",
+        "entry.title.value": "Inference Result Injection Control Device, Method, and Program",
+        "s2.heading": "Licensing Intent",
+        "s2.body": "The patent holder intends to make any essential patent claims available under terms consistent with widely accepted open standards policies.",
+        "s2.note": "If this specification progresses toward formal standardization, the patent holder expects to provide licensing commitments consistent with recognized industry practices, which may include Royalty-Free (RF) or Fair, Reasonable, and Non-Discriminatory (FRAND) terms depending on the requirements of the applicable standards organization.",
+        "s3.heading": "Transparency Notice",
+        "s3.body1": "This notice is provided for transparency and does not impose licensing requirements on implementations of this draft specification.",
+        "footer.concepts": "Concepts",
+        "footer.types": "Types",
+        "footer.architecture": "Architecture",
+        "footer.patent": "Patent Notice",
+        "footer.version": "MCPlet Specification v202603-03"
+      },
+      ja: {
+        "nav.back": "← MCPletに戻る",
+        "label": "知的財産通知",
+        "title": "知的財産通知",
+        "subtitle": "MCPlet仕様ドラフトに関する知的財産通知",
+        "s1.heading": "特許出願中",
+        "s1.body": "編集者は、本仕様の一部が出願中の特許申請の対象となる可能性があることを認識しています。対象には以下が含まれます。",
+        "entry.jurisdiction.label": "管轄",
+        "entry.jurisdiction.value": "日本",
+        "entry.appnum.label": "出願番号",
+        "entry.title.label": "発明の名称",
+        "entry.title.value": "推論結果インジェクション制御装置、方法及びプログラム",
+        "s2.heading": "ライセンス意図",
+        "s2.body": "特許権者は、必須特許請求項を、広く受け入れられているオープン標準ポリシーと整合する条件で提供する意向です。",
+        "s2.note": "本仕様が正式な標準化に進む場合、特許権者は、適用される標準化団体の要件に応じて、ロイヤルティフリー（RF）またはFRAND（公正・合理的・非差別的）条件を含む、業界で認知された慣行と整合するライセンスコミットメントを提供することを想定しています。",
+        "s3.heading": "透明性に関する通知",
+        "s3.body1": "本通知は透明性のために提供されるものであり、本ドラフト仕様の実装に対してライセンス要件を課すものではありません。",
+        "footer.concepts": "概念",
+        "footer.types": "タイプ",
+        "footer.architecture": "アーキテクチャ",
+        "footer.patent": "特許表示",
+        "footer.version": "MCPlet仕様 v202603-03"
+      },
+      zh: {
+        "nav.back": "← 返回 MCPlet",
+        "label": "知识产权",
+        "title": "知识产权声明",
+        "subtitle": "MCPlet规范草案的知识产权声明",
+        "s1.heading": "待审专利申请",
+        "s1.body": "编辑者已注意到，本规范的某些方面可能受到待审专利申请的覆盖，包括：",
+        "entry.jurisdiction.label": "司法管辖区",
+        "entry.jurisdiction.value": "日本",
+        "entry.appnum.label": "申请号",
+        "entry.title.label": "发明名称",
+        "entry.title.value": "推理结果注入控制装置、方法及程序",
+        "s2.heading": "许可意向",
+        "s2.body": "专利持有人拟在与广泛接受的开放标准政策一致的条款下提供任何必要专利主张。",
+        "s2.note": "若本规范推进到正式标准化阶段，专利持有人预计将依据适用标准组织的要求，提供符合业界公认实践的许可承诺，其中可能包括免版税（RF）或公平、合理、无歧视（FRAND）条款。",
+        "s3.heading": "透明度说明",
+        "s3.body1": "本声明旨在提高透明度，并不对本草案规范的实现施加许可要求。",
+        "footer.concepts": "核心概念",
+        "footer.types": "类型",
+        "footer.architecture": "架构",
+        "footer.patent": "专利声明",
+        "footer.version": "MCPlet规范 v202603-03"
+      },
+      fr: {
+        "nav.back": "← Retour à MCPlet",
+        "label": "Propriété intellectuelle",
+        "title": "Avis de propriété intellectuelle",
+        "subtitle": "Avis de propriété intellectuelle pour le brouillon de la spécification MCPlet",
+        "s1.heading": "Demandes de brevet en cours",
+        "s1.body": "Les éditeurs sont conscients que certains aspects de cette spécification peuvent être couverts par des demandes de brevet en cours, notamment :",
+        "entry.jurisdiction.label": "Juridiction",
+        "entry.jurisdiction.value": "Japon",
+        "entry.appnum.label": "Numéro de demande",
+        "entry.title.label": "Titre",
+        "entry.title.value": "Dispositif, méthode et programme de contrôle d'injection de résultats d'inférence",
+        "s2.heading": "Intention de licence",
+        "s2.body": "Le titulaire du brevet a l'intention de rendre toute revendication de brevet essentielle disponible selon des conditions conformes aux politiques largement acceptées des standards ouverts.",
+        "s2.note": "Si cette spécification progresse vers une normalisation formelle, le titulaire du brevet prévoit de fournir des engagements de licence conformes aux pratiques reconnues de l'industrie, pouvant inclure des conditions Royalty-Free (RF) ou FRAND (équitables, raisonnables et non discriminatoires), selon les exigences de l'organisme de normalisation applicable.",
+        "s3.heading": "Avis de transparence",
+        "s3.body1": "Cet avis est fourni à des fins de transparence et n'impose pas d'exigences de licence aux implémentations de ce brouillon de spécification.",
+        "footer.concepts": "Concepts",
+        "footer.types": "Types",
+        "footer.architecture": "Architecture",
+        "footer.patent": "Avis de brevet",
+        "footer.version": "Spécification MCPlet v202603-03"
+      },
+      de: {
+        "nav.back": "← Zurück zu MCPlet",
+        "label": "Geistiges Eigentum",
+        "title": "Hinweis zum geistigen Eigentum",
+        "subtitle": "Hinweis zum geistigen Eigentum für den Entwurf der MCPlet-Spezifikation",
+        "s1.heading": "Anhängige Patentanmeldungen",
+        "s1.body": "Die Herausgeber sind sich bewusst, dass bestimmte Aspekte dieser Spezifikation durch anhängige Patentanmeldungen abgedeckt sein können, darunter:",
+        "entry.jurisdiction.label": "Zuständigkeit",
+        "entry.jurisdiction.value": "Japan",
+        "entry.appnum.label": "Anmeldenummer",
+        "entry.title.label": "Titel",
+        "entry.title.value": "Vorrichtung, Verfahren und Programm zur Steuerung der Inferenzergebniseinspeisung",
+        "s2.heading": "Lizenzierungsabsicht",
+        "s2.body": "Der Patentinhaber beabsichtigt, wesentliche Patentansprüche zu Bedingungen bereitzustellen, die mit weithin anerkannten Richtlinien für offene Standards vereinbar sind.",
+        "s2.note": "Falls diese Spezifikation in Richtung formaler Standardisierung fortschreitet, erwartet der Patentinhaber, Lizenzzusagen gemäß anerkannten Branchenpraktiken bereitzustellen; je nach Anforderungen der zuständigen Standardisierungsorganisation kann dies Royalty-Free-(RF)- oder FRAND-Bedingungen (fair, angemessen und nicht diskriminierend) umfassen.",
+        "s3.heading": "Transparenzhinweis",
+        "s3.body1": "Dieser Hinweis dient der Transparenz und begründet keine Lizenzanforderungen für Implementierungen dieses Spezifikationsentwurfs.",
+        "footer.concepts": "Konzepte",
+        "footer.types": "Typen",
+        "footer.architecture": "Architektur",
+        "footer.patent": "Patenthinweis",
+        "footer.version": "MCPlet-Spezifikation v202603-03"
+      },
+      es: {
+        "nav.back": "← Volver a MCPlet",
+        "label": "Propiedad intelectual",
+        "title": "Aviso de propiedad intelectual",
+        "subtitle": "Aviso de propiedad intelectual para el borrador de la especificación MCPlet",
+        "s1.heading": "Solicitudes de patente pendientes",
+        "s1.body": "Los editores tienen conocimiento de que ciertos aspectos de esta especificación pueden estar cubiertos por solicitudes de patente pendientes, incluyendo:",
+        "entry.jurisdiction.label": "Jurisdicción",
+        "entry.jurisdiction.value": "Japón",
+        "entry.appnum.label": "Número de solicitud",
+        "entry.title.label": "Título",
+        "entry.title.value": "Dispositivo, método y programa de control de inyección de resultados de inferencia",
+        "s2.heading": "Intención de licenciamiento",
+        "s2.body": "El titular de la patente tiene la intención de poner a disposición cualquier reclamación de patente esencial bajo términos coherentes con políticas de estándares abiertos ampliamente aceptadas.",
+        "s2.note": "Si esta especificación avanza hacia una estandarización formal, el titular de la patente prevé proporcionar compromisos de licencia coherentes con prácticas reconocidas de la industria, que pueden incluir términos Royalty-Free (RF) o Fair, Reasonable, and Non-Discriminatory (FRAND), según los requisitos de la organización de estandarización aplicable.",
+        "s3.heading": "Aviso de transparencia",
+        "s3.body1": "Este aviso se proporciona con fines de transparencia y no impone requisitos de licencia sobre implementaciones de este borrador de especificación.",
+        "footer.concepts": "Conceptos",
+        "footer.types": "Tipos",
+        "footer.architecture": "Arquitectura",
+        "footer.patent": "Aviso de patente",
+        "footer.version": "Especificación MCPlet v202603-03"
+      }
+    };
+
+    const langLabels = { en: "EN", ja: "日本語", zh: "中文", fr: "FR", de: "DE", es: "ES" };
+    const supportedLangs = new Set(['en', 'ja', 'zh', 'fr', 'de', 'es']);
+
+    function getBrowserLang() {
+      const browserLangs = navigator.languages || [navigator.language || 'en'];
+      for (const lang of browserLangs) {
+        const short = lang.split('-')[0].toLowerCase();
+        if (supportedLangs.has(short)) return short;
+        if (lang.includes('zh')) return 'zh';
+        if (lang.includes('ja') || lang.includes('jp')) return 'ja';
+        if (lang.includes('fr')) return 'fr';
+        if (lang.includes('de')) return 'de';
+        if (lang.includes('es')) return 'es';
+      }
+      return 'en';
+    }
+
+    const savedLang = localStorage.getItem('mcplet-lang');
+    const savedLangLocked = localStorage.getItem('mcplet-lang-locked') === 'true';
+    const hasValidSavedLang = savedLang && supportedLangs.has(savedLang);
+    let currentLang = (savedLangLocked && hasValidSavedLang) ? savedLang : getBrowserLang();
+
+    function setLanguage(lang, persist = true) {
+      currentLang = lang;
+      if (persist) localStorage.setItem('mcplet-lang', lang);
+
+      document.getElementById('currentLangLabel').textContent = langLabels[lang];
+
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.lang === lang);
+      });
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      document.documentElement.lang = lang;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setLanguage(currentLang, false);
+
+      const langBtn = document.getElementById('langBtn');
+      const langDropdown = document.getElementById('langDropdown');
+
+      langBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        langDropdown.classList.toggle('show');
+      });
+
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          setLanguage(opt.dataset.lang, true);
+          localStorage.setItem('mcplet-lang-locked', 'true');
+          langDropdown.classList.remove('show');
+        });
+      });
+
+      document.addEventListener('click', () => {
+        langDropdown.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>
