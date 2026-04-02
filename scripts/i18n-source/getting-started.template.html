@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCPlet Getting Started — First Steps for Hosts and Tool Authors</title>
+  <meta name="description" content="Getting started with MCPlet v202603-03: choose a host profile, classify tools, register code-first metadata, expose result schemas, and enforce passkey authentication for protected actions.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="MCPlet Working Group">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="canonical" href="https://mcplet.ai/getting-started.html">
+  <meta property="og:title" content="MCPlet Getting Started — First Steps for Hosts and Tool Authors">
+  <meta property="og:description" content="Choose a host profile, classify tools, register code-first metadata, expose result schemas, and add passkey enforcement for protected actions.">
+  <meta property="og:url" content="https://mcplet.ai/getting-started.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MCPlet">
+  <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MCPlet Getting Started — First Steps for Hosts and Tool Authors">
+  <meta name="twitter:description" content="Choose a host profile, classify tools, register code-first metadata, expose result schemas, and add passkey enforcement for protected actions.">
+  <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="shortcut icon" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d14;
+      --bg-card: rgba(20, 20, 30, 0.68);
+      --accent-cyan: #00f0ff;
+      --accent-blue: #0066ff;
+      --accent-purple: #7c3aed;
+      --accent-green: #00ff88;
+      --accent-orange: #ff6b00;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7b;
+      --border-color: rgba(0, 240, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(0, 240, 255, 0.14), transparent 25%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.16), transparent 28%),
+        var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container,
+    .footer-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #0a0a0f;
+    }
+
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .logo-text span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links,
+    .footer-links,
+    .step-list,
+    .decision-list {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .footer-links a,
+    .resource-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .footer-links a:hover,
+    .resource-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* ── Lang switcher ── */
+    .lang-switcher { position: relative; }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
+    }
+
+    .lang-btn svg { width: 16px; height: 16px; }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 140px;
+      display: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .lang-dropdown.show { display: block; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .lang-option:hover {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .lang-option.active {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .lang-flag { width: 20px; font-size: 1rem; }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    .page-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.08;
+      margin-bottom: 0.9rem;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-grid,
+    .content-grid,
+    .quick-grid,
+    .decision-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-bottom: 1.5rem;
+    }
+
+    .content-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: start;
+      margin-bottom: 1.5rem;
+    }
+
+    .quick-grid,
+    .decision-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.5rem;
+    }
+
+    .meta-card .label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .meta-card .value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.85rem;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p,
+    li,
+    td,
+    th,
+    .resource-links,
+    .callout {
+      color: var(--text-secondary);
+    }
+
+    .step-list,
+    .decision-list {
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .step-list li,
+    .decision-list li {
+      list-style: decimal;
+      margin-left: 1.2rem;
+    }
+
+    .step-card {
+      border-top: 3px solid transparent;
+    }
+
+    .step-card.profile { border-top-color: var(--accent-cyan); }
+    .step-card.classify { border-top-color: var(--accent-green); }
+    .step-card.metadata { border-top-color: var(--accent-orange); }
+    .step-card.auth { border-top-color: #ff3366; }
+
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      text-align: left;
+      vertical-align: top;
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .comparison-table th {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .callout {
+      padding: 1rem 1.15rem;
+      border-left: 3px solid var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.05);
+      border-radius: 0 12px 12px 0;
+      margin-top: 1rem;
+    }
+
+    pre {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(10, 10, 15, 0.9);
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #c6f9ff;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.3rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2rem;
+      background: rgba(13, 13, 20, 0.92);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 860px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav,
+      main,
+      footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Get started with MCPlet",
+      "description": "Choose a host profile, classify tools, register code-first metadata, expose result schemas, and enforce passkey authentication for protected actions.",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Choose a host profile",
+          "text": "Decide whether your implementation is a WebUI Profile host with MCP Apps rendering or an Agent Profile host with orchestrated agents and an externally configured LLM."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Classify each tool",
+          "text": "Declare each MCPlet as read, prepare, or action so the host can apply the correct safety profile."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Register code-first metadata",
+          "text": "Expose _meta.mcpletType, _meta.visibility, optional _meta.ui, and optional _meta.pool at tool registration time."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Add schemas and authentication",
+          "text": "Publish a tool-result schema URI and require strict passkey enforcement for protected model-visible action tools."
+        }
+      ]
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">MCP<span>let</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+        <li><a href="spec/" data-i18n="nav.specification">Specification</a></li>
+        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="patent-notice.html" data-i18n="nav.patent">Patent Notice</a></li>
+        <li><a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener" data-i18n="nav.rawMarkdown">Raw Markdown</a></li>
+      </ul>
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span id="currentLangLabel">EN</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option active" data-lang="en">
+            <span class="lang-flag">🇺🇸</span><span>English</span>
+          </div>
+          <div class="lang-option" data-lang="ja">
+            <span class="lang-flag">🇯🇵</span><span>日本語</span>
+          </div>
+          <div class="lang-option" data-lang="zh">
+            <span class="lang-flag">🇨🇳</span><span>中文</span>
+          </div>
+          <div class="lang-option" data-lang="fr">
+            <span class="lang-flag">🇫🇷</span><span>Français</span>
+          </div>
+          <div class="lang-option" data-lang="de">
+            <span class="lang-flag">🇩🇪</span><span>Deutsch</span>
+          </div>
+          <div class="lang-option" data-lang="es">
+            <span class="lang-flag">🇪🇸</span><span>Español</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-label" data-i18n="page.label">Getting Started</div>
+    <h1 data-i18n="page.title">First steps for MCPlet hosts and tool authors</h1>
+    <p class="subtitle" data-i18n="page.subtitle">This guide compresses MCPlet v202603-03 into an implementation path: choose the right host profile, classify tools correctly, expose code-first metadata, and apply stronger enforcement where actions can cause side effects.</p>
+
+    <div class="meta-grid">
+      <div class="card meta-card">
+        <span class="label" data-i18n="meta.version.label">Version</span>
+        <span class="value">v202603-03</span>
+      </div>
+      <div class="card meta-card">
+        <span class="label" data-i18n="meta.maintainedBy.label">Maintained by</span>
+        <span class="value">MCPlet Working Group</span>
+      </div>
+      <div class="card meta-card">
+        <span class="label" data-i18n="meta.normativeSource.label">Normative source</span>
+        <span class="value" data-i18n="meta.normativeSource.value">Raw markdown draft</span>
+      </div>
+      <div class="card meta-card">
+        <span class="label" data-i18n="meta.updated.label">Updated</span>
+        <span class="value">2026-04-01</span>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <section class="card">
+        <h2 data-i18n="impl.heading">Implementation path</h2>
+        <ol class="step-list">
+          <li data-i18n="impl.step1">Choose whether your host is WebUI Profile or Agent Profile. This determines whether MCP Apps rendering is part of your runtime and how confirmation flows are implemented.</li>
+          <li data-i18n="impl.step2">Classify each tool as read, prepare, or action. This is not documentation only; it is part of the safety model.</li>
+          <li data-i18n="impl.step3">Register code-first metadata in <strong>_meta</strong>, including <strong>mcpletType</strong>, <strong>visibility</strong>, and optional <strong>ui</strong>, <strong>auth</strong>, and <strong>pool</strong> fields.</li>
+          <li data-i18n="impl.step4">Expose a tool-result schema URI so the host can validate structured results and downstream consumers can reason about outputs safely.</li>
+          <li data-i18n="impl.step5">Require strict passkey enforcement when a model-visible action can trigger irreversible side effects.</li>
+        </ol>
+        <div class="callout" data-i18n="impl.callout">If you only remember one rule: never treat MCPlet as a replacement for MCP. MCP is the protocol layer; MCPlet is the convention layer that narrows tool behavior into safer, reviewable units.</div>
+      </section>
+
+      <aside class="card">
+        <h2 data-i18n="before.heading">Before you implement</h2>
+        <ol class="decision-list">
+          <li data-i18n="before.q1">Do you need one business intent per tool? If not, your current design may be too broad for MCPlet.</li>
+          <li data-i18n="before.q2">Can the host manage state and confirmation? If not, the architecture is not yet aligned with the spec.</li>
+          <li data-i18n="before.q3">Will an action be visible to the model? If yes, plan for passkey enforcement and backend verification.</li>
+        </ol>
+      </aside>
+    </div>
+
+    <div class="quick-grid">
+      <article class="card step-card profile">
+        <h3 data-i18n="step1.heading">1. Choose the host profile</h3>
+        <p data-i18n="step1.body">Use <strong>WebUI Profile</strong> if you render MCP Apps UI. Use <strong>Agent Profile</strong> if your host is an orchestration layer of specialized agents with an externally configured LLM.</p>
+      </article>
+      <article class="card step-card classify">
+        <h3 data-i18n="step2.heading">2. Classify the tool</h3>
+        <p data-i18n="step2.body">Pick <strong>read</strong> for safe retrieval, <strong>prepare</strong> for staged validation, and <strong>action</strong> for irreversible side effects that need tighter control.</p>
+      </article>
+      <article class="card step-card metadata">
+        <h3 data-i18n="step3.heading">3. Expose code-first metadata</h3>
+        <p data-i18n="step3.body">At minimum, declare <strong>_meta.mcpletType</strong> and <strong>_meta.visibility</strong>. Add result schema URIs, UI metadata, auth metadata, and pools where applicable.</p>
+      </article>
+      <article class="card step-card auth">
+        <h3 data-i18n="step4.heading">4. Protect model-visible actions</h3>
+        <p data-i18n="step4.body">If an action is visible to the model, require explicit interception and strong confirmation, preferably with strict Passkey enforcement.</p>
+      </article>
+    </div>
+
+    <section class="card">
+      <h2 data-i18n="table.heading">MCP, MCP Apps, and MCPlet at a glance</h2>
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th data-i18n="table.col.layer">Layer</th>
+              <th data-i18n="table.col.role">Primary role</th>
+              <th data-i18n="table.col.gives">What it gives you</th>
+              <th data-i18n="table.col.notGives">What it does not give you</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>MCP</strong></td>
+              <td data-i18n="table.mcp.role">Protocol</td>
+              <td data-i18n="table.mcp.gives">Tool and resource transport, discovery, and invocation semantics.</td>
+              <td data-i18n="table.mcp.notGives">Intent modeling, action safety policy, or opinionated tool classification.</td>
+            </tr>
+            <tr>
+              <td><strong>MCP Apps</strong></td>
+              <td data-i18n="table.mcpapps.role">UI integration</td>
+              <td data-i18n="table.mcpapps.gives">Host-view rendering, iframe lifecycle, and app bridge behavior.</td>
+              <td data-i18n="table.mcpapps.notGives">Business intent boundaries, metadata safety rules, or auth conventions.</td>
+            </tr>
+            <tr>
+              <td><strong>MCPlet</strong></td>
+              <td data-i18n="table.mcplet.role">Convention profile</td>
+              <td data-i18n="table.mcplet.gives">Single-intent units, read/prepare/action classification, visibility constraints, auth requirements, and host-managed safety boundaries.</td>
+              <td data-i18n="table.mcplet.notGives">MCP transport, generic runtime behavior, or a mandatory frontend framework.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="metadata.heading">Minimal code-first metadata example</h2>
+      <p data-i18n="metadata.body">This example shows the fields most implementations should think about first when mapping a tool into MCPlet.</p>
+      <pre>{
+  "_meta": {
+    "mcpletType": "prepare",
+    "visibility": ["model", "app"],
+    "mcpletToolResultSchemaUri": "mcplet://tool-result-schema/check_order",
+    "ui": {
+      "resourceUri": "ui://orders/check.html",
+      "displayMode": "inline"
+    }
+  }
+}</pre>
+      <p data-i18n="metadata.note">For irreversible operations, switch the classification to <strong>action</strong> and add <strong>_meta.auth</strong> with stricter enforcement.</p>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="when.heading">When to use MCPlet and when not to</h2>
+      <div class="content-grid">
+        <div>
+          <h3 data-i18n="when.use.heading">Use MCPlet when</h3>
+          <ol class="decision-list">
+            <li data-i18n="when.use.r1">You want one reviewable business intent per tool.</li>
+            <li data-i18n="when.use.r2">You need the host to enforce clear model-versus-app boundaries.</li>
+            <li data-i18n="when.use.r3">You want a code-first metadata contract on top of MCP.</li>
+          </ol>
+        </div>
+        <div>
+          <h3 data-i18n="when.notuse.heading">Do not use MCPlet when</h3>
+          <ol class="decision-list">
+            <li data-i18n="when.notuse.r1">Your tool surface is intentionally broad and multi-purpose.</li>
+            <li data-i18n="when.notuse.r2">You are looking for a replacement protocol instead of a convention profile.</li>
+            <li data-i18n="when.notuse.r3">Your host cannot manage state, interception, or safety policy.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="button-row">
+        <a href="spec/" class="btn btn-primary" data-i18n="btn.readSpec">Read HTML overview</a>
+        <a href="faq.html" class="btn btn-secondary" data-i18n="btn.browseFaq">Browse FAQ</a>
+        <a href="files/MCPlet-spec-v202603-03.md" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="btn.rawMarkdown">Open raw markdown</a>
+      </div>
+      <p class="resource-links" data-i18n="resource.links">Need licensing context? Review the <a href="patent-notice.html">intellectual property notice</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="index.html" data-i18n="footer.home">Home</a></li>
+        <li><a href="spec/" data-i18n="footer.specification">Specification</a></li>
+        <li><a href="faq.html" data-i18n="footer.faq">FAQ</a></li>
+        <li><a href="patent-notice.html" data-i18n="footer.patent">Patent Notice</a></li>
+      </ul>
+      <div class="footer-copy">
+        <span data-i18n="footer.version">MCPlet Specification v202603-03</span>
+        &nbsp;·&nbsp;
+        <span data-i18n="footer.updated">Updated 2026-04-01</span>
+        &nbsp;·&nbsp;
+        <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        "nav.home": "Home",
+        "nav.specification": "Specification",
+        "nav.faq": "FAQ",
+        "nav.patent": "Patent Notice",
+        "nav.rawMarkdown": "Raw Markdown",
+        "page.label": "Getting Started",
+        "page.title": "First steps for MCPlet hosts and tool authors",
+        "page.subtitle": "This guide compresses MCPlet v202603-03 into an implementation path: choose the right host profile, classify tools correctly, expose code-first metadata, and apply stronger enforcement where actions can cause side effects.",
+        "meta.version.label": "Version",
+        "meta.maintainedBy.label": "Maintained by",
+        "meta.normativeSource.label": "Normative source",
+        "meta.normativeSource.value": "Raw markdown draft",
+        "meta.updated.label": "Updated",
+        "impl.heading": "Implementation path",
+        "impl.step1": "Choose whether your host is WebUI Profile or Agent Profile. This determines whether MCP Apps rendering is part of your runtime and how confirmation flows are implemented.",
+        "impl.step2": "Classify each tool as read, prepare, or action. This is not documentation only; it is part of the safety model.",
+        "impl.step3": "Register code-first metadata in <strong>_meta</strong>, including <strong>mcpletType</strong>, <strong>visibility</strong>, and optional <strong>ui</strong>, <strong>auth</strong>, and <strong>pool</strong> fields.",
+        "impl.step4": "Expose a tool-result schema URI so the host can validate structured results and downstream consumers can reason about outputs safely.",
+        "impl.step5": "Require strict passkey enforcement when a model-visible action can trigger irreversible side effects.",
+        "impl.callout": "If you only remember one rule: never treat MCPlet as a replacement for MCP. MCP is the protocol layer; MCPlet is the convention layer that narrows tool behavior into safer, reviewable units.",
+        "before.heading": "Before you implement",
+        "before.q1": "Do you need one business intent per tool? If not, your current design may be too broad for MCPlet.",
+        "before.q2": "Can the host manage state and confirmation? If not, the architecture is not yet aligned with the spec.",
+        "before.q3": "Will an action be visible to the model? If yes, plan for passkey enforcement and backend verification.",
+        "step1.heading": "1. Choose the host profile",
+        "step1.body": "Use <strong>WebUI Profile</strong> if you render MCP Apps UI. Use <strong>Agent Profile</strong> if your host is an orchestration layer of specialized agents with an externally configured LLM.",
+        "step2.heading": "2. Classify the tool",
+        "step2.body": "Pick <strong>read</strong> for safe retrieval, <strong>prepare</strong> for staged validation, and <strong>action</strong> for irreversible side effects that need tighter control.",
+        "step3.heading": "3. Expose code-first metadata",
+        "step3.body": "At minimum, declare <strong>_meta.mcpletType</strong> and <strong>_meta.visibility</strong>. Add result schema URIs, UI metadata, auth metadata, and pools where applicable.",
+        "step4.heading": "4. Protect model-visible actions",
+        "step4.body": "If an action is visible to the model, require explicit interception and strong confirmation, preferably with strict Passkey enforcement.",
+        "table.heading": "MCP, MCP Apps, and MCPlet at a glance",
+        "table.col.layer": "Layer",
+        "table.col.role": "Primary role",
+        "table.col.gives": "What it gives you",
+        "table.col.notGives": "What it does not give you",
+        "table.mcp.role": "Protocol",
+        "table.mcp.gives": "Tool and resource transport, discovery, and invocation semantics.",
+        "table.mcp.notGives": "Intent modeling, action safety policy, or opinionated tool classification.",
+        "table.mcpapps.role": "UI integration",
+        "table.mcpapps.gives": "Host-view rendering, iframe lifecycle, and app bridge behavior.",
+        "table.mcpapps.notGives": "Business intent boundaries, metadata safety rules, or auth conventions.",
+        "table.mcplet.role": "Convention profile",
+        "table.mcplet.gives": "Single-intent units, read/prepare/action classification, visibility constraints, auth requirements, and host-managed safety boundaries.",
+        "table.mcplet.notGives": "MCP transport, generic runtime behavior, or a mandatory frontend framework.",
+        "metadata.heading": "Minimal code-first metadata example",
+        "metadata.body": "This example shows the fields most implementations should think about first when mapping a tool into MCPlet.",
+        "metadata.note": "For irreversible operations, switch the classification to <strong>action</strong> and add <strong>_meta.auth</strong> with stricter enforcement.",
+        "when.heading": "When to use MCPlet and when not to",
+        "when.use.heading": "Use MCPlet when",
+        "when.use.r1": "You want one reviewable business intent per tool.",
+        "when.use.r2": "You need the host to enforce clear model-versus-app boundaries.",
+        "when.use.r3": "You want a code-first metadata contract on top of MCP.",
+        "when.notuse.heading": "Do not use MCPlet when",
+        "when.notuse.r1": "Your tool surface is intentionally broad and multi-purpose.",
+        "when.notuse.r2": "You are looking for a replacement protocol instead of a convention profile.",
+        "when.notuse.r3": "Your host cannot manage state, interception, or safety policy.",
+        "btn.readSpec": "Read HTML overview",
+        "btn.browseFaq": "Browse FAQ",
+        "btn.rawMarkdown": "Open raw markdown",
+        "resource.links": "Need licensing context? Review the <a href=\"patent-notice.html\">intellectual property notice</a>.",
+        "footer.home": "Home",
+        "footer.specification": "Specification",
+        "footer.faq": "FAQ",
+        "footer.patent": "Patent Notice",
+        "footer.version": "MCPlet Specification v202603-03",
+        "footer.updated": "Updated 2026-04-01"
+      },
+      ja: {
+        "nav.home": "ホーム",
+        "nav.specification": "仕様",
+        "nav.faq": "FAQ",
+        "nav.patent": "特許表示",
+        "nav.rawMarkdown": "Markdown 原文",
+        "page.label": "はじめに",
+        "page.title": "MCPlet ホストとツール開発者のための初めの一歩",
+        "page.subtitle": "このガイドは MCPlet v202603-03 の実装手順を凝縮しています。適切なホストプロファイルの選択、ツールの正しい分類、コードファーストのメタデータの公開、そして副作用を伴うアクションへの強力な強制適用について説明します。",
+        "meta.version.label": "バージョン",
+        "meta.maintainedBy.label": "メンテナー",
+        "meta.normativeSource.label": "規範的ソース",
+        "meta.normativeSource.value": "Markdown 原文ドラフト",
+        "meta.updated.label": "更新日",
+        "impl.heading": "実装の手順",
+        "impl.step1": "ホストが WebUI Profile か Agent Profile かを選択します。これにより、MCP Apps のレンダリングがランタイムに含まれるか、確認フローの実装方法が決まります。",
+        "impl.step2": "各ツールを read、prepare、action のいずれかに分類します。これはドキュメント上の区別ではなく、安全モデルの一部です。",
+        "impl.step3": "<strong>_meta</strong> にコードファーストのメタデータを登録します。<strong>mcpletType</strong>、<strong>visibility</strong>、および任意の <strong>ui</strong>、<strong>auth</strong>、<strong>pool</strong> フィールドを含めます。",
+        "impl.step4": "ホストが構造化された結果を検証し、下流のコンシューマーが出力を安全に解釈できるよう、ツール結果スキーマ URI を公開します。",
+        "impl.step5": "モデルに見えるアクションが不可逆的な副作用を引き起こす可能性がある場合は、厳格なパスキー強制を要求します。",
+        "impl.callout": "一つだけ覚えるなら: MCPlet を MCP の代替として扱わないこと。MCP はプロトコル層で、MCPlet はツールの動作をより安全でレビュー可能な単位に絞り込む規約層です。",
+        "before.heading": "実装前のチェック",
+        "before.q1": "ツールごとに一つのビジネスインテントが必要ですか？そうでなければ、現在の設計は MCPlet には広すぎる可能性があります。",
+        "before.q2": "ホストは状態と確認を管理できますか？できない場合、アーキテクチャはまだ仕様と整合していません。",
+        "before.q3": "アクションはモデルから見えますか？見える場合は、パスキー強制とバックエンド検証を計画してください。",
+        "step1.heading": "1. ホストプロファイルを選択する",
+        "step1.body": "MCP Apps UI をレンダリングする場合は <strong>WebUI Profile</strong> を使用します。ホストが外部設定の LLM を持つ専門エージェントのオーケストレーション層である場合は <strong>Agent Profile</strong> を使用します。",
+        "step2.heading": "2. ツールを分類する",
+        "step2.body": "安全な取得には <strong>read</strong>、段階的な検証には <strong>prepare</strong>、厳格な制御が必要な不可逆的副作用には <strong>action</strong> を選択します。",
+        "step3.heading": "3. コードファーストのメタデータを公開する",
+        "step3.body": "最低限、<strong>_meta.mcpletType</strong> と <strong>_meta.visibility</strong> を宣言します。必要に応じて結果スキーマ URI、UI メタデータ、auth メタデータ、プールを追加します。",
+        "step4.heading": "4. モデルに見えるアクションを保護する",
+        "step4.body": "アクションがモデルから見える場合は、明示的なインターセプトと強力な確認を要求します。厳格なパスキー強制が推奨されます。",
+        "table.heading": "MCP、MCP Apps、MCPlet の早見表",
+        "table.col.layer": "レイヤー",
+        "table.col.role": "主な役割",
+        "table.col.gives": "提供するもの",
+        "table.col.notGives": "提供しないもの",
+        "table.mcp.role": "プロトコル",
+        "table.mcp.gives": "ツールとリソースのトランスポート、ディスカバリー、呼び出しのセマンティクス。",
+        "table.mcp.notGives": "インテントモデリング、アクション安全ポリシー、またはツール分類の方針。",
+        "table.mcpapps.role": "UI 統合",
+        "table.mcpapps.gives": "ホストビューのレンダリング、iframe ライフサイクル、アプリブリッジの動作。",
+        "table.mcpapps.notGives": "ビジネスインテントの境界、メタデータの安全ルール、または認証規約。",
+        "table.mcplet.role": "規約プロファイル",
+        "table.mcplet.gives": "単一インテントユニット、read/prepare/action 分類、可視性制約、認証要件、ホスト管理の安全境界。",
+        "table.mcplet.notGives": "MCP トランスポート、汎用ランタイム動作、または必須フロントエンドフレームワーク。",
+        "metadata.heading": "最小限のコードファーストメタデータの例",
+        "metadata.body": "この例は、ツールを MCPlet にマッピングする際にほとんどの実装で最初に考慮すべきフィールドを示しています。",
+        "metadata.note": "不可逆的な操作の場合は、分類を <strong>action</strong> に変更し、より厳格な強制を伴う <strong>_meta.auth</strong> を追加します。",
+        "when.heading": "MCPlet を使う場合と使わない場合",
+        "when.use.heading": "MCPlet を使う場合",
+        "when.use.r1": "ツールごとにレビュー可能な一つのビジネスインテントが必要な場合。",
+        "when.use.r2": "ホストがモデルとアプリの明確な境界を強制する必要がある場合。",
+        "when.use.r3": "MCP の上にコードファーストのメタデータ契約が必要な場合。",
+        "when.notuse.heading": "MCPlet を使わない場合",
+        "when.notuse.r1": "ツールの対象範囲が意図的に広く多目的な場合。",
+        "when.notuse.r2": "規約プロファイルではなく代替プロトコルを探している場合。",
+        "when.notuse.r3": "ホストが状態、インターセプト、または安全ポリシーを管理できない場合。",
+        "btn.readSpec": "HTML 概要を読む",
+        "btn.browseFaq": "FAQ を見る",
+        "btn.rawMarkdown": "Markdown 原文を開く",
+        "resource.links": "ライセンスのコンテキストが必要ですか？<a href=\"patent-notice.html\">知的財産通知</a>を確認してください。",
+        "footer.home": "ホーム",
+        "footer.specification": "仕様",
+        "footer.faq": "FAQ",
+        "footer.patent": "特許表示",
+        "footer.version": "MCPlet 仕様 v202603-03",
+        "footer.updated": "更新日 2026-04-01"
+      },
+      zh: {
+        "nav.home": "首页",
+        "nav.specification": "规范",
+        "nav.faq": "FAQ",
+        "nav.patent": "专利声明",
+        "nav.rawMarkdown": "原始 Markdown",
+        "page.label": "快速开始",
+        "page.title": "MCPlet 宿主与工具开发者的第一步",
+        "page.subtitle": "本指南将 MCPlet v202603-03 压缩为一条实现路径：选择合适的宿主配置、正确分类工具、公开代码优先的元数据，并在可能产生副作用的操作中应用更严格的强制措施。",
+        "meta.version.label": "版本",
+        "meta.maintainedBy.label": "维护方",
+        "meta.normativeSource.label": "规范性来源",
+        "meta.normativeSource.value": "原始 Markdown 草案",
+        "meta.updated.label": "更新日期",
+        "impl.heading": "实现路径",
+        "impl.step1": "选择您的宿主是 WebUI Profile 还是 Agent Profile。这决定了 MCP Apps 渲染是否是运行时的一部分，以及如何实现确认流程。",
+        "impl.step2": "将每个工具分类为 read、prepare 或 action。这不仅仅是文档说明，而是安全模型的一部分。",
+        "impl.step3": "在 <strong>_meta</strong> 中注册代码优先的元数据，包括 <strong>mcpletType</strong>、<strong>visibility</strong>，以及可选的 <strong>ui</strong>、<strong>auth</strong> 和 <strong>pool</strong> 字段。",
+        "impl.step4": "公开工具结果模式 URI，以便宿主可以验证结构化结果，下游消费者可以安全地推断输出内容。",
+        "impl.step5": "当模型可见的 action 可能触发不可逆副作用时，要求严格的 passkey 强制执行。",
+        "impl.callout": "如果只记住一条规则：永远不要将 MCPlet 视为 MCP 的替代品。MCP 是协议层，MCPlet 是将工具行为收窄为更安全、可审查单元的规约层。",
+        "before.heading": "实现前的检查",
+        "before.q1": "您是否需要每个工具只有一个业务意图？如果不需要，您当前的设计对 MCPlet 可能过于宽泛。",
+        "before.q2": "宿主能否管理状态和确认？如果不能，架构尚未与规范对齐。",
+        "before.q3": "某个 action 是否对模型可见？如果是，请规划 passkey 强制执行和后端验证。",
+        "step1.heading": "1. 选择宿主配置",
+        "step1.body": "如果渲染 MCP Apps UI，使用 <strong>WebUI Profile</strong>。如果宿主是由专门 Agent 和外部配置的 LLM 组成的编排层，则使用 <strong>Agent Profile</strong>。",
+        "step2.heading": "2. 分类工具",
+        "step2.body": "安全检索选 <strong>read</strong>，分阶段验证选 <strong>prepare</strong>，需要更严格控制的不可逆副作用选 <strong>action</strong>。",
+        "step3.heading": "3. 公开代码优先的元数据",
+        "step3.body": "至少声明 <strong>_meta.mcpletType</strong> 和 <strong>_meta.visibility</strong>。在适用时添加结果模式 URI、UI 元数据、auth 元数据和 pool。",
+        "step4.heading": "4. 保护模型可见的 action",
+        "step4.body": "如果某个 action 对模型可见，要求明确的拦截和强确认，最好使用严格的 Passkey 强制执行。",
+        "table.heading": "MCP、MCP Apps 与 MCPlet 概览",
+        "table.col.layer": "层次",
+        "table.col.role": "主要职责",
+        "table.col.gives": "提供的内容",
+        "table.col.notGives": "不提供的内容",
+        "table.mcp.role": "协议",
+        "table.mcp.gives": "工具和资源的传输、发现和调用语义。",
+        "table.mcp.notGives": "意图建模、操作安全策略或工具分类规范。",
+        "table.mcpapps.role": "UI 集成",
+        "table.mcpapps.gives": "宿主视图渲染、iframe 生命周期和应用桥接行为。",
+        "table.mcpapps.notGives": "业务意图边界、元数据安全规则或认证规约。",
+        "table.mcplet.role": "规约配置",
+        "table.mcplet.gives": "单意图单元、read/prepare/action 分类、可见性约束、认证要求和宿主管理的安全边界。",
+        "table.mcplet.notGives": "MCP 传输、通用运行时行为或强制性前端框架。",
+        "metadata.heading": "最小代码优先元数据示例",
+        "metadata.body": "此示例展示了将工具映射到 MCPlet 时大多数实现应首先考虑的字段。",
+        "metadata.note": "对于不可逆操作，将分类切换为 <strong>action</strong> 并添加具有更严格强制执行的 <strong>_meta.auth</strong>。",
+        "when.heading": "何时使用 MCPlet，何时不使用",
+        "when.use.heading": "使用 MCPlet 的场景",
+        "when.use.r1": "您希望每个工具只有一个可审查的业务意图。",
+        "when.use.r2": "您需要宿主强制执行清晰的模型与应用边界。",
+        "when.use.r3": "您希望在 MCP 之上建立代码优先的元数据契约。",
+        "when.notuse.heading": "不使用 MCPlet 的场景",
+        "when.notuse.r1": "工具覆盖面有意设计为宽泛且多用途。",
+        "when.notuse.r2": "您在寻找替代协议，而非规约配置。",
+        "when.notuse.r3": "宿主无法管理状态、拦截或安全策略。",
+        "btn.readSpec": "阅读 HTML 概览",
+        "btn.browseFaq": "浏览 FAQ",
+        "btn.rawMarkdown": "打开原始 Markdown",
+        "resource.links": "需要许可上下文？请查看<a href=\"patent-notice.html\">知识产权声明</a>。",
+        "footer.home": "首页",
+        "footer.specification": "规范",
+        "footer.faq": "FAQ",
+        "footer.patent": "专利声明",
+        "footer.version": "MCPlet 规范 v202603-03",
+        "footer.updated": "更新于 2026-04-01"
+      },
+      fr: {
+        "nav.home": "Accueil",
+        "nav.specification": "Spécification",
+        "nav.faq": "FAQ",
+        "nav.patent": "Avis de brevet",
+        "nav.rawMarkdown": "Markdown brut",
+        "page.label": "Prise en main",
+        "page.title": "Premiers pas pour les hôtes MCPlet et les auteurs d'outils",
+        "page.subtitle": "Ce guide résume MCPlet v202603-03 en un chemin d'implémentation : choisir le bon profil d'hôte, classifier les outils correctement, exposer les métadonnées code-first, et appliquer une application plus stricte là où les actions peuvent causer des effets de bord.",
+        "meta.version.label": "Version",
+        "meta.maintainedBy.label": "Maintenu par",
+        "meta.normativeSource.label": "Source normative",
+        "meta.normativeSource.value": "Brouillon Markdown brut",
+        "meta.updated.label": "Mis à jour",
+        "impl.heading": "Chemin d'implémentation",
+        "impl.step1": "Choisissez si votre hôte est WebUI Profile ou Agent Profile. Cela détermine si le rendu MCP Apps fait partie de votre runtime et comment les flux de confirmation sont implémentés.",
+        "impl.step2": "Classifiez chaque outil comme read, prepare ou action. Ce n'est pas uniquement de la documentation ; c'est une partie du modèle de sécurité.",
+        "impl.step3": "Enregistrez les métadonnées code-first dans <strong>_meta</strong>, incluant <strong>mcpletType</strong>, <strong>visibility</strong>, et les champs optionnels <strong>ui</strong>, <strong>auth</strong>, et <strong>pool</strong>.",
+        "impl.step4": "Exposez un URI de schéma de résultat d'outil afin que l'hôte puisse valider les résultats structurés et que les consommateurs en aval puissent raisonner sur les sorties en toute sécurité.",
+        "impl.step5": "Exigez une application stricte des passkeys lorsqu'une action visible par le modèle peut déclencher des effets de bord irréversibles.",
+        "impl.callout": "Si vous ne retenez qu'une règle : ne traitez jamais MCPlet comme un remplacement de MCP. MCP est la couche protocole ; MCPlet est la couche de convention qui restreint le comportement des outils en unités plus sûres et révisables.",
+        "before.heading": "Avant d'implémenter",
+        "before.q1": "Avez-vous besoin d'un seul intent métier par outil ? Sinon, votre conception actuelle est peut-être trop large pour MCPlet.",
+        "before.q2": "L'hôte peut-il gérer l'état et la confirmation ? Sinon, l'architecture n'est pas encore alignée avec la spécification.",
+        "before.q3": "Une action sera-t-elle visible par le modèle ? Si oui, planifiez l'application des passkeys et la vérification backend.",
+        "step1.heading": "1. Choisir le profil d'hôte",
+        "step1.body": "Utilisez <strong>WebUI Profile</strong> si vous affichez l'interface MCP Apps. Utilisez <strong>Agent Profile</strong> si votre hôte est une couche d'orchestration d'agents spécialisés avec un LLM configuré en externe.",
+        "step2.heading": "2. Classifier l'outil",
+        "step2.body": "Choisissez <strong>read</strong> pour une récupération sûre, <strong>prepare</strong> pour une validation par étapes, et <strong>action</strong> pour les effets de bord irréversibles nécessitant un contrôle plus strict.",
+        "step3.heading": "3. Exposer les métadonnées code-first",
+        "step3.body": "Au minimum, déclarez <strong>_meta.mcpletType</strong> et <strong>_meta.visibility</strong>. Ajoutez des URI de schéma de résultat, des métadonnées UI, des métadonnées d'auth et des pools selon les besoins.",
+        "step4.heading": "4. Protéger les actions visibles par le modèle",
+        "step4.body": "Si une action est visible par le modèle, exigez une interception explicite et une confirmation forte, de préférence avec une application stricte des Passkeys.",
+        "table.heading": "MCP, MCP Apps et MCPlet en un coup d'œil",
+        "table.col.layer": "Couche",
+        "table.col.role": "Rôle principal",
+        "table.col.gives": "Ce qu'il vous apporte",
+        "table.col.notGives": "Ce qu'il ne vous apporte pas",
+        "table.mcp.role": "Protocole",
+        "table.mcp.gives": "Transport, découverte et sémantique d'invocation des outils et ressources.",
+        "table.mcp.notGives": "Modélisation des intents, politique de sécurité des actions ou classification opinionnée des outils.",
+        "table.mcpapps.role": "Intégration UI",
+        "table.mcpapps.gives": "Rendu de la vue hôte, cycle de vie des iframes et comportement du pont applicatif.",
+        "table.mcpapps.notGives": "Limites d'intent métier, règles de sécurité des métadonnées ou conventions d'authentification.",
+        "table.mcplet.role": "Profil de convention",
+        "table.mcplet.gives": "Unités à intent unique, classification read/prepare/action, contraintes de visibilité, exigences d'auth et limites de sécurité gérées par l'hôte.",
+        "table.mcplet.notGives": "Transport MCP, comportement générique du runtime ou framework frontend obligatoire.",
+        "metadata.heading": "Exemple minimal de métadonnées code-first",
+        "metadata.body": "Cet exemple montre les champs auxquels la plupart des implémentations devraient penser en premier lors du mappage d'un outil dans MCPlet.",
+        "metadata.note": "Pour les opérations irréversibles, changez la classification en <strong>action</strong> et ajoutez <strong>_meta.auth</strong> avec une application plus stricte.",
+        "when.heading": "Quand utiliser MCPlet et quand ne pas l'utiliser",
+        "when.use.heading": "Utilisez MCPlet quand",
+        "when.use.r1": "Vous voulez un seul intent métier révisable par outil.",
+        "when.use.r2": "Vous avez besoin que l'hôte applique des limites claires entre modèle et application.",
+        "when.use.r3": "Vous voulez un contrat de métadonnées code-first au-dessus de MCP.",
+        "when.notuse.heading": "N'utilisez pas MCPlet quand",
+        "when.notuse.r1": "Votre surface d'outil est intentionnellement large et polyvalente.",
+        "when.notuse.r2": "Vous cherchez un protocole de remplacement plutôt qu'un profil de convention.",
+        "when.notuse.r3": "Votre hôte ne peut pas gérer l'état, l'interception ou la politique de sécurité.",
+        "btn.readSpec": "Lire la vue HTML",
+        "btn.browseFaq": "Parcourir la FAQ",
+        "btn.rawMarkdown": "Ouvrir le Markdown brut",
+        "resource.links": "Besoin du contexte de licence ? Consultez <a href=\"patent-notice.html\">l'avis de propriété intellectuelle</a>.",
+        "footer.home": "Accueil",
+        "footer.specification": "Spécification",
+        "footer.faq": "FAQ",
+        "footer.patent": "Avis de brevet",
+        "footer.version": "Spécification MCPlet v202603-03",
+        "footer.updated": "Mis à jour le 2026-04-01"
+      },
+      de: {
+        "nav.home": "Startseite",
+        "nav.specification": "Spezifikation",
+        "nav.faq": "FAQ",
+        "nav.patent": "Patenthinweis",
+        "nav.rawMarkdown": "Rohes Markdown",
+        "page.label": "Erste Schritte",
+        "page.title": "Erste Schritte für MCPlet-Hosts und Tool-Autoren",
+        "page.subtitle": "Dieser Leitfaden verdichtet MCPlet v202603-03 zu einem Implementierungspfad: das richtige Host-Profil wählen, Tools korrekt klassifizieren, Code-First-Metadaten bereitstellen und dort stärkere Durchsetzung anwenden, wo Aktionen Nebenwirkungen verursachen können.",
+        "meta.version.label": "Version",
+        "meta.maintainedBy.label": "Betreut von",
+        "meta.normativeSource.label": "Normative Quelle",
+        "meta.normativeSource.value": "Roher Markdown-Entwurf",
+        "meta.updated.label": "Aktualisiert",
+        "impl.heading": "Implementierungspfad",
+        "impl.step1": "Entscheiden Sie, ob Ihr Host ein WebUI Profile oder ein Agent Profile ist. Dies bestimmt, ob MCP Apps-Rendering Teil Ihrer Laufzeitumgebung ist und wie Bestätigungsabläufe implementiert werden.",
+        "impl.step2": "Klassifizieren Sie jedes Tool als read, prepare oder action. Dies ist nicht nur Dokumentation, sondern Teil des Sicherheitsmodells.",
+        "impl.step3": "Registrieren Sie Code-First-Metadaten in <strong>_meta</strong>, einschließlich <strong>mcpletType</strong>, <strong>visibility</strong> und der optionalen Felder <strong>ui</strong>, <strong>auth</strong> und <strong>pool</strong>.",
+        "impl.step4": "Stellen Sie einen Tool-Ergebnisschema-URI bereit, damit der Host strukturierte Ergebnisse validieren und nachgelagerte Konsumenten Ausgaben sicher verarbeiten können.",
+        "impl.step5": "Fordern Sie strenge Passkey-Durchsetzung, wenn eine modellsichtbare Aktion irreversible Nebenwirkungen auslösen kann.",
+        "impl.callout": "Wenn Sie sich nur eine Regel merken: Behandeln Sie MCPlet niemals als Ersatz für MCP. MCP ist die Protokollschicht; MCPlet ist die Konventionsschicht, die Tool-Verhalten auf sicherere, überprüfbare Einheiten einengt.",
+        "before.heading": "Vor der Implementierung",
+        "before.q1": "Benötigen Sie einen einzelnen Business-Intent pro Tool? Wenn nicht, könnte Ihr aktuelles Design für MCPlet zu breit sein.",
+        "before.q2": "Kann der Host Zustand und Bestätigung verwalten? Falls nicht, ist die Architektur noch nicht mit der Spezifikation ausgerichtet.",
+        "before.q3": "Wird eine Aktion für das Modell sichtbar sein? Falls ja, planen Sie Passkey-Durchsetzung und Backend-Verifizierung.",
+        "step1.heading": "1. Host-Profil auswählen",
+        "step1.body": "Verwenden Sie <strong>WebUI Profile</strong>, wenn Sie MCP Apps UI rendern. Verwenden Sie <strong>Agent Profile</strong>, wenn Ihr Host eine Orchestrierungsschicht aus spezialisierten Agenten mit einem extern konfigurierten LLM ist.",
+        "step2.heading": "2. Das Tool klassifizieren",
+        "step2.body": "Wählen Sie <strong>read</strong> für sichere Abfragen, <strong>prepare</strong> für stufenweise Validierung und <strong>action</strong> für irreversible Nebenwirkungen, die engere Kontrolle erfordern.",
+        "step3.heading": "3. Code-First-Metadaten bereitstellen",
+        "step3.body": "Deklarieren Sie mindestens <strong>_meta.mcpletType</strong> und <strong>_meta.visibility</strong>. Fügen Sie Ergebnisschema-URIs, UI-Metadaten, Auth-Metadaten und Pools nach Bedarf hinzu.",
+        "step4.heading": "4. Modellsichtbare Aktionen schützen",
+        "step4.body": "Wenn eine Aktion für das Modell sichtbar ist, fordern Sie explizites Abfangen und starke Bestätigung, vorzugsweise mit strikter Passkey-Durchsetzung.",
+        "table.heading": "MCP, MCP Apps und MCPlet auf einen Blick",
+        "table.col.layer": "Schicht",
+        "table.col.role": "Hauptrolle",
+        "table.col.gives": "Was es Ihnen bietet",
+        "table.col.notGives": "Was es Ihnen nicht bietet",
+        "table.mcp.role": "Protokoll",
+        "table.mcp.gives": "Tool- und Ressourcentransport, Erkennung und Aufruf-Semantik.",
+        "table.mcp.notGives": "Intent-Modellierung, Aktionssicherheitsrichtlinie oder meinungsstarke Tool-Klassifizierung.",
+        "table.mcpapps.role": "UI-Integration",
+        "table.mcpapps.gives": "Host-View-Rendering, iframe-Lebenszyklus und App-Bridge-Verhalten.",
+        "table.mcpapps.notGives": "Business-Intent-Grenzen, Metadaten-Sicherheitsregeln oder Auth-Konventionen.",
+        "table.mcplet.role": "Konventionsprofil",
+        "table.mcplet.gives": "Einzelne Intent-Einheiten, read/prepare/action-Klassifizierung, Sichtbarkeitsbeschränkungen, Auth-Anforderungen und host-verwaltete Sicherheitsgrenzen.",
+        "table.mcplet.notGives": "MCP-Transport, generisches Laufzeitverhalten oder ein obligatorisches Frontend-Framework.",
+        "metadata.heading": "Minimales Code-First-Metadaten-Beispiel",
+        "metadata.body": "Dieses Beispiel zeigt die Felder, über die die meisten Implementierungen beim Mapping eines Tools in MCPlet zuerst nachdenken sollten.",
+        "metadata.note": "Ändern Sie für irreversible Operationen die Klassifizierung zu <strong>action</strong> und fügen Sie <strong>_meta.auth</strong> mit strengerer Durchsetzung hinzu.",
+        "when.heading": "Wann MCPlet verwenden und wann nicht",
+        "when.use.heading": "MCPlet verwenden, wenn",
+        "when.use.r1": "Sie einen überprüfbaren Business-Intent pro Tool wünschen.",
+        "when.use.r2": "Sie den Host benötigen, um klare Modell-versus-App-Grenzen durchzusetzen.",
+        "when.use.r3": "Sie einen Code-First-Metadatenvertrag über MCP wünschen.",
+        "when.notuse.heading": "MCPlet nicht verwenden, wenn",
+        "when.notuse.r1": "Ihre Tool-Oberfläche absichtlich breit und vielseitig ist.",
+        "when.notuse.r2": "Sie nach einem Ersatzprotokoll statt einem Konventionsprofil suchen.",
+        "when.notuse.r3": "Ihr Host keine Zustände, Abfangungen oder Sicherheitsrichtlinien verwalten kann.",
+        "btn.readSpec": "HTML-Übersicht lesen",
+        "btn.browseFaq": "FAQ durchsuchen",
+        "btn.rawMarkdown": "Rohes Markdown öffnen",
+        "resource.links": "Lizenzkontext benötigt? Lesen Sie den <a href=\"patent-notice.html\">Hinweis zum geistigen Eigentum</a>.",
+        "footer.home": "Startseite",
+        "footer.specification": "Spezifikation",
+        "footer.faq": "FAQ",
+        "footer.patent": "Patenthinweis",
+        "footer.version": "MCPlet-Spezifikation v202603-03",
+        "footer.updated": "Aktualisiert am 2026-04-01"
+      },
+      es: {
+        "nav.home": "Inicio",
+        "nav.specification": "Especificación",
+        "nav.faq": "FAQ",
+        "nav.patent": "Aviso de patente",
+        "nav.rawMarkdown": "Markdown sin procesar",
+        "page.label": "Primeros pasos",
+        "page.title": "Primeros pasos para hosts MCPlet y autores de herramientas",
+        "page.subtitle": "Esta guía comprime MCPlet v202603-03 en un camino de implementación: elegir el perfil de host correcto, clasificar las herramientas correctamente, exponer metadatos code-first y aplicar una aplicación más estricta donde las acciones pueden causar efectos secundarios.",
+        "meta.version.label": "Versión",
+        "meta.maintainedBy.label": "Mantenido por",
+        "meta.normativeSource.label": "Fuente normativa",
+        "meta.normativeSource.value": "Borrador Markdown sin procesar",
+        "meta.updated.label": "Actualizado",
+        "impl.heading": "Camino de implementación",
+        "impl.step1": "Elija si su host es WebUI Profile o Agent Profile. Esto determina si el renderizado de MCP Apps forma parte de su runtime y cómo se implementan los flujos de confirmación.",
+        "impl.step2": "Clasifique cada herramienta como read, prepare o action. Esto no es solo documentación; es parte del modelo de seguridad.",
+        "impl.step3": "Registre metadatos code-first en <strong>_meta</strong>, incluyendo <strong>mcpletType</strong>, <strong>visibility</strong>, y los campos opcionales <strong>ui</strong>, <strong>auth</strong> y <strong>pool</strong>.",
+        "impl.step4": "Exponga un URI de esquema de resultado de herramienta para que el host pueda validar resultados estructurados y los consumidores intermedios puedan razonar sobre las salidas de forma segura.",
+        "impl.step5": "Requiera una aplicación estricta de passkey cuando una acción visible al modelo pueda desencadenar efectos secundarios irreversibles.",
+        "impl.callout": "Si solo recuerda una regla: nunca trate MCPlet como un reemplazo de MCP. MCP es la capa de protocolo; MCPlet es la capa de convención que restringe el comportamiento de las herramientas en unidades más seguras y revisables.",
+        "before.heading": "Antes de implementar",
+        "before.q1": "¿Necesita un solo intent de negocio por herramienta? Si no, su diseño actual puede ser demasiado amplio para MCPlet.",
+        "before.q2": "¿Puede el host gestionar el estado y la confirmación? Si no, la arquitectura aún no está alineada con la especificación.",
+        "before.q3": "¿Será visible una acción para el modelo? Si es así, planifique la aplicación de passkey y la verificación de backend.",
+        "step1.heading": "1. Elegir el perfil de host",
+        "step1.body": "Use <strong>WebUI Profile</strong> si renderiza la UI de MCP Apps. Use <strong>Agent Profile</strong> si su host es una capa de orquestación de agentes especializados con un LLM configurado externamente.",
+        "step2.heading": "2. Clasificar la herramienta",
+        "step2.body": "Elija <strong>read</strong> para recuperación segura, <strong>prepare</strong> para validación escalonada, y <strong>action</strong> para efectos secundarios irreversibles que requieren mayor control.",
+        "step3.heading": "3. Exponer metadatos code-first",
+        "step3.body": "Como mínimo, declare <strong>_meta.mcpletType</strong> y <strong>_meta.visibility</strong>. Agregue URI de esquema de resultado, metadatos de UI, metadatos de auth y pools donde corresponda.",
+        "step4.heading": "4. Proteger las acciones visibles al modelo",
+        "step4.body": "Si una acción es visible para el modelo, requiera intercepción explícita y confirmación fuerte, preferiblemente con aplicación estricta de Passkey.",
+        "table.heading": "MCP, MCP Apps y MCPlet de un vistazo",
+        "table.col.layer": "Capa",
+        "table.col.role": "Función principal",
+        "table.col.gives": "Lo que le ofrece",
+        "table.col.notGives": "Lo que no le ofrece",
+        "table.mcp.role": "Protocolo",
+        "table.mcp.gives": "Transporte, descubrimiento y semántica de invocación de herramientas y recursos.",
+        "table.mcp.notGives": "Modelado de intents, política de seguridad de acciones o clasificación opinada de herramientas.",
+        "table.mcpapps.role": "Integración de UI",
+        "table.mcpapps.gives": "Renderizado de vista de host, ciclo de vida de iframes y comportamiento del puente de aplicación.",
+        "table.mcpapps.notGives": "Límites de intent de negocio, reglas de seguridad de metadatos o convenciones de autenticación.",
+        "table.mcplet.role": "Perfil de convención",
+        "table.mcplet.gives": "Unidades de intent único, clasificación read/prepare/action, restricciones de visibilidad, requisitos de auth y límites de seguridad gestionados por el host.",
+        "table.mcplet.notGives": "Transporte MCP, comportamiento genérico de runtime o un framework de frontend obligatorio.",
+        "metadata.heading": "Ejemplo mínimo de metadatos code-first",
+        "metadata.body": "Este ejemplo muestra los campos sobre los que la mayoría de las implementaciones deberían pensar primero al mapear una herramienta en MCPlet.",
+        "metadata.note": "Para operaciones irreversibles, cambie la clasificación a <strong>action</strong> y agregue <strong>_meta.auth</strong> con una aplicación más estricta.",
+        "when.heading": "Cuándo usar MCPlet y cuándo no",
+        "when.use.heading": "Use MCPlet cuando",
+        "when.use.r1": "Desee un único intent de negocio revisable por herramienta.",
+        "when.use.r2": "Necesite que el host aplique límites claros entre modelo y aplicación.",
+        "when.use.r3": "Desee un contrato de metadatos code-first sobre MCP.",
+        "when.notuse.heading": "No use MCPlet cuando",
+        "when.notuse.r1": "Su superficie de herramientas es intencionalmente amplia y multipropósito.",
+        "when.notuse.r2": "Está buscando un protocolo de reemplazo en lugar de un perfil de convención.",
+        "when.notuse.r3": "Su host no puede gestionar estado, intercepción o política de seguridad.",
+        "btn.readSpec": "Leer vista HTML",
+        "btn.browseFaq": "Explorar FAQ",
+        "btn.rawMarkdown": "Abrir Markdown sin procesar",
+        "resource.links": "¿Necesita contexto de licencia? Revise el <a href=\"patent-notice.html\">aviso de propiedad intelectual</a>.",
+        "footer.home": "Inicio",
+        "footer.specification": "Especificación",
+        "footer.faq": "FAQ",
+        "footer.patent": "Aviso de patente",
+        "footer.version": "Especificación MCPlet v202603-03",
+        "footer.updated": "Actualizado el 2026-04-01"
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const langBtn = document.getElementById('langBtn');
+      const langDropdown = document.getElementById('langDropdown');
+
+      if (!langBtn || !langDropdown) {
+        return;
+      }
+
+      langBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        langDropdown.classList.toggle('show');
+      });
+
+      document.addEventListener('click', () => {
+        langDropdown.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
   <meta name="author" content="MCPlet Working Group">
   <meta name="theme-color" content="#0a0a0f">
-  <link rel="canonical" href="https://mcplet.ai/spec/">
+  <link rel="canonical" href="https://mcplet.ai/es/spec/">
   <link rel="alternate" hreflang="en" href="https://mcplet.ai/spec/">
   <link rel="alternate" hreflang="ja" href="https://mcplet.ai/ja/spec/">
   <link rel="alternate" hreflang="zh" href="https://mcplet.ai/zh/spec/">
@@ -18,7 +18,7 @@
   <link rel="alternate" hreflang="x-default" href="https://mcplet.ai/spec/">
   <meta property="og:title" content="MCPlet Specification v202603-03 — HTML Overview">
   <meta property="og:description" content="HTML overview of MCPlet Specification v202603-03, including host profiles, classification model, code-first metadata, and passkey enforcement.">
-  <meta property="og:url" content="https://mcplet.ai/spec/">
+  <meta property="og:url" content="https://mcplet.ai/es/spec/">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="MCPlet">
   <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
@@ -26,8 +26,8 @@
   <meta name="twitter:title" content="MCPlet Specification v202603-03 — HTML Overview">
   <meta name="twitter:description" content="HTML overview of MCPlet Specification v202603-03, including host profiles, classification model, code-first metadata, and passkey enforcement.">
   <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-  <link rel="shortcut icon" href="../favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="shortcut icon" href="../../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -479,11 +479,11 @@
         <div class="logo-text">MCP<span>let</span></div>
       </a>
       <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../getting-started.html">Getting Started</a></li>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="../getting-started.html">Primeros pasos</a></li>
         <li><a href="../faq.html">FAQ</a></li>
-        <li><a href="../patent-notice.html">Patent Notice</a></li>
-        <li><a href="../files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">Raw Markdown</a></li>
+        <li><a href="../patent-notice.html">Aviso de patente</a></li>
+        <li><a href="../../files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">Markdown sin procesar</a></li>
       </ul>
       <div class="lang-switcher">
         <button class="lang-btn" id="langBtn" type="button">
@@ -491,33 +491,33 @@
             <circle cx="12" cy="12" r="10"/>
             <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
           </svg>
-          <span id="currentLangLabel">EN</span>
+          <span id="currentLangLabel">ES</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </button>
         <div class="lang-dropdown" id="langDropdown">
-          <a class="lang-option active" data-lang="en" href="spec/index.html" hreflang="en">
+          <a class="lang-option" data-lang="en" href="../../spec/index.html" hreflang="en">
             <span class="lang-flag">🇺🇸</span>
             <span>English</span>
           </a>
-          <a class="lang-option" data-lang="ja" href="ja/spec/index.html" hreflang="ja">
+          <a class="lang-option" data-lang="ja" href="../../ja/spec/index.html" hreflang="ja">
             <span class="lang-flag">🇯🇵</span>
             <span>日本語</span>
           </a>
-          <a class="lang-option" data-lang="zh" href="zh/spec/index.html" hreflang="zh">
+          <a class="lang-option" data-lang="zh" href="../../zh/spec/index.html" hreflang="zh">
             <span class="lang-flag">🇨🇳</span>
             <span>中文</span>
           </a>
-          <a class="lang-option" data-lang="fr" href="fr/spec/index.html" hreflang="fr">
+          <a class="lang-option" data-lang="fr" href="../../fr/spec/index.html" hreflang="fr">
             <span class="lang-flag">🇫🇷</span>
             <span>Français</span>
           </a>
-          <a class="lang-option" data-lang="de" href="de/spec/index.html" hreflang="de">
+          <a class="lang-option" data-lang="de" href="../../de/spec/index.html" hreflang="de">
             <span class="lang-flag">🇩🇪</span>
             <span>Deutsch</span>
           </a>
-          <a class="lang-option" data-lang="es" href="es/spec/index.html" hreflang="es">
+          <a class="lang-option active" data-lang="es" href="index.html" hreflang="es">
             <span class="lang-flag">🇪🇸</span>
             <span>Español</span>
           </a>
@@ -528,99 +528,99 @@
 
   <main>
     <article>
-      <div class="page-label">Specification Overview</div>
-      <h1>MCPlet Specification v202603-03</h1>
-      <p class="subtitle">This page is an HTML overview for fast reading and search indexing. The normative draft remains the raw markdown source, but this overview surfaces the major concepts, contracts, and security model in a crawler-friendly format.</p>
+      <div class="page-label">Resumen de la especificación</div>
+      <h1>Especificación MCPlet v202603-03</h1>
+      <p class="subtitle">Esta página es una vista HTML para lectura rápida e indexación por motores de búsqueda. El borrador normativo sigue siendo la fuente Markdown sin procesar, pero esta vista expone los principales conceptos, contratos y modelo de seguridad en un formato amigable para rastreadores.</p>
 
       <div class="meta-grid">
         <div class="card meta-card">
-          <span class="label">Status</span>
-          <span class="value">Draft</span>
+          <span class="label">Estado</span>
+          <span class="value">Borrador</span>
         </div>
         <div class="card meta-card">
-          <span class="label">Version</span>
+          <span class="label">Versión</span>
           <span class="value">v202603-03</span>
         </div>
         <div class="card meta-card">
-          <span class="label">Draft date</span>
+          <span class="label">Fecha del borrador</span>
           <span class="value">2026-03-27</span>
         </div>
         <div class="card meta-card">
-          <span class="label">Profiles</span>
-          <span class="value">WebUI and Agent</span>
+          <span class="label">Perfiles</span>
+          <span class="value">WebUI y Agent</span>
         </div>
         <div class="card meta-card">
-          <span class="label">Maintained by</span>
+          <span class="label">Mantenido por</span>
           <span class="value">MCPlet Working Group</span>
         </div>
         <div class="card meta-card">
-          <span class="label">Canonical source</span>
-          <span class="value">Raw markdown draft</span>
+          <span class="label">Fuente canónica</span>
+          <span class="value">Borrador Markdown sin procesar</span>
         </div>
       </div>
 
       <div class="section-grid">
         <section class="card section-card">
-          <h2 id="purpose">Purpose and scope</h2>
-          <p>MCPlet defines constrained, AI-first capability units with one business intent, one primary MCP tool contract, optional MCP Apps UI, explicit model-versus-app safety boundaries, and host-managed orchestration.</p>
-          <p>The goal is predictable, reviewable, and secure AI-tool interaction. MCPlet is a convention profile on top of MCP and MCP Apps; it does not redefine transport, runtime, sandboxing, or backend architecture.</p>
+          <h2 id="purpose">Propósito y alcance</h2>
+          <p>MCPlet define unidades de capacidad restringidas, AI-first, con un intent de negocio, un contrato de herramienta MCP principal, UI MCP Apps opcional, límites de seguridad explícitos modelo-versus-aplicación y orquestación gestionada por el host.</p>
+          <p>El objetivo es una interacción herramienta-IA predecible, revisable y segura. MCPlet es un perfil de convención sobre MCP y MCP Apps; no redefine el transporte, el runtime, el sandboxing ni la arquitectura backend.</p>
         </section>
 
         <aside class="card toc-card">
-          <h2>On this page</h2>
+          <h2>En esta página</h2>
           <ul class="toc">
-            <li><a href="#purpose">Purpose</a></li>
-            <li><a href="#profiles">Host profiles</a></li>
-            <li><a href="#comparison">Comparison</a></li>
-            <li><a href="#classification">Classification</a></li>
-            <li><a href="#metadata">Code-first metadata</a></li>
-            <li><a href="#security">Passkey enforcement</a></li>
-            <li><a href="#pools">Pools and agents</a></li>
+            <li><a href="#purpose">Propósito</a></li>
+            <li><a href="#profiles">Perfiles de host</a></li>
+            <li><a href="#comparison">Comparación</a></li>
+            <li><a href="#classification">Clasificación</a></li>
+            <li><a href="#metadata">Metadatos code-first</a></li>
+            <li><a href="#security">Aplicación de Passkeys</a></li>
+            <li><a href="#pools">Pools y agentes</a></li>
           </ul>
         </aside>
       </div>
 
       <section class="card section-card" id="profiles">
-        <h2>Host profiles</h2>
-        <p>MCPlet currently supports two host implementation profiles.</p>
+        <h2>Perfiles de host</h2>
+        <p>MCPlet soporta actualmente dos perfiles de implementación de host.</p>
         <ul>
-          <li><strong>WebUI Profile:</strong> an MCP client or agent shell that renders MCP Apps UI, invokes tools, and manages visibility and safety in a user-facing environment.</li>
-          <li><strong>Agent Profile:</strong> an orchestration layer composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.</li>
+          <li><strong>WebUI Profile:</strong> un cliente MCP o shell de agente que renderiza la UI de MCP Apps, invoca herramientas y gestiona la visibilidad y seguridad en un entorno orientado al usuario.</li>
+          <li><strong>Agent Profile:</strong> una capa de orquestación compuesta por agentes especializados y un LLM configurado externamente, sin capa de UI de propósito general requerida.</li>
         </ul>
-        <p>Both profiles keep MCPlets stateless by default. State, conversation context, and policy enforcement remain host responsibilities.</p>
+        <p>Ambos perfiles mantienen los MCPlets sin estado por defecto. El estado, el contexto de conversación y la aplicación de políticas siguen siendo responsabilidad del host.</p>
       </section>
 
       <section class="card section-card" id="comparison">
-        <h2>How MCPlet compares to MCP and MCP Apps</h2>
-        <p>MCPlet is easiest to understand when treated as a layer on top of existing standards rather than as a replacement for them.</p>
+        <h2>Cómo se compara MCPlet con MCP y MCP Apps</h2>
+        <p>MCPlet es más fácil de entender cuando se trata como una capa sobre los estándares existentes en lugar de como un reemplazo de ellos.</p>
         <div class="comparison-table-wrapper">
           <table class="comparison-table">
             <thead>
               <tr>
-                <th>Layer</th>
-                <th>Primary role</th>
-                <th>Defines</th>
-                <th>Does not define</th>
+                <th>Capa</th>
+                <th>Función principal</th>
+                <th>Define</th>
+                <th>No define</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td><strong>MCP</strong></td>
-                <td>Protocol layer</td>
-                <td>Tool and resource transport, discovery, and invocation contracts.</td>
-                <td>Intent modeling, action safety policy, or opinionated classification rules.</td>
+                <td>Capa de protocolo</td>
+                <td>Transporte, descubrimiento y contratos de invocación de herramientas y recursos.</td>
+                <td>Modelado de intents, política de seguridad de acciones o reglas de clasificación opinadas.</td>
               </tr>
               <tr>
                 <td><strong>MCP Apps</strong></td>
-                <td>UI integration layer</td>
-                <td>Host-view rendering, iframe lifecycle, and app bridge behavior.</td>
-                <td>Business intent boundaries, tool classification, or host security conventions.</td>
+                <td>Capa de integración de UI</td>
+                <td>Renderizado de vista de host, ciclo de vida de iframes y comportamiento del puente de aplicación.</td>
+                <td>Límites de intent de negocio, clasificación de herramientas o convenciones de seguridad del host.</td>
               </tr>
               <tr>
                 <td><strong>MCPlet</strong></td>
-                <td>Convention profile</td>
-                <td>Single-intent units, read/prepare/action classification, visibility rules, auth requirements, and host-managed safety boundaries.</td>
-                <td>MCP transport, generic runtime behavior, or a mandatory frontend framework.</td>
+                <td>Perfil de convención</td>
+                <td>Unidades de intent único, clasificación read/prepare/action, reglas de visibilidad, requisitos de auth y límites de seguridad gestionados por el host.</td>
+                <td>Transporte MCP, comportamiento genérico de runtime o un framework de frontend obligatorio.</td>
               </tr>
             </tbody>
           </table>
@@ -630,21 +630,21 @@
       <section class="classification-grid" id="classification">
         <article class="card classification-card read">
           <h3>read</h3>
-          <p>Side-effect free and idempotent. Suitable for autonomous invocation when the host allows model visibility.</p>
+          <p>Sin efectos secundarios e idempotente. Adecuado para invocación autónoma cuando el host permite la visibilidad del modelo.</p>
         </article>
         <article class="card classification-card prepare">
           <h3>prepare</h3>
-          <p>Gathers or validates information before commitment. Useful as an explicit checkpoint in multi-step workflows.</p>
+          <p>Recopila o valida información antes del compromiso. Útil como punto de control explícito en flujos de trabajo de múltiples pasos.</p>
         </article>
         <article class="card classification-card action">
           <h3>action</h3>
-          <p>Causes irreversible side effects. Requires stronger confirmation and enforcement, especially when visible to the model.</p>
+          <p>Causa efectos secundarios irreversibles. Requiere confirmación y aplicación más estrictas, especialmente cuando es visible para el modelo.</p>
         </article>
       </section>
 
       <section class="card code-card" id="metadata">
-        <h2>Code-first metadata contract</h2>
-        <p>MCPlet v202603-03 is explicitly code-first. Hosts discover MCPlet semantics through registration metadata such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong>, and optional <strong>_meta.pool</strong>.</p>
+        <h2>Contrato de metadatos code-first</h2>
+        <p>MCPlet v202603-03 es explícitamente code-first. Los hosts descubren la semántica MCPlet a través de metadatos de registro como <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong> y el opcional <strong>_meta.pool</strong>.</p>
         <pre>{
   "_meta": {
     "mcpletType": "action",
@@ -661,30 +661,30 @@
     }
   }
 }</pre>
-        <p><strong>mcplet.yaml</strong> can still exist for backward-compatibility defaults, but it is not the single source of truth once code metadata is present.</p>
+        <p><strong>mcplet.yaml</strong> puede seguir existiendo para valores predeterminados de compatibilidad hacia atrás, pero no es la única fuente de verdad una vez que los metadatos de código están presentes.</p>
       </section>
 
       <section class="card section-card" id="security">
-        <h2>Passkey enforcement and protected actions</h2>
-        <p>Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification payload outside the business arguments, and the MCPlet backend verifies that assertion before any irreversible action executes.</p>
-        <div class="callout">This separation matters because it keeps the LLM focused on business inputs while moving cryptographic confirmation into host-controlled and backend-verifiable paths.</div>
+        <h2>Aplicación de Passkeys y acciones protegidas</h2>
+        <p>Los MCPlets protegidos declaran autenticación en <strong>_meta.auth</strong>. Para las herramientas action visibles al modelo, el host intercepta la llamada, obtiene una aserción Passkey a través de un contexto de navegador, inyecta la carga de verificación fuera de los argumentos de negocio, y el backend MCPlet verifica esa aserción antes de que se ejecute cualquier acción irreversible.</p>
+        <div class="callout">Esta separación importa porque mantiene al LLM enfocado en las entradas de negocio mientras mueve la confirmación criptográfica a rutas controladas por el host y verificables por el backend.</div>
       </section>
 
       <section class="card section-card" id="pools">
-        <h2>Pools, agents, and routing boundaries</h2>
-        <p>MCPlet v202603-03 introduces named Pools and accessible Pool lists for agents. Pools let hosts group MCPlets by target system or policy scope, while per-agent Pool grants enforce least-privilege access during dispatch.</p>
-        <p>The Agent Profile also distinguishes between an internal A2A local protocol bus and an external A2A protocol endpoint for external agents. Hosts remain responsible for authentication, policy, and dispatch validation.</p>
+        <h2>Pools, agentes y límites de enrutamiento</h2>
+        <p>MCPlet v202603-03 introduce Pools con nombre y listas de Pools accesibles para los agentes. Los Pools permiten a los hosts agrupar MCPlets por sistema objetivo o alcance de política, mientras que las concesiones de Pool por agente aplican acceso de menor privilegio durante el despacho.</p>
+        <p>El Agent Profile también distingue entre un bus de protocolo local A2A interno y un endpoint de protocolo A2A externo para agentes externos. Los hosts siguen siendo responsables de la autenticación, la política y la validación del despacho.</p>
       </section>
 
       <section class="card section-card">
-        <h2>Read the full draft</h2>
-        <p>The raw markdown file remains the normative draft source. Use the HTML overview for fast scanning, the FAQ for short answers, and the patent notice for licensing context.</p>
+        <h2>Leer el borrador completo</h2>
+        <p>El archivo Markdown sin procesar sigue siendo la fuente normativa del borrador. Use la vista HTML para un escaneo rápido, la FAQ para respuestas cortas y el aviso de patente para el contexto de licencia.</p>
         <div class="button-row">
-          <a href="../getting-started.html" class="btn btn-secondary">Open getting started guide</a>
-          <a href="../files/MCPlet-spec-v202603-03.md" class="btn btn-primary" target="_blank" rel="noopener">Open raw markdown</a>
-          <a href="../faq.html" class="btn btn-secondary">Browse FAQ</a>
+          <a href="../getting-started.html" class="btn btn-secondary">Abrir guía de primeros pasos</a>
+          <a href="../../files/MCPlet-spec-v202603-03.md" class="btn btn-primary" target="_blank" rel="noopener">Abrir Markdown sin procesar</a>
+          <a href="../faq.html" class="btn btn-secondary">Explorar FAQ</a>
         </div>
-        <p class="resource-links">Need licensing context? Review the <a href="../patent-notice.html">intellectual property notice</a>.</p>
+        <p class="resource-links">¿Necesita contexto de licencia? Revise el <a href="../patent-notice.html">aviso de propiedad intelectual</a>.</p>
       </section>
     </article>
   </main>
@@ -692,15 +692,15 @@
   <footer>
     <div class="footer-container">
       <ul class="footer-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../getting-started.html">Getting Started</a></li>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="../getting-started.html">Primeros pasos</a></li>
         <li><a href="../faq.html">FAQ</a></li>
-        <li><a href="../patent-notice.html">Patent Notice</a></li>
+        <li><a href="../patent-notice.html">Aviso de patente</a></li>
       </ul>
       <div class="footer-copy">
-        <span>MCPlet Specification v202603-03</span>
+        <span>Especificación MCPlet v202603-03</span>
         &nbsp;·&nbsp;
-        <span>Updated 2026-04-01</span>
+        <span>Actualizado el 2026-04-01</span>
         &nbsp;·&nbsp;
         <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a>
       </div>

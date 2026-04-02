@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCPlet FAQ — Direct Answers for Developers and Hosts</title>
+  <meta name="description" content="Frequently asked questions about MCPlet, including how it relates to MCP, code-first metadata, passkey authentication, host profiles, and the normative specification draft.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="MCPlet Working Group">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="canonical" href="https://mcplet.ai/faq.html">
+  <meta property="og:title" content="MCPlet FAQ — Direct Answers for Developers and Hosts">
+  <meta property="og:description" content="Direct answers about MCPlet, MCP, code-first metadata, passkey enforcement, and host profiles.">
+  <meta property="og:url" content="https://mcplet.ai/faq.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MCPlet">
+  <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MCPlet FAQ — Direct Answers for Developers and Hosts">
+  <meta name="twitter:description" content="Direct answers about MCPlet, MCP, code-first metadata, passkey enforcement, and host profiles.">
+  <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="shortcut icon" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d14;
+      --bg-card: rgba(20, 20, 30, 0.68);
+      --accent-cyan: #00f0ff;
+      --accent-purple: #7c3aed;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7b;
+      --border-color: rgba(0, 240, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(0, 240, 255, 0.12), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.14), transparent 30%),
+        var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container,
+    .footer-container {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #0a0a0f;
+    }
+
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .logo-text span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links,
+    .footer-links {
+      display: flex;
+      gap: 1.25rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .footer-links a,
+    .resource-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .footer-links a:hover,
+    .resource-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* ── Lang switcher ── */
+    .lang-switcher { position: relative; }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
+    }
+
+    .lang-btn svg { width: 16px; height: 16px; }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 140px;
+      display: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .lang-dropdown.show { display: block; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .lang-option:hover {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .lang-option.active {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .lang-flag { width: 20px; font-size: 1rem; }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    .page-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.1;
+      margin-bottom: 0.9rem;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem 1.4rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .summary strong {
+      color: var(--text-primary);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .faq-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.6rem;
+    }
+
+    .faq-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .faq-card p {
+      color: var(--text-secondary);
+    }
+
+    .faq-card p + p {
+      margin-top: 0.8rem;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.3rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), #0066ff);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      background: transparent;
+    }
+
+    .resource-links {
+      margin-top: 1rem;
+      color: var(--text-secondary);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2rem;
+      background: rgba(13, 13, 20, 0.92);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 720px) {
+      nav,
+      main,
+      footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is MCPlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MCPlet is a code-first convention profile on top of Model Context Protocol and MCP Apps. It defines constrained, single-intent capability units that package business logic with explicit visibility, authentication, and safety boundaries for AI operations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is MCPlet different from MCP and MCP Apps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MCP defines the protocol for tools and resources. MCP Apps defines UI rendering and host-view integration. MCPlet sits on top of both as a convention profile that adds intent modeling, tool classification, visibility rules, authentication requirements, and host-managed safety boundaries."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the three MCPlet types?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MCPlet classifies tools as read, prepare, or action. Read tools are side-effect free and safe for autonomous invocation. Prepare tools gather or validate information before commitment. Action tools cause irreversible side effects and require stronger confirmation and enforcement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is MCPlet code-first or YAML-based?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The primary profile is code-first. MCPlet metadata is declared at tool registration time using fields such as _meta.mcpletType, _meta.visibility, _meta.auth, and _meta.ui. mcplet.yaml may still be used for backward-compatibility defaults, but it is not the single source of truth when code metadata exists."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does MCPlet use Passkey authentication?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Protected MCPlets declare authentication in _meta.auth. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification material outside business arguments, and the MCPlet backend verifies the assertion before executing the action."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What host profiles does MCPlet support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MCPlet currently defines two host profiles. The WebUI Profile targets MCP client or agent shells with MCP Apps rendering. The Agent Profile targets orchestration systems composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get started with MCPlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Start by choosing a host profile, classifying each tool as read, prepare, or action, registering code-first metadata in _meta, exposing a result schema, and adding passkey enforcement for protected model-visible actions. The getting started guide provides this sequence as an implementation checklist."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who maintains the MCPlet draft?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The public website currently presents the draft as maintained by the MCPlet Working Group. The canonical normative source remains the raw markdown specification published on mcplet.ai."
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">MCP<span>let</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+        <li><a href="getting-started.html" data-i18n="nav.gettingStarted">Getting Started</a></li>
+        <li><a href="spec/" data-i18n="nav.specification">Specification</a></li>
+        <li><a href="patent-notice.html" data-i18n="nav.patent">Patent Notice</a></li>
+        <li><a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener" data-i18n="nav.rawMarkdown">Raw Markdown</a></li>
+      </ul>
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span id="currentLangLabel">EN</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option active" data-lang="en">
+            <span class="lang-flag">🇺🇸</span><span>English</span>
+          </div>
+          <div class="lang-option" data-lang="ja">
+            <span class="lang-flag">🇯🇵</span><span>日本語</span>
+          </div>
+          <div class="lang-option" data-lang="zh">
+            <span class="lang-flag">🇨🇳</span><span>中文</span>
+          </div>
+          <div class="lang-option" data-lang="fr">
+            <span class="lang-flag">🇫🇷</span><span>Français</span>
+          </div>
+          <div class="lang-option" data-lang="de">
+            <span class="lang-flag">🇩🇪</span><span>Deutsch</span>
+          </div>
+          <div class="lang-option" data-lang="es">
+            <span class="lang-flag">🇪🇸</span><span>Español</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-label" data-i18n="page.label">Technical FAQ</div>
+    <h1 data-i18n="page.title">Frequently Asked Questions about MCPlet</h1>
+    <p class="subtitle" data-i18n="page.subtitle">Short answers for developers, hosts, and reviewers evaluating MCPlet v202603-03.</p>
+
+    <div class="summary" data-i18n="summary.body"><strong>Normative source:</strong> the canonical draft remains the raw markdown specification. This FAQ is an indexable companion page for direct answers and common evaluation questions. Maintained by the MCPlet Working Group and updated on 2026-04-01.</div>
+
+    <div class="faq-list">
+      <article class="faq-card" id="what-is-mcplet">
+        <h2 data-i18n="q1.heading">What is MCPlet?</h2>
+        <p data-i18n="q1.body">MCPlet is a code-first convention profile on top of Model Context Protocol and MCP Apps. It defines constrained, single-intent capability units that package business logic with explicit visibility, authentication, and safety boundaries for AI operations.</p>
+      </article>
+
+      <article class="faq-card" id="difference-from-mcp">
+        <h2 data-i18n="q2.heading">How is MCPlet different from MCP and MCP Apps?</h2>
+        <p data-i18n="q2.body">MCP defines the protocol for tools and resources. MCP Apps defines how hosts render and coordinate UI. MCPlet sits on top of both as a convention profile that adds intent modeling, tool classification, visibility rules, authentication requirements, and host-managed safety boundaries.</p>
+      </article>
+
+      <article class="faq-card" id="types">
+        <h2 data-i18n="q3.heading">What are the three MCPlet types?</h2>
+        <p data-i18n="q3.body">MCPlet classifies tools as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>. Read tools are side-effect free and safe for autonomous invocation. Prepare tools gather or validate information before commitment. Action tools cause irreversible side effects and therefore require stronger confirmation and enforcement.</p>
+      </article>
+
+      <article class="faq-card" id="code-first">
+        <h2 data-i18n="q4.heading">Is MCPlet code-first or YAML-based?</h2>
+        <p data-i18n="q4.body1">The primary profile is code-first. MCPlet metadata is declared at tool registration time using fields such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, and <strong>_meta.ui</strong>.</p>
+        <p data-i18n="q4.body2"><strong>mcplet.yaml</strong> may still be used for backward-compatibility defaults, but it is not the single source of truth when code metadata exists.</p>
+      </article>
+
+      <article class="faq-card" id="passkey">
+        <h2 data-i18n="q5.heading">How does MCPlet use Passkey authentication?</h2>
+        <p data-i18n="q5.body">Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification material outside business arguments, and the MCPlet backend verifies the assertion before executing the action.</p>
+      </article>
+
+      <article class="faq-card" id="profiles">
+        <h2 data-i18n="q6.heading">What host profiles does MCPlet support?</h2>
+        <p data-i18n="q6.body">MCPlet currently defines two host profiles. The <strong>WebUI Profile</strong> targets MCP client or agent shells with MCP Apps rendering. The <strong>Agent Profile</strong> targets orchestration systems composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.</p>
+      </article>
+
+      <article class="faq-card" id="getting-started">
+        <h2 data-i18n="q7.heading">How do I get started with MCPlet?</h2>
+        <p data-i18n="q7.body1">Start by choosing a host profile, classifying each tool as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>, registering code-first metadata in <strong>_meta</strong>, exposing a result schema, and adding Passkey enforcement for protected model-visible actions.</p>
+        <p data-i18n="q7.body2">If you want the shortest path, use the <a href="getting-started.html">getting started guide</a> first, then validate the details against the full specification.</p>
+      </article>
+
+      <article class="faq-card" id="normative-source">
+        <h2 data-i18n="q8.heading">Where is the normative draft?</h2>
+        <p data-i18n="q8.body">The indexable HTML overview lives at <a href="spec/">/spec/</a>, but the normative draft source is the markdown file at <a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">/files/MCPlet-spec-v202603-03.md</a>. The patent and licensing notice is published separately at <a href="patent-notice.html">/patent-notice.html</a>.</p>
+      </article>
+
+      <article class="faq-card" id="maintainer">
+        <h2 data-i18n="q9.heading">Who maintains the MCPlet draft?</h2>
+        <p data-i18n="q9.body">The public draft on this site is currently presented as maintained by the <strong>MCPlet Working Group</strong>. For review and archival purposes, the canonical normative source remains the raw markdown draft published on the site.</p>
+      </article>
+    </div>
+
+    <div class="button-row">
+      <a href="getting-started.html" class="btn btn-primary" data-i18n="btn.gettingStarted">Open getting started guide</a>
+      <a href="spec/" class="btn btn-secondary" data-i18n="btn.readSpec">Read HTML overview</a>
+      <a href="files/MCPlet-spec-v202603-03.md" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="btn.rawMarkdown">Open raw markdown</a>
+    </div>
+    <p class="resource-links" data-i18n="resource.links">Need the licensing context? Review the <a href="patent-notice.html">intellectual property notice</a>. Need the high-level architecture summary? Read the <a href="spec/">HTML overview</a>.</p>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="index.html" data-i18n="footer.home">Home</a></li>
+        <li><a href="getting-started.html" data-i18n="footer.gettingStarted">Getting Started</a></li>
+        <li><a href="spec/" data-i18n="footer.specification">Specification</a></li>
+        <li><a href="patent-notice.html" data-i18n="footer.patent">Patent Notice</a></li>
+      </ul>
+      <div class="footer-copy">
+        <span data-i18n="footer.version">MCPlet Specification v202603-03</span>
+        &nbsp;·&nbsp;
+        <span data-i18n="footer.updated">Updated 2026-04-01</span>
+        &nbsp;·&nbsp;
+        <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        "nav.home": "Home",
+        "nav.gettingStarted": "Getting Started",
+        "nav.specification": "Specification",
+        "nav.patent": "Patent Notice",
+        "nav.rawMarkdown": "Raw Markdown",
+        "page.label": "Technical FAQ",
+        "page.title": "Frequently Asked Questions about MCPlet",
+        "page.subtitle": "Short answers for developers, hosts, and reviewers evaluating MCPlet v202603-03.",
+        "summary.body": "<strong>Normative source:</strong> the canonical draft remains the raw markdown specification. This FAQ is an indexable companion page for direct answers and common evaluation questions. Maintained by the MCPlet Working Group and updated on 2026-04-01.",
+        "q1.heading": "What is MCPlet?",
+        "q1.body": "MCPlet is a code-first convention profile on top of Model Context Protocol and MCP Apps. It defines constrained, single-intent capability units that package business logic with explicit visibility, authentication, and safety boundaries for AI operations.",
+        "q2.heading": "How is MCPlet different from MCP and MCP Apps?",
+        "q2.body": "MCP defines the protocol for tools and resources. MCP Apps defines how hosts render and coordinate UI. MCPlet sits on top of both as a convention profile that adds intent modeling, tool classification, visibility rules, authentication requirements, and host-managed safety boundaries.",
+        "q3.heading": "What are the three MCPlet types?",
+        "q3.body": "MCPlet classifies tools as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>. Read tools are side-effect free and safe for autonomous invocation. Prepare tools gather or validate information before commitment. Action tools cause irreversible side effects and therefore require stronger confirmation and enforcement.",
+        "q4.heading": "Is MCPlet code-first or YAML-based?",
+        "q4.body1": "The primary profile is code-first. MCPlet metadata is declared at tool registration time using fields such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, and <strong>_meta.ui</strong>.",
+        "q4.body2": "<strong>mcplet.yaml</strong> may still be used for backward-compatibility defaults, but it is not the single source of truth when code metadata exists.",
+        "q5.heading": "How does MCPlet use Passkey authentication?",
+        "q5.body": "Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification material outside business arguments, and the MCPlet backend verifies the assertion before executing the action.",
+        "q6.heading": "What host profiles does MCPlet support?",
+        "q6.body": "MCPlet currently defines two host profiles. The <strong>WebUI Profile</strong> targets MCP client or agent shells with MCP Apps rendering. The <strong>Agent Profile</strong> targets orchestration systems composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.",
+        "q7.heading": "How do I get started with MCPlet?",
+        "q7.body1": "Start by choosing a host profile, classifying each tool as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>, registering code-first metadata in <strong>_meta</strong>, exposing a result schema, and adding Passkey enforcement for protected model-visible actions.",
+        "q7.body2": "If you want the shortest path, use the <a href=\"getting-started.html\">getting started guide</a> first, then validate the details against the full specification.",
+        "q8.heading": "Where is the normative draft?",
+        "q8.body": "The indexable HTML overview lives at <a href=\"spec/\">/spec/</a>, but the normative draft source is the markdown file at <a href=\"files/MCPlet-spec-v202603-03.md\" target=\"_blank\" rel=\"noopener\">/files/MCPlet-spec-v202603-03.md</a>. The patent and licensing notice is published separately at <a href=\"patent-notice.html\">/patent-notice.html</a>.",
+        "q9.heading": "Who maintains the MCPlet draft?",
+        "q9.body": "The public draft on this site is currently presented as maintained by the <strong>MCPlet Working Group</strong>. For review and archival purposes, the canonical normative source remains the raw markdown draft published on the site.",
+        "btn.gettingStarted": "Open getting started guide",
+        "btn.readSpec": "Read HTML overview",
+        "btn.rawMarkdown": "Open raw markdown",
+        "resource.links": "Need the licensing context? Review the <a href=\"patent-notice.html\">intellectual property notice</a>. Need the high-level architecture summary? Read the <a href=\"spec/\">HTML overview</a>.",
+        "footer.home": "Home",
+        "footer.gettingStarted": "Getting Started",
+        "footer.specification": "Specification",
+        "footer.patent": "Patent Notice",
+        "footer.version": "MCPlet Specification v202603-03",
+        "footer.updated": "Updated 2026-04-01"
+      },
+      ja: {
+        "nav.home": "ホーム",
+        "nav.gettingStarted": "はじめに",
+        "nav.specification": "仕様",
+        "nav.patent": "特許表示",
+        "nav.rawMarkdown": "Markdown 原文",
+        "page.label": "技術FAQ",
+        "page.title": "MCPlet よくある質問",
+        "page.subtitle": "MCPlet v202603-03 を評価する開発者、ホスト、レビュアー向けの簡潔な回答。",
+        "summary.body": "<strong>規範的ソース：</strong>正本ドラフトは引き続き生のMarkdown仕様です。このFAQは直接的な回答と一般的な評価質問のためのインデックス可能なコンパニオンページです。MCPlet Working Groupが保守し、2026-04-01に更新されました。",
+        "q1.heading": "MCPletとは何ですか？",
+        "q1.body": "MCPletは、Model Context ProtocolとMCP Appsの上に構築されたコードファーストの規約プロファイルです。AI操作に対して明示的な可視性、認証、安全境界を持つビジネスロジックをパッケージ化した、制約付きの単一インテント能力ユニットを定義します。",
+        "q2.heading": "MCPletはMCPやMCP Appsとどう違いますか？",
+        "q2.body": "MCPはツールとリソースのプロトコルを定義します。MCP Appsはホストが UI をレンダリングして調整する方法を定義します。MCPletは両者の上にある規約プロファイルとして、インテントモデリング、ツール分類、可視性ルール、認証要件、ホスト管理の安全境界を追加します。",
+        "q3.heading": "MCPletの3つのタイプとは何ですか？",
+        "q3.body": "MCPletはツールを <strong>read</strong>、<strong>prepare</strong>、または <strong>action</strong> に分類します。read ツールは副作用がなく、自律的な呼び出しに安全です。prepare ツールはコミットメント前に情報を収集または検証します。action ツールは不可逆的な副作用を引き起こすため、より強力な確認と強制が必要です。",
+        "q4.heading": "MCPletはコードファーストですか、YAMLベースですか？",
+        "q4.body1": "主要プロファイルはコードファーストです。MCPletのメタデータは、<strong>_meta.mcpletType</strong>、<strong>_meta.visibility</strong>、<strong>_meta.auth</strong>、<strong>_meta.ui</strong> などのフィールドを使用してツール登録時に宣言されます。",
+        "q4.body2": "<strong>mcplet.yaml</strong> は後方互換性のデフォルトとして引き続き使用できますが、コードメタデータが存在する場合は唯一の真実の情報源ではありません。",
+        "q5.heading": "MCPletはパスキー認証をどのように使用しますか？",
+        "q5.body": "保護されたMCPletは <strong>_meta.auth</strong> で認証を宣言します。モデルに見えるアクションツールの場合、ホストは呼び出しをインターセプトし、ブラウザコンテキストを通じてパスキーアサーションを取得し、ビジネス引数の外に検証マテリアルを注入します。MCPletバックエンドはアクションを実行する前にアサーションを検証します。",
+        "q6.heading": "MCPletはどのホストプロファイルをサポートしますか？",
+        "q6.body": "MCPletは現在2つのホスト実装プロファイルを定義しています。<strong>WebUI Profile</strong> はMCP Apps レンダリングを持つMCPクライアントまたはエージェントシェルを対象とします。<strong>Agent Profile</strong> は専門エージェントと外部設定LLMで構成されるオーケストレーションシステムを対象とし、汎用UI層は不要です。",
+        "q7.heading": "MCPletを始めるにはどうすればよいですか？",
+        "q7.body1": "ホストプロファイルを選択し、各ツールを <strong>read</strong>、<strong>prepare</strong>、または <strong>action</strong> として分類し、<strong>_meta</strong> にコードファーストのメタデータを登録し、結果スキーマを公開し、保護されたモデルに見えるアクションにパスキー強制を追加することから始めてください。",
+        "q7.body2": "最短経路を望むなら、まず <a href=\"getting-started.html\">はじめにガイド</a> を使用してから、完全な仕様に対して詳細を検証してください。",
+        "q8.heading": "規範的ドラフトはどこにありますか？",
+        "q8.body": "インデックス可能なHTML概要は <a href=\"spec/\">/spec/</a> にありますが、規範的ドラフトのソースは <a href=\"files/MCPlet-spec-v202603-03.md\" target=\"_blank\" rel=\"noopener\">/files/MCPlet-spec-v202603-03.md</a> のMarkdownファイルです。特許とライセンスの通知は <a href=\"patent-notice.html\">/patent-notice.html</a> に別途公開されています。",
+        "q9.heading": "MCPletドラフトは誰が保守していますか？",
+        "q9.body": "このサイトの公開ドラフトは現在、<strong>MCPlet Working Group</strong> が保守するものとして提示されています。レビューとアーカイブ目的のために、正本規範的ソースはサイトに公開された生のMarkdownドラフトです。",
+        "btn.gettingStarted": "はじめにガイドを開く",
+        "btn.readSpec": "HTML 概要を読む",
+        "btn.rawMarkdown": "Markdown 原文を開く",
+        "resource.links": "ライセンスのコンテキストが必要ですか？<a href=\"patent-notice.html\">知的財産通知</a>を確認してください。高レベルのアーキテクチャ概要が必要ですか？<a href=\"spec/\">HTML 概要</a>を読んでください。",
+        "footer.home": "ホーム",
+        "footer.gettingStarted": "はじめに",
+        "footer.specification": "仕様",
+        "footer.patent": "特許表示",
+        "footer.version": "MCPlet 仕様 v202603-03",
+        "footer.updated": "更新日 2026-04-01"
+      },
+      zh: {
+        "nav.home": "首页",
+        "nav.gettingStarted": "快速开始",
+        "nav.specification": "规范",
+        "nav.patent": "专利声明",
+        "nav.rawMarkdown": "原始 Markdown",
+        "page.label": "技术 FAQ",
+        "page.title": "MCPlet 常见问题",
+        "page.subtitle": "为评估 MCPlet v202603-03 的开发者、宿主和审阅者提供的简洁答案。",
+        "summary.body": "<strong>规范性来源：</strong>正本草案仍为原始 Markdown 规范。本 FAQ 是用于直接解答和常见评估问题的可索引辅助页面。由 MCPlet Working Group 维护，更新于 2026-04-01。",
+        "q1.heading": "什么是 MCPlet？",
+        "q1.body": "MCPlet 是构建在 Model Context Protocol 和 MCP Apps 之上的代码优先规约配置。它定义了受约束的单意图能力单元，将业务逻辑与 AI 操作的显式可见性、认证和安全边界打包在一起。",
+        "q2.heading": "MCPlet 与 MCP 和 MCP Apps 有何不同？",
+        "q2.body": "MCP 定义了工具和资源的协议。MCP Apps 定义了宿主如何渲染和协调 UI。MCPlet 作为规约配置位于两者之上，增加了意图建模、工具分类、可见性规则、认证要求和宿主管理的安全边界。",
+        "q3.heading": "MCPlet 的三种类型是什么？",
+        "q3.body": "MCPlet 将工具分类为 <strong>read</strong>、<strong>prepare</strong> 或 <strong>action</strong>。read 工具无副作用，可安全地自主调用。prepare 工具在提交前收集或验证信息。action 工具会产生不可逆副作用，因此需要更强的确认和强制执行。",
+        "q4.heading": "MCPlet 是代码优先还是基于 YAML？",
+        "q4.body1": "主要配置是代码优先的。MCPlet 元数据在工具注册时通过 <strong>_meta.mcpletType</strong>、<strong>_meta.visibility</strong>、<strong>_meta.auth</strong> 和 <strong>_meta.ui</strong> 等字段声明。",
+        "q4.body2": "<strong>mcplet.yaml</strong> 仍可用于向后兼容的默认值，但当代码元数据存在时，它不是唯一的真实来源。",
+        "q5.heading": "MCPlet 如何使用 Passkey 认证？",
+        "q5.body": "受保护的 MCPlet 在 <strong>_meta.auth</strong> 中声明认证。对于模型可见的 action 工具，宿主拦截调用，通过浏览器上下文获取 Passkey 断言，在业务参数之外注入验证材料，MCPlet 后端在执行操作前验证断言。",
+        "q6.heading": "MCPlet 支持哪些宿主配置？",
+        "q6.body": "MCPlet 目前定义了两种宿主实现配置。<strong>WebUI Profile</strong> 面向具有 MCP Apps 渲染的 MCP 客户端或代理 shell。<strong>Agent Profile</strong> 面向由专门 Agent 和外部配置的 LLM 组成的编排系统，不需要通用 UI 层。",
+        "q7.heading": "如何开始使用 MCPlet？",
+        "q7.body1": "首先选择宿主配置，将每个工具分类为 <strong>read</strong>、<strong>prepare</strong> 或 <strong>action</strong>，在 <strong>_meta</strong> 中注册代码优先的元数据，公开结果模式，并为受保护的模型可见 action 添加 Passkey 强制执行。",
+        "q7.body2": "如果您想走最短路径，先使用<a href=\"getting-started.html\">快速开始指南</a>，然后对照完整规范验证细节。",
+        "q8.heading": "规范性草案在哪里？",
+        "q8.body": "可索引的 HTML 概览位于 <a href=\"spec/\">/spec/</a>，但规范性草案来源是 <a href=\"files/MCPlet-spec-v202603-03.md\" target=\"_blank\" rel=\"noopener\">/files/MCPlet-spec-v202603-03.md</a> 的 Markdown 文件。专利和许可声明单独发布于 <a href=\"patent-notice.html\">/patent-notice.html</a>。",
+        "q9.heading": "谁维护 MCPlet 草案？",
+        "q9.body": "本站的公开草案目前呈现为由 <strong>MCPlet Working Group</strong> 维护。出于审阅和存档目的，正本规范性来源仍为本站发布的原始 Markdown 草案。",
+        "btn.gettingStarted": "打开快速开始指南",
+        "btn.readSpec": "阅读 HTML 概览",
+        "btn.rawMarkdown": "打开原始 Markdown",
+        "resource.links": "需要许可上下文？请查看<a href=\"patent-notice.html\">知识产权声明</a>。需要高层架构摘要？请阅读 <a href=\"spec/\">HTML 概览</a>。",
+        "footer.home": "首页",
+        "footer.gettingStarted": "快速开始",
+        "footer.specification": "规范",
+        "footer.patent": "专利声明",
+        "footer.version": "MCPlet 规范 v202603-03",
+        "footer.updated": "更新于 2026-04-01"
+      },
+      fr: {
+        "nav.home": "Accueil",
+        "nav.gettingStarted": "Prise en main",
+        "nav.specification": "Spécification",
+        "nav.patent": "Avis de brevet",
+        "nav.rawMarkdown": "Markdown brut",
+        "page.label": "FAQ technique",
+        "page.title": "Foire aux questions sur MCPlet",
+        "page.subtitle": "Réponses courtes pour les développeurs, les hôtes et les réviseurs évaluant MCPlet v202603-03.",
+        "summary.body": "<strong>Source normative :</strong> le brouillon canonique reste la spécification Markdown brute. Cette FAQ est une page d'accompagnement indexable pour des réponses directes et des questions d'évaluation courantes. Maintenu par le MCPlet Working Group et mis à jour le 2026-04-01.",
+        "q1.heading": "Qu'est-ce que MCPlet ?",
+        "q1.body": "MCPlet est un profil de convention code-first construit au-dessus du Model Context Protocol et de MCP Apps. Il définit des unités de capacité contraintes, à intent unique, qui encapsulent la logique métier avec une visibilité explicite, une authentification et des limites de sécurité pour les opérations d'IA.",
+        "q2.heading": "En quoi MCPlet est-il différent de MCP et MCP Apps ?",
+        "q2.body": "MCP définit le protocole pour les outils et les ressources. MCP Apps définit comment les hôtes rendent et coordonnent l'UI. MCPlet se situe au-dessus des deux en tant que profil de convention qui ajoute la modélisation des intents, la classification des outils, les règles de visibilité, les exigences d'authentification et les limites de sécurité gérées par l'hôte.",
+        "q3.heading": "Quels sont les trois types MCPlet ?",
+        "q3.body": "MCPlet classifie les outils en <strong>read</strong>, <strong>prepare</strong> ou <strong>action</strong>. Les outils read sont sans effets de bord et sûrs pour une invocation autonome. Les outils prepare collectent ou valident des informations avant engagement. Les outils action provoquent des effets de bord irréversibles et nécessitent donc une confirmation et une application plus strictes.",
+        "q4.heading": "MCPlet est-il code-first ou basé sur YAML ?",
+        "q4.body1": "Le profil principal est code-first. Les métadonnées MCPlet sont déclarées au moment de l'enregistrement de l'outil avec des champs tels que <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong> et <strong>_meta.ui</strong>.",
+        "q4.body2": "<strong>mcplet.yaml</strong> peut encore être utilisé pour des valeurs par défaut de rétrocompatibilité, mais ce n'est pas la source de vérité unique lorsque des métadonnées code existent.",
+        "q5.heading": "Comment MCPlet utilise-t-il l'authentification Passkey ?",
+        "q5.body": "Les MCPlets protégés déclarent l'authentification dans <strong>_meta.auth</strong>. Pour les outils action visibles par le modèle, l'hôte intercepte l'appel, obtient une assertion Passkey via un contexte navigateur, injecte le matériel de vérification en dehors des arguments métier, et le backend MCPlet vérifie l'assertion avant d'exécuter l'action.",
+        "q6.heading": "Quels profils d'hôte MCPlet prend-il en charge ?",
+        "q6.body": "MCPlet définit actuellement deux profils d'implémentation d'hôte. Le <strong>WebUI Profile</strong> cible les clients MCP ou les shells d'agents avec rendu MCP Apps. Le <strong>Agent Profile</strong> cible les systèmes d'orchestration composés d'agents spécialisés et d'un LLM configuré en externe, sans couche UI générale requise.",
+        "q7.heading": "Comment démarrer avec MCPlet ?",
+        "q7.body1": "Commencez par choisir un profil d'hôte, classifier chaque outil en <strong>read</strong>, <strong>prepare</strong> ou <strong>action</strong>, enregistrer les métadonnées code-first dans <strong>_meta</strong>, exposer un schéma de résultat, et ajouter l'application Passkey pour les actions model-visibles protégées.",
+        "q7.body2": "Si vous souhaitez le chemin le plus court, utilisez d'abord le <a href=\"getting-started.html\">guide de prise en main</a>, puis validez les détails contre la spécification complète.",
+        "q8.heading": "Où se trouve le brouillon normatif ?",
+        "q8.body": "La vue HTML indexable se trouve à <a href=\"spec/\">/spec/</a>, mais la source du brouillon normatif est le fichier Markdown à <a href=\"files/MCPlet-spec-v202603-03.md\" target=\"_blank\" rel=\"noopener\">/files/MCPlet-spec-v202603-03.md</a>. L'avis de brevet et de licence est publié séparément à <a href=\"patent-notice.html\">/patent-notice.html</a>.",
+        "q9.heading": "Qui maintient le brouillon MCPlet ?",
+        "q9.body": "Le brouillon public sur ce site est actuellement présenté comme maintenu par le <strong>MCPlet Working Group</strong>. À des fins de révision et d'archivage, la source normative canonique reste le brouillon Markdown brut publié sur le site.",
+        "btn.gettingStarted": "Ouvrir le guide de prise en main",
+        "btn.readSpec": "Lire la vue HTML",
+        "btn.rawMarkdown": "Ouvrir le Markdown brut",
+        "resource.links": "Besoin du contexte de licence ? Consultez <a href=\"patent-notice.html\">l'avis de propriété intellectuelle</a>. Besoin d'un résumé de l'architecture ? Lisez la <a href=\"spec/\">vue HTML</a>.",
+        "footer.home": "Accueil",
+        "footer.gettingStarted": "Prise en main",
+        "footer.specification": "Spécification",
+        "footer.patent": "Avis de brevet",
+        "footer.version": "Spécification MCPlet v202603-03",
+        "footer.updated": "Mis à jour le 2026-04-01"
+      },
+      de: {
+        "nav.home": "Startseite",
+        "nav.gettingStarted": "Erste Schritte",
+        "nav.specification": "Spezifikation",
+        "nav.patent": "Patenthinweis",
+        "nav.rawMarkdown": "Rohes Markdown",
+        "page.label": "Technische FAQ",
+        "page.title": "Häufig gestellte Fragen zu MCPlet",
+        "page.subtitle": "Kurze Antworten für Entwickler, Hosts und Reviewer, die MCPlet v202603-03 evaluieren.",
+        "summary.body": "<strong>Normative Quelle:</strong> Der kanonische Entwurf bleibt die rohe Markdown-Spezifikation. Diese FAQ ist eine indexierbare Begleitseite für direkte Antworten und häufige Evaluierungsfragen. Betreut von der MCPlet Working Group und aktualisiert am 2026-04-01.",
+        "q1.heading": "Was ist MCPlet?",
+        "q1.body": "MCPlet ist ein Code-First-Konventionsprofil, das auf dem Model Context Protocol und MCP Apps aufbaut. Es definiert eingeschränkte, einzelne Intent-Fähigkeitseinheiten, die Geschäftslogik mit expliziter Sichtbarkeit, Authentifizierung und Sicherheitsgrenzen für KI-Operationen zusammenfassen.",
+        "q2.heading": "Wie unterscheidet sich MCPlet von MCP und MCP Apps?",
+        "q2.body": "MCP definiert das Protokoll für Tools und Ressourcen. MCP Apps definiert, wie Hosts UI rendern und koordinieren. MCPlet sitzt als Konventionsprofil über beiden und fügt Intent-Modellierung, Tool-Klassifizierung, Sichtbarkeitsregeln, Authentifizierungsanforderungen und host-verwaltete Sicherheitsgrenzen hinzu.",
+        "q3.heading": "Was sind die drei MCPlet-Typen?",
+        "q3.body": "MCPlet klassifiziert Tools als <strong>read</strong>, <strong>prepare</strong> oder <strong>action</strong>. Read-Tools sind nebenwirkungsfrei und sicher für autonome Aufrufe. Prepare-Tools sammeln oder validieren Informationen vor dem Commitment. Action-Tools verursachen irreversible Nebenwirkungen und erfordern daher stärkere Bestätigung und Durchsetzung.",
+        "q4.heading": "Ist MCPlet Code-First oder YAML-basiert?",
+        "q4.body1": "Das primäre Profil ist Code-First. MCPlet-Metadaten werden bei der Tool-Registrierung mit Feldern wie <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong> und <strong>_meta.ui</strong> deklariert.",
+        "q4.body2": "<strong>mcplet.yaml</strong> kann weiterhin für Rückwärtskompatibilitäts-Standardwerte verwendet werden, ist aber nicht die einzige Wahrheitsquelle, wenn Code-Metadaten vorhanden sind.",
+        "q5.heading": "Wie verwendet MCPlet Passkey-Authentifizierung?",
+        "q5.body": "Geschützte MCPlets deklarieren Authentifizierung in <strong>_meta.auth</strong>. Bei modellsichtbaren Action-Tools fängt der Host den Aufruf ab, erhält eine Passkey-Bestätigung über einen Browser-Kontext, injiziert das Verifizierungsmaterial außerhalb der Geschäftsargumente, und das MCPlet-Backend verifiziert die Bestätigung, bevor die Aktion ausgeführt wird.",
+        "q6.heading": "Welche Host-Profile unterstützt MCPlet?",
+        "q6.body": "MCPlet definiert derzeit zwei Host-Implementierungsprofile. Das <strong>WebUI Profile</strong> richtet sich an MCP-Clients oder Agent-Shells mit MCP Apps-Rendering. Das <strong>Agent Profile</strong> richtet sich an Orchestrierungssysteme aus spezialisierten Agenten und einem extern konfigurierten LLM, ohne erforderliche allgemeine UI-Schicht.",
+        "q7.heading": "Wie fange ich mit MCPlet an?",
+        "q7.body1": "Beginnen Sie damit, ein Host-Profil zu wählen, jedes Tool als <strong>read</strong>, <strong>prepare</strong> oder <strong>action</strong> zu klassifizieren, Code-First-Metadaten in <strong>_meta</strong> zu registrieren, ein Ergebnisschema bereitzustellen und Passkey-Durchsetzung für geschützte modellsichtbare Aktionen hinzuzufügen.",
+        "q7.body2": "Wenn Sie den kürzesten Weg möchten, verwenden Sie zuerst den <a href=\"getting-started.html\">Erste-Schritte-Leitfaden</a> und validieren Sie dann die Details anhand der vollständigen Spezifikation.",
+        "q8.heading": "Wo befindet sich der normative Entwurf?",
+        "q8.body": "Die indexierbare HTML-Übersicht befindet sich unter <a href=\"spec/\">/spec/</a>, aber die normative Entwurfsquelle ist die Markdown-Datei unter <a href=\"files/MCPlet-spec-v202603-03.md\" target=\"_blank\" rel=\"noopener\">/files/MCPlet-spec-v202603-03.md</a>. Der Patent- und Lizenzhinweis wird separat unter <a href=\"patent-notice.html\">/patent-notice.html</a> veröffentlicht.",
+        "q9.heading": "Wer betreut den MCPlet-Entwurf?",
+        "q9.body": "Der öffentliche Entwurf auf dieser Website wird derzeit als von der <strong>MCPlet Working Group</strong> betreut dargestellt. Für Überprüfungs- und Archivierungszwecke bleibt die kanonische normative Quelle der auf der Website veröffentlichte rohe Markdown-Entwurf.",
+        "btn.gettingStarted": "Erste-Schritte-Leitfaden öffnen",
+        "btn.readSpec": "HTML-Übersicht lesen",
+        "btn.rawMarkdown": "Rohes Markdown öffnen",
+        "resource.links": "Lizenzkontext benötigt? Lesen Sie den <a href=\"patent-notice.html\">Hinweis zum geistigen Eigentum</a>. Architekturübersicht benötigt? Lesen Sie die <a href=\"spec/\">HTML-Übersicht</a>.",
+        "footer.home": "Startseite",
+        "footer.gettingStarted": "Erste Schritte",
+        "footer.specification": "Spezifikation",
+        "footer.patent": "Patenthinweis",
+        "footer.version": "MCPlet-Spezifikation v202603-03",
+        "footer.updated": "Aktualisiert am 2026-04-01"
+      },
+      es: {
+        "nav.home": "Inicio",
+        "nav.gettingStarted": "Primeros pasos",
+        "nav.specification": "Especificación",
+        "nav.patent": "Aviso de patente",
+        "nav.rawMarkdown": "Markdown sin procesar",
+        "page.label": "FAQ técnica",
+        "page.title": "Preguntas frecuentes sobre MCPlet",
+        "page.subtitle": "Respuestas cortas para desarrolladores, hosts y revisores que evalúan MCPlet v202603-03.",
+        "summary.body": "<strong>Fuente normativa:</strong> el borrador canónico sigue siendo la especificación Markdown sin procesar. Esta FAQ es una página complementaria indexable para respuestas directas y preguntas de evaluación comunes. Mantenido por el MCPlet Working Group y actualizado el 2026-04-01.",
+        "q1.heading": "¿Qué es MCPlet?",
+        "q1.body": "MCPlet es un perfil de convención code-first construido sobre Model Context Protocol y MCP Apps. Define unidades de capacidad restringidas de intent único que empaquetan la lógica de negocio con visibilidad explícita, autenticación y límites de seguridad para operaciones de IA.",
+        "q2.heading": "¿En qué se diferencia MCPlet de MCP y MCP Apps?",
+        "q2.body": "MCP define el protocolo para herramientas y recursos. MCP Apps define cómo los hosts renderizan y coordinan la UI. MCPlet se sitúa sobre ambos como un perfil de convención que añade modelado de intents, clasificación de herramientas, reglas de visibilidad, requisitos de autenticación y límites de seguridad gestionados por el host.",
+        "q3.heading": "¿Cuáles son los tres tipos de MCPlet?",
+        "q3.body": "MCPlet clasifica las herramientas como <strong>read</strong>, <strong>prepare</strong> o <strong>action</strong>. Las herramientas read no tienen efectos secundarios y son seguras para invocación autónoma. Las herramientas prepare recopilan o validan información antes del compromiso. Las herramientas action causan efectos secundarios irreversibles y por tanto requieren confirmación y aplicación más estrictas.",
+        "q4.heading": "¿MCPlet es code-first o basado en YAML?",
+        "q4.body1": "El perfil principal es code-first. Los metadatos de MCPlet se declaran en el momento del registro de la herramienta usando campos como <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong> y <strong>_meta.ui</strong>.",
+        "q4.body2": "<strong>mcplet.yaml</strong> puede seguir usándose para valores predeterminados de compatibilidad hacia atrás, pero no es la única fuente de verdad cuando existen metadatos de código.",
+        "q5.heading": "¿Cómo utiliza MCPlet la autenticación Passkey?",
+        "q5.body": "Los MCPlets protegidos declaran autenticación en <strong>_meta.auth</strong>. Para las herramientas action visibles al modelo, el host intercepta la llamada, obtiene una aserción Passkey a través de un contexto de navegador, inyecta el material de verificación fuera de los argumentos de negocio, y el backend de MCPlet verifica la aserción antes de ejecutar la acción.",
+        "q6.heading": "¿Qué perfiles de host admite MCPlet?",
+        "q6.body": "MCPlet define actualmente dos perfiles de implementación de host. El <strong>WebUI Profile</strong> apunta a clientes MCP o shells de agentes con renderizado MCP Apps. El <strong>Agent Profile</strong> apunta a sistemas de orquestación compuestos por agentes especializados y un LLM configurado externamente, sin capa de UI de propósito general requerida.",
+        "q7.heading": "¿Cómo empiezo con MCPlet?",
+        "q7.body1": "Comience eligiendo un perfil de host, clasificando cada herramienta como <strong>read</strong>, <strong>prepare</strong> o <strong>action</strong>, registrando metadatos code-first en <strong>_meta</strong>, exponiendo un esquema de resultado y añadiendo la aplicación de Passkey para las acciones model-visibles protegidas.",
+        "q7.body2": "Si quiere el camino más corto, use primero la <a href=\"getting-started.html\">guía de primeros pasos</a> y luego valide los detalles con la especificación completa.",
+        "q8.heading": "¿Dónde está el borrador normativo?",
+        "q8.body": "La vista HTML indexable está en <a href=\"spec/\">/spec/</a>, pero la fuente del borrador normativo es el archivo Markdown en <a href=\"files/MCPlet-spec-v202603-03.md\" target=\"_blank\" rel=\"noopener\">/files/MCPlet-spec-v202603-03.md</a>. El aviso de patente y licencia se publica por separado en <a href=\"patent-notice.html\">/patent-notice.html</a>.",
+        "q9.heading": "¿Quién mantiene el borrador MCPlet?",
+        "q9.body": "El borrador público en este sitio se presenta actualmente como mantenido por el <strong>MCPlet Working Group</strong>. Para fines de revisión y archivo, la fuente normativa canónica sigue siendo el borrador Markdown sin procesar publicado en el sitio.",
+        "btn.gettingStarted": "Abrir guía de primeros pasos",
+        "btn.readSpec": "Leer vista HTML",
+        "btn.rawMarkdown": "Abrir Markdown sin procesar",
+        "resource.links": "¿Necesita contexto de licencia? Revise el <a href=\"patent-notice.html\">aviso de propiedad intelectual</a>. ¿Necesita resumen de arquitectura? Lea la <a href=\"spec/\">vista HTML</a>.",
+        "footer.home": "Inicio",
+        "footer.gettingStarted": "Primeros pasos",
+        "footer.specification": "Especificación",
+        "footer.patent": "Aviso de patente",
+        "footer.version": "Especificación MCPlet v202603-03",
+        "footer.updated": "Actualizado el 2026-04-01"
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const langBtn = document.getElementById('langBtn');
+      const langDropdown = document.getElementById('langDropdown');
+
+      if (!langBtn || !langDropdown) {
+        return;
+      }
+
+      langBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        langDropdown.classList.toggle('show');
+      });
+
+      document.addEventListener('click', () => {
+        langDropdown.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>

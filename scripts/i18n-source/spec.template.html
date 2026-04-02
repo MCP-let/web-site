@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCPlet Specification v202603-03 — HTML Overview</title>
+  <meta name="description" content="HTML overview of MCPlet Specification v202603-03, a code-first convention profile on top of MCP and MCP Apps for constrained, single-intent AI capability units.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="MCPlet Working Group">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="canonical" href="https://mcplet.ai/spec/">
+  <meta property="og:title" content="MCPlet Specification v202603-03 — HTML Overview">
+  <meta property="og:description" content="HTML overview of MCPlet Specification v202603-03, including host profiles, classification model, code-first metadata, and passkey enforcement.">
+  <meta property="og:url" content="https://mcplet.ai/spec/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MCPlet">
+  <meta property="og:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MCPlet Specification v202603-03 — HTML Overview">
+  <meta name="twitter:description" content="HTML overview of MCPlet Specification v202603-03, including host profiles, classification model, code-first metadata, and passkey enforcement.">
+  <meta name="twitter:image" content="https://mcplet.ai/files/mcplet-banner.jpg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="shortcut icon" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d14;
+      --bg-tertiary: #121220;
+      --bg-card: rgba(20, 20, 30, 0.68);
+      --accent-cyan: #00f0ff;
+      --accent-blue: #0066ff;
+      --accent-purple: #7c3aed;
+      --accent-green: #00ff88;
+      --accent-orange: #ff6b00;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7b;
+      --border-color: rgba(0, 240, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(0, 240, 255, 0.12), transparent 26%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.15), transparent 28%),
+        var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container,
+    .footer-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #0a0a0f;
+    }
+
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .logo-text span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links,
+    .footer-links,
+    .toc {
+      display: flex;
+      gap: 1.1rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .footer-links a,
+    .toc a,
+    .resource-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .footer-links a:hover,
+    .toc a:hover,
+    .resource-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* ── Lang switcher ── */
+    .lang-switcher { position: relative; }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
+    }
+
+    .lang-btn svg { width: 16px; height: 16px; }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 140px;
+      display: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .lang-dropdown.show { display: block; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .lang-option:hover {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .lang-option.active {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .lang-flag { width: 20px; font-size: 1rem; }
+
+    main {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    article {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .page-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      color: var(--text-secondary);
+      font-size: 1.06rem;
+    }
+
+    .meta-grid,
+    .classification-grid,
+    .section-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+
+    .classification-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .section-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.5rem;
+    }
+
+    .meta-card .label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.45rem;
+    }
+
+    .meta-card .value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .section-card h2,
+    .toc-card h2,
+    .code-card h2 {
+      font-size: 1.28rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-card p,
+    .section-card li,
+    .toc-card li,
+    .classification-card p,
+    .resource-links,
+    .callout,
+    .code-card p {
+      color: var(--text-secondary);
+    }
+
+    .section-card ul,
+    .toc-card ul {
+      margin-left: 1.1rem;
+    }
+
+    .section-card li + li,
+    .toc-card li + li {
+      margin-top: 0.45rem;
+    }
+
+    .classification-card {
+      border-top: 3px solid transparent;
+    }
+
+    .classification-card.read {
+      border-top-color: var(--accent-green);
+    }
+
+    .classification-card.prepare {
+      border-top-color: var(--accent-orange);
+    }
+
+    .classification-card.action {
+      border-top-color: #ff3366;
+    }
+
+    .classification-card h3 {
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border-color);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparison-table th {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .comparison-table td {
+      color: var(--text-secondary);
+    }
+
+    .code-card pre {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(10, 10, 15, 0.9);
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #c6f9ff;
+    }
+
+    .callout {
+      padding: 1rem 1.15rem;
+      border-left: 3px solid var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.05);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.6rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.3rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #0a0a0f;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2rem;
+      background: rgba(13, 13, 20, 0.92);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 860px) {
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav,
+      main,
+      footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "MCPlet Specification v202603-03",
+      "description": "HTML overview of MCPlet Specification v202603-03, a code-first convention profile on top of MCP and MCP Apps for constrained, single-intent AI capability units.",
+      "url": "https://mcplet.ai/spec/",
+      "mainEntityOfPage": "https://mcplet.ai/spec/",
+      "datePublished": "2026-03-27",
+      "dateModified": "2026-04-01",
+      "author": {
+        "@type": "Organization",
+        "name": "MCPlet Working Group"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MCPlet"
+      },
+      "image": "https://mcplet.ai/files/mcplet-banner.jpg",
+      "proficiencyLevel": "Expert",
+      "about": [
+        "Model Context Protocol",
+        "MCP Apps",
+        "AI agents",
+        "Passkey authentication",
+        "Code-first metadata"
+      ]
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">MCP<span>let</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+        <li><a href="../getting-started.html" data-i18n="nav.gettingStarted">Getting Started</a></li>
+        <li><a href="../faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="../patent-notice.html" data-i18n="nav.patent">Patent Notice</a></li>
+        <li><a href="../files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener" data-i18n="nav.rawMarkdown">Raw Markdown</a></li>
+      </ul>
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span id="currentLangLabel">EN</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option active" data-lang="en">
+            <span class="lang-flag">🇺🇸</span><span>English</span>
+          </div>
+          <div class="lang-option" data-lang="ja">
+            <span class="lang-flag">🇯🇵</span><span>日本語</span>
+          </div>
+          <div class="lang-option" data-lang="zh">
+            <span class="lang-flag">🇨🇳</span><span>中文</span>
+          </div>
+          <div class="lang-option" data-lang="fr">
+            <span class="lang-flag">🇫🇷</span><span>Français</span>
+          </div>
+          <div class="lang-option" data-lang="de">
+            <span class="lang-flag">🇩🇪</span><span>Deutsch</span>
+          </div>
+          <div class="lang-option" data-lang="es">
+            <span class="lang-flag">🇪🇸</span><span>Español</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <article>
+      <div class="page-label" data-i18n="page.label">Specification Overview</div>
+      <h1 data-i18n="page.title">MCPlet Specification v202603-03</h1>
+      <p class="subtitle" data-i18n="page.subtitle">This page is an HTML overview for fast reading and search indexing. The normative draft remains the raw markdown source, but this overview surfaces the major concepts, contracts, and security model in a crawler-friendly format.</p>
+
+      <div class="meta-grid">
+        <div class="card meta-card">
+          <span class="label" data-i18n="meta.status.label">Status</span>
+          <span class="value" data-i18n="meta.status.value">Draft</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label" data-i18n="meta.version.label">Version</span>
+          <span class="value">v202603-03</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label" data-i18n="meta.draftDate.label">Draft date</span>
+          <span class="value">2026-03-27</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label" data-i18n="meta.profiles.label">Profiles</span>
+          <span class="value" data-i18n="meta.profiles.value">WebUI and Agent</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label" data-i18n="meta.maintainedBy.label">Maintained by</span>
+          <span class="value">MCPlet Working Group</span>
+        </div>
+        <div class="card meta-card">
+          <span class="label" data-i18n="meta.canonicalSource.label">Canonical source</span>
+          <span class="value" data-i18n="meta.canonicalSource.value">Raw markdown draft</span>
+        </div>
+      </div>
+
+      <div class="section-grid">
+        <section class="card section-card">
+          <h2 id="purpose" data-i18n="purpose.heading">Purpose and scope</h2>
+          <p data-i18n="purpose.p1">MCPlet defines constrained, AI-first capability units with one business intent, one primary MCP tool contract, optional MCP Apps UI, explicit model-versus-app safety boundaries, and host-managed orchestration.</p>
+          <p data-i18n="purpose.p2">The goal is predictable, reviewable, and secure AI-tool interaction. MCPlet is a convention profile on top of MCP and MCP Apps; it does not redefine transport, runtime, sandboxing, or backend architecture.</p>
+        </section>
+
+        <aside class="card toc-card">
+          <h2 data-i18n="toc.heading">On this page</h2>
+          <ul class="toc">
+            <li><a href="#purpose" data-i18n="toc.purpose">Purpose</a></li>
+            <li><a href="#profiles" data-i18n="toc.profiles">Host profiles</a></li>
+            <li><a href="#comparison" data-i18n="toc.comparison">Comparison</a></li>
+            <li><a href="#classification" data-i18n="toc.classification">Classification</a></li>
+            <li><a href="#metadata" data-i18n="toc.metadata">Code-first metadata</a></li>
+            <li><a href="#security" data-i18n="toc.security">Passkey enforcement</a></li>
+            <li><a href="#pools" data-i18n="toc.pools">Pools and agents</a></li>
+          </ul>
+        </aside>
+      </div>
+
+      <section class="card section-card" id="profiles">
+        <h2 data-i18n="profiles.heading">Host profiles</h2>
+        <p data-i18n="profiles.intro">MCPlet currently supports two host implementation profiles.</p>
+        <ul>
+          <li data-i18n="profiles.webui"><strong>WebUI Profile:</strong> an MCP client or agent shell that renders MCP Apps UI, invokes tools, and manages visibility and safety in a user-facing environment.</li>
+          <li data-i18n="profiles.agent"><strong>Agent Profile:</strong> an orchestration layer composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.</li>
+        </ul>
+        <p data-i18n="profiles.stateless">Both profiles keep MCPlets stateless by default. State, conversation context, and policy enforcement remain host responsibilities.</p>
+      </section>
+
+      <section class="card section-card" id="comparison">
+        <h2 data-i18n="comparison.heading">How MCPlet compares to MCP and MCP Apps</h2>
+        <p data-i18n="comparison.intro">MCPlet is easiest to understand when treated as a layer on top of existing standards rather than as a replacement for them.</p>
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th data-i18n="table.col.layer">Layer</th>
+                <th data-i18n="table.col.role">Primary role</th>
+                <th data-i18n="table.col.defines">Defines</th>
+                <th data-i18n="table.col.notDefines">Does not define</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>MCP</strong></td>
+                <td data-i18n="table.mcp.role">Protocol layer</td>
+                <td data-i18n="table.mcp.defines">Tool and resource transport, discovery, and invocation contracts.</td>
+                <td data-i18n="table.mcp.notDefines">Intent modeling, action safety policy, or opinionated classification rules.</td>
+              </tr>
+              <tr>
+                <td><strong>MCP Apps</strong></td>
+                <td data-i18n="table.mcpapps.role">UI integration layer</td>
+                <td data-i18n="table.mcpapps.defines">Host-view rendering, iframe lifecycle, and app bridge behavior.</td>
+                <td data-i18n="table.mcpapps.notDefines">Business intent boundaries, tool classification, or host security conventions.</td>
+              </tr>
+              <tr>
+                <td><strong>MCPlet</strong></td>
+                <td data-i18n="table.mcplet.role">Convention profile</td>
+                <td data-i18n="table.mcplet.defines">Single-intent units, read/prepare/action classification, visibility rules, auth requirements, and host-managed safety boundaries.</td>
+                <td data-i18n="table.mcplet.notDefines">MCP transport, generic runtime behavior, or a mandatory frontend framework.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="classification-grid" id="classification">
+        <article class="card classification-card read">
+          <h3 data-i18n="class.read.heading">read</h3>
+          <p data-i18n="class.read.body">Side-effect free and idempotent. Suitable for autonomous invocation when the host allows model visibility.</p>
+        </article>
+        <article class="card classification-card prepare">
+          <h3 data-i18n="class.prepare.heading">prepare</h3>
+          <p data-i18n="class.prepare.body">Gathers or validates information before commitment. Useful as an explicit checkpoint in multi-step workflows.</p>
+        </article>
+        <article class="card classification-card action">
+          <h3 data-i18n="class.action.heading">action</h3>
+          <p data-i18n="class.action.body">Causes irreversible side effects. Requires stronger confirmation and enforcement, especially when visible to the model.</p>
+        </article>
+      </section>
+
+      <section class="card code-card" id="metadata">
+        <h2 data-i18n="metadata.heading">Code-first metadata contract</h2>
+        <p data-i18n="metadata.body">MCPlet v202603-03 is explicitly code-first. Hosts discover MCPlet semantics through registration metadata such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong>, and optional <strong>_meta.pool</strong>.</p>
+        <pre>{
+  "_meta": {
+    "mcpletType": "action",
+    "visibility": ["model", "app"],
+    "mcpletToolResultSchemaUri": "mcplet://tool-result-schema/approve_order",
+    "ui": {
+      "resourceUri": "ui://orders/approve.html",
+      "displayMode": "inline"
+    },
+    "auth": {
+      "required": "passkey",
+      "enforcement": "strict",
+      "promptMessage": "Please authenticate with Passkey to confirm"
+    }
+  }
+}</pre>
+        <p data-i18n="metadata.note"><strong>mcplet.yaml</strong> can still exist for backward-compatibility defaults, but it is not the single source of truth once code metadata is present.</p>
+      </section>
+
+      <section class="card section-card" id="security">
+        <h2 data-i18n="security.heading">Passkey enforcement and protected actions</h2>
+        <p data-i18n="security.body">Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification payload outside the business arguments, and the MCPlet backend verifies that assertion before any irreversible action executes.</p>
+        <div class="callout" data-i18n="security.callout">This separation matters because it keeps the LLM focused on business inputs while moving cryptographic confirmation into host-controlled and backend-verifiable paths.</div>
+      </section>
+
+      <section class="card section-card" id="pools">
+        <h2 data-i18n="pools.heading">Pools, agents, and routing boundaries</h2>
+        <p data-i18n="pools.p1">MCPlet v202603-03 introduces named Pools and accessible Pool lists for agents. Pools let hosts group MCPlets by target system or policy scope, while per-agent Pool grants enforce least-privilege access during dispatch.</p>
+        <p data-i18n="pools.p2">The Agent Profile also distinguishes between an internal A2A local protocol bus and an external A2A protocol endpoint for external agents. Hosts remain responsible for authentication, policy, and dispatch validation.</p>
+      </section>
+
+      <section class="card section-card">
+        <h2 data-i18n="read.heading">Read the full draft</h2>
+        <p data-i18n="read.body">The raw markdown file remains the normative draft source. Use the HTML overview for fast scanning, the FAQ for short answers, and the patent notice for licensing context.</p>
+        <div class="button-row">
+          <a href="../getting-started.html" class="btn btn-secondary" data-i18n="btn.gettingStarted">Open getting started guide</a>
+          <a href="../files/MCPlet-spec-v202603-03.md" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="btn.rawMarkdown">Open raw markdown</a>
+          <a href="../faq.html" class="btn btn-secondary" data-i18n="btn.faq">Browse FAQ</a>
+        </div>
+        <p class="resource-links" data-i18n="resource.links">Need licensing context? Review the <a href="../patent-notice.html">intellectual property notice</a>.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="../index.html" data-i18n="footer.home">Home</a></li>
+        <li><a href="../getting-started.html" data-i18n="footer.gettingStarted">Getting Started</a></li>
+        <li><a href="../faq.html" data-i18n="footer.faq">FAQ</a></li>
+        <li><a href="../patent-notice.html" data-i18n="footer.patent">Patent Notice</a></li>
+      </ul>
+      <div class="footer-copy">
+        <span data-i18n="footer.version">MCPlet Specification v202603-03</span>
+        &nbsp;·&nbsp;
+        <span data-i18n="footer.updated">Updated 2026-04-01</span>
+        &nbsp;·&nbsp;
+        <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        "nav.home": "Home",
+        "nav.gettingStarted": "Getting Started",
+        "nav.faq": "FAQ",
+        "nav.patent": "Patent Notice",
+        "nav.rawMarkdown": "Raw Markdown",
+        "page.label": "Specification Overview",
+        "page.title": "MCPlet Specification v202603-03",
+        "page.subtitle": "This page is an HTML overview for fast reading and search indexing. The normative draft remains the raw markdown source, but this overview surfaces the major concepts, contracts, and security model in a crawler-friendly format.",
+        "meta.status.label": "Status",
+        "meta.status.value": "Draft",
+        "meta.version.label": "Version",
+        "meta.draftDate.label": "Draft date",
+        "meta.profiles.label": "Profiles",
+        "meta.profiles.value": "WebUI and Agent",
+        "meta.maintainedBy.label": "Maintained by",
+        "meta.canonicalSource.label": "Canonical source",
+        "meta.canonicalSource.value": "Raw markdown draft",
+        "purpose.heading": "Purpose and scope",
+        "purpose.p1": "MCPlet defines constrained, AI-first capability units with one business intent, one primary MCP tool contract, optional MCP Apps UI, explicit model-versus-app safety boundaries, and host-managed orchestration.",
+        "purpose.p2": "The goal is predictable, reviewable, and secure AI-tool interaction. MCPlet is a convention profile on top of MCP and MCP Apps; it does not redefine transport, runtime, sandboxing, or backend architecture.",
+        "toc.heading": "On this page",
+        "toc.purpose": "Purpose",
+        "toc.profiles": "Host profiles",
+        "toc.comparison": "Comparison",
+        "toc.classification": "Classification",
+        "toc.metadata": "Code-first metadata",
+        "toc.security": "Passkey enforcement",
+        "toc.pools": "Pools and agents",
+        "profiles.heading": "Host profiles",
+        "profiles.intro": "MCPlet currently supports two host implementation profiles.",
+        "profiles.webui": "<strong>WebUI Profile:</strong> an MCP client or agent shell that renders MCP Apps UI, invokes tools, and manages visibility and safety in a user-facing environment.",
+        "profiles.agent": "<strong>Agent Profile:</strong> an orchestration layer composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.",
+        "profiles.stateless": "Both profiles keep MCPlets stateless by default. State, conversation context, and policy enforcement remain host responsibilities.",
+        "comparison.heading": "How MCPlet compares to MCP and MCP Apps",
+        "comparison.intro": "MCPlet is easiest to understand when treated as a layer on top of existing standards rather than as a replacement for them.",
+        "table.col.layer": "Layer",
+        "table.col.role": "Primary role",
+        "table.col.defines": "Defines",
+        "table.col.notDefines": "Does not define",
+        "table.mcp.role": "Protocol layer",
+        "table.mcp.defines": "Tool and resource transport, discovery, and invocation contracts.",
+        "table.mcp.notDefines": "Intent modeling, action safety policy, or opinionated classification rules.",
+        "table.mcpapps.role": "UI integration layer",
+        "table.mcpapps.defines": "Host-view rendering, iframe lifecycle, and app bridge behavior.",
+        "table.mcpapps.notDefines": "Business intent boundaries, tool classification, or host security conventions.",
+        "table.mcplet.role": "Convention profile",
+        "table.mcplet.defines": "Single-intent units, read/prepare/action classification, visibility rules, auth requirements, and host-managed safety boundaries.",
+        "table.mcplet.notDefines": "MCP transport, generic runtime behavior, or a mandatory frontend framework.",
+        "class.read.heading": "read",
+        "class.read.body": "Side-effect free and idempotent. Suitable for autonomous invocation when the host allows model visibility.",
+        "class.prepare.heading": "prepare",
+        "class.prepare.body": "Gathers or validates information before commitment. Useful as an explicit checkpoint in multi-step workflows.",
+        "class.action.heading": "action",
+        "class.action.body": "Causes irreversible side effects. Requires stronger confirmation and enforcement, especially when visible to the model.",
+        "metadata.heading": "Code-first metadata contract",
+        "metadata.body": "MCPlet v202603-03 is explicitly code-first. Hosts discover MCPlet semantics through registration metadata such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong>, and optional <strong>_meta.pool</strong>.",
+        "metadata.note": "<strong>mcplet.yaml</strong> can still exist for backward-compatibility defaults, but it is not the single source of truth once code metadata is present.",
+        "security.heading": "Passkey enforcement and protected actions",
+        "security.body": "Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification payload outside the business arguments, and the MCPlet backend verifies that assertion before any irreversible action executes.",
+        "security.callout": "This separation matters because it keeps the LLM focused on business inputs while moving cryptographic confirmation into host-controlled and backend-verifiable paths.",
+        "pools.heading": "Pools, agents, and routing boundaries",
+        "pools.p1": "MCPlet v202603-03 introduces named Pools and accessible Pool lists for agents. Pools let hosts group MCPlets by target system or policy scope, while per-agent Pool grants enforce least-privilege access during dispatch.",
+        "pools.p2": "The Agent Profile also distinguishes between an internal A2A local protocol bus and an external A2A protocol endpoint for external agents. Hosts remain responsible for authentication, policy, and dispatch validation.",
+        "read.heading": "Read the full draft",
+        "read.body": "The raw markdown file remains the normative draft source. Use the HTML overview for fast scanning, the FAQ for short answers, and the patent notice for licensing context.",
+        "btn.gettingStarted": "Open getting started guide",
+        "btn.rawMarkdown": "Open raw markdown",
+        "btn.faq": "Browse FAQ",
+        "resource.links": "Need licensing context? Review the <a href=\"../patent-notice.html\">intellectual property notice</a>.",
+        "footer.home": "Home",
+        "footer.gettingStarted": "Getting Started",
+        "footer.faq": "FAQ",
+        "footer.patent": "Patent Notice",
+        "footer.version": "MCPlet Specification v202603-03",
+        "footer.updated": "Updated 2026-04-01"
+      },
+      ja: {
+        "nav.home": "ホーム",
+        "nav.gettingStarted": "はじめに",
+        "nav.faq": "FAQ",
+        "nav.patent": "特許表示",
+        "nav.rawMarkdown": "Markdown 原文",
+        "page.label": "仕様概要",
+        "page.title": "MCPlet 仕様 v202603-03",
+        "page.subtitle": "このページは高速な閲覧と検索インデックス用の HTML 概要です。規範的ドラフトは生の Markdown ソースですが、この概要はクローラーに優しい形式で主要な概念、コントラクト、およびセキュリティモデルを提示しています。",
+        "meta.status.label": "ステータス",
+        "meta.status.value": "ドラフト",
+        "meta.version.label": "バージョン",
+        "meta.draftDate.label": "ドラフト日",
+        "meta.profiles.label": "プロファイル",
+        "meta.profiles.value": "WebUI と Agent",
+        "meta.maintainedBy.label": "メンテナー",
+        "meta.canonicalSource.label": "正本ソース",
+        "meta.canonicalSource.value": "Markdown 原文ドラフト",
+        "purpose.heading": "目的とスコープ",
+        "purpose.p1": "MCPlet は、一つのビジネスインテント、一つの主要 MCP ツールコントラクト、任意の MCP Apps UI、明示的なモデル対アプリの安全境界、ホスト管理のオーケストレーションを持つ制約付きの AI ファースト能力ユニットを定義します。",
+        "purpose.p2": "目標は予測可能でレビュー可能な安全な AI ツールインタラクションです。MCPlet は MCP と MCP Apps の上の規約プロファイルであり、トランスポート、ランタイム、サンドボックス、またはバックエンドアーキテクチャを再定義しません。",
+        "toc.heading": "このページの内容",
+        "toc.purpose": "目的",
+        "toc.profiles": "ホストプロファイル",
+        "toc.comparison": "比較",
+        "toc.classification": "分類",
+        "toc.metadata": "コードファーストメタデータ",
+        "toc.security": "パスキー強制",
+        "toc.pools": "プールとエージェント",
+        "profiles.heading": "ホストプロファイル",
+        "profiles.intro": "MCPlet は現在2つのホスト実装プロファイルをサポートしています。",
+        "profiles.webui": "<strong>WebUI Profile：</strong>MCP Apps UI をレンダリングし、ツールを呼び出し、ユーザー向け環境で可視性と安全性を管理する MCP クライアントまたはエージェントシェル。",
+        "profiles.agent": "<strong>Agent Profile：</strong>汎用 UI 層を必要とせず、専門エージェントと外部設定 LLM で構成されるオーケストレーション層。",
+        "profiles.stateless": "両プロファイルは MCPlet をデフォルトでステートレスに保ちます。状態、会話コンテキスト、ポリシー強制はホストの責任です。",
+        "comparison.heading": "MCPlet と MCP、MCP Apps の比較",
+        "comparison.intro": "MCPlet は既存の標準の代替としてではなく、その上のレイヤーとして扱うと最もわかりやすいです。",
+        "table.col.layer": "レイヤー",
+        "table.col.role": "主な役割",
+        "table.col.defines": "定義するもの",
+        "table.col.notDefines": "定義しないもの",
+        "table.mcp.role": "プロトコル層",
+        "table.mcp.defines": "ツールとリソースのトランスポート、ディスカバリー、呼び出しコントラクト。",
+        "table.mcp.notDefines": "インテントモデリング、アクション安全ポリシー、またはツール分類のルール。",
+        "table.mcpapps.role": "UI 統合層",
+        "table.mcpapps.defines": "ホストビューのレンダリング、iframe ライフサイクル、アプリブリッジの動作。",
+        "table.mcpapps.notDefines": "ビジネスインテントの境界、ツール分類、またはホストセキュリティ規約。",
+        "table.mcplet.role": "規約プロファイル",
+        "table.mcplet.defines": "単一インテントユニット、read/prepare/action 分類、可視性ルール、認証要件、ホスト管理の安全境界。",
+        "table.mcplet.notDefines": "MCP トランスポート、汎用ランタイム動作、または必須フロントエンドフレームワーク。",
+        "class.read.heading": "read",
+        "class.read.body": "副作用がなく冪等です。ホストがモデル可視性を許可する場合、自律的な呼び出しに適しています。",
+        "class.prepare.heading": "prepare",
+        "class.prepare.body": "コミットメント前に情報を収集または検証します。マルチステップワークフローの明示的なチェックポイントとして有用です。",
+        "class.action.heading": "action",
+        "class.action.body": "不可逆的な副作用を引き起こします。特にモデルから見える場合、より強力な確認と強制が必要です。",
+        "metadata.heading": "コードファーストメタデータコントラクト",
+        "metadata.body": "MCPlet v202603-03 は明示的にコードファーストです。ホストは <strong>_meta.mcpletType</strong>、<strong>_meta.visibility</strong>、<strong>_meta.auth</strong>、<strong>_meta.ui</strong>、および任意の <strong>_meta.pool</strong> などの登録メタデータを通じて MCPlet セマンティクスを発見します。",
+        "metadata.note": "<strong>mcplet.yaml</strong> は後方互換性のデフォルトとして引き続き存在できますが、コードメタデータが存在すると唯一の真実の情報源ではありません。",
+        "security.heading": "パスキー強制と保護されたアクション",
+        "security.body": "保護された MCPlet は <strong>_meta.auth</strong> で認証を宣言します。モデルに見えるアクションツールの場合、ホストは呼び出しをインターセプトし、ブラウザコンテキストを通じてパスキーアサーションを取得し、ビジネス引数の外に検証ペイロードを注入します。MCPlet バックエンドは不可逆的なアクションが実行される前にそのアサーションを検証します。",
+        "security.callout": "この分離が重要なのは、LLM をビジネス入力に集中させながら、暗号化確認をホスト制御およびバックエンド検証可能なパスに移動させるためです。",
+        "pools.heading": "プール、エージェント、ルーティング境界",
+        "pools.p1": "MCPlet v202603-03 はエージェントのための名前付きプールとアクセス可能なプールリストを導入します。プールによりホストはターゲットシステムまたはポリシースコープで MCPlet をグループ化でき、エージェントごとのプール付与はディスパッチ時に最小権限アクセスを強制します。",
+        "pools.p2": "Agent Profile は、内部 A2A ローカルプロトコルバスと外部エージェント向けの外部 A2A プロトコルエンドポイントも区別します。ホストは認証、ポリシー、ディスパッチ検証の責任を持ちます。",
+        "read.heading": "完全なドラフトを読む",
+        "read.body": "生の Markdown ファイルが規範的ドラフトソースです。HTML 概要を高速スキャンに、FAQ を簡潔な回答に、特許通知をライセンスコンテキストに使用してください。",
+        "btn.gettingStarted": "はじめにガイドを開く",
+        "btn.rawMarkdown": "Markdown 原文を開く",
+        "btn.faq": "FAQ を見る",
+        "resource.links": "ライセンスのコンテキストが必要ですか？<a href=\"../patent-notice.html\">知的財産通知</a>を確認してください。",
+        "footer.home": "ホーム",
+        "footer.gettingStarted": "はじめに",
+        "footer.faq": "FAQ",
+        "footer.patent": "特許表示",
+        "footer.version": "MCPlet 仕様 v202603-03",
+        "footer.updated": "更新日 2026-04-01"
+      },
+      zh: {
+        "nav.home": "首页",
+        "nav.gettingStarted": "快速开始",
+        "nav.faq": "FAQ",
+        "nav.patent": "专利声明",
+        "nav.rawMarkdown": "原始 Markdown",
+        "page.label": "规范概览",
+        "page.title": "MCPlet 规范 v202603-03",
+        "page.subtitle": "本页是用于快速阅读和搜索索引的 HTML 概览。规范性草案仍为原始 Markdown 来源，但本概览以爬虫友好的格式呈现了主要概念、契约和安全模型。",
+        "meta.status.label": "状态",
+        "meta.status.value": "草案",
+        "meta.version.label": "版本",
+        "meta.draftDate.label": "草案日期",
+        "meta.profiles.label": "配置",
+        "meta.profiles.value": "WebUI 与 Agent",
+        "meta.maintainedBy.label": "维护方",
+        "meta.canonicalSource.label": "正本来源",
+        "meta.canonicalSource.value": "原始 Markdown 草案",
+        "purpose.heading": "目的与范围",
+        "purpose.p1": "MCPlet 定义了具有单一业务意图、单一主要 MCP 工具契约、可选 MCP Apps UI、显式模型与应用安全边界和宿主管理编排的受约束 AI 优先能力单元。",
+        "purpose.p2": "目标是可预测、可审查和安全的 AI 工具交互。MCPlet 是 MCP 和 MCP Apps 之上的规约配置，不重新定义传输、运行时、沙箱或后端架构。",
+        "toc.heading": "本页内容",
+        "toc.purpose": "目的",
+        "toc.profiles": "宿主配置",
+        "toc.comparison": "对比",
+        "toc.classification": "分类",
+        "toc.metadata": "代码优先元数据",
+        "toc.security": "Passkey 强制执行",
+        "toc.pools": "Pool 与 Agent",
+        "profiles.heading": "宿主配置",
+        "profiles.intro": "MCPlet 目前支持两种宿主实现配置。",
+        "profiles.webui": "<strong>WebUI Profile：</strong>渲染 MCP Apps UI、调用工具并在面向用户的环境中管理可见性和安全性的 MCP 客户端或代理 shell。",
+        "profiles.agent": "<strong>Agent Profile：</strong>由专门 Agent 和外部配置的 LLM 组成的编排层，不需要通用 UI 层。",
+        "profiles.stateless": "两种配置均默认保持 MCPlet 无状态。状态、对话上下文和策略执行仍是宿主的职责。",
+        "comparison.heading": "MCPlet 与 MCP 和 MCP Apps 的对比",
+        "comparison.intro": "将 MCPlet 视为现有标准之上的一层而非其替代品，最容易理解。",
+        "table.col.layer": "层次",
+        "table.col.role": "主要职责",
+        "table.col.defines": "定义内容",
+        "table.col.notDefines": "未定义内容",
+        "table.mcp.role": "协议层",
+        "table.mcp.defines": "工具和资源的传输、发现和调用契约。",
+        "table.mcp.notDefines": "意图建模、操作安全策略或工具分类规则。",
+        "table.mcpapps.role": "UI 集成层",
+        "table.mcpapps.defines": "宿主视图渲染、iframe 生命周期和应用桥接行为。",
+        "table.mcpapps.notDefines": "业务意图边界、工具分类或宿主安全规约。",
+        "table.mcplet.role": "规约配置",
+        "table.mcplet.defines": "单意图单元、read/prepare/action 分类、可见性规则、认证要求和宿主管理的安全边界。",
+        "table.mcplet.notDefines": "MCP 传输、通用运行时行为或强制性前端框架。",
+        "class.read.heading": "read",
+        "class.read.body": "无副作用且幂等。宿主允许模型可见性时适合自主调用。",
+        "class.prepare.heading": "prepare",
+        "class.prepare.body": "在提交前收集或验证信息。在多步骤工作流中作为明确检查点非常有用。",
+        "class.action.heading": "action",
+        "class.action.body": "产生不可逆副作用。需要更强的确认和强制执行，特别是在模型可见时。",
+        "metadata.heading": "代码优先元数据契约",
+        "metadata.body": "MCPlet v202603-03 明确采用代码优先。宿主通过注册元数据（如 <strong>_meta.mcpletType</strong>、<strong>_meta.visibility</strong>、<strong>_meta.auth</strong>、<strong>_meta.ui</strong> 和可选的 <strong>_meta.pool</strong>）发现 MCPlet 语义。",
+        "metadata.note": "<strong>mcplet.yaml</strong> 仍可用于向后兼容的默认值，但一旦存在代码元数据，它就不是唯一的真实来源。",
+        "security.heading": "Passkey 强制执行与受保护操作",
+        "security.body": "受保护的 MCPlet 在 <strong>_meta.auth</strong> 中声明认证。对于模型可见的 action 工具，宿主拦截调用，通过浏览器上下文获取 Passkey 断言，在业务参数之外注入验证载荷，MCPlet 后端在任何不可逆操作执行之前验证该断言。",
+        "security.callout": "这种分离很重要，因为它让 LLM 专注于业务输入，同时将加密确认转移到宿主控制和后端可验证的路径中。",
+        "pools.heading": "Pool、Agent 与路由边界",
+        "pools.p1": "MCPlet v202603-03 为 Agent 引入了命名 Pool 和可访问 Pool 列表。Pool 让宿主按目标系统或策略范围对 MCPlet 进行分组，而每个 Agent 的 Pool 授权在调度时强制执行最小权限访问。",
+        "pools.p2": "Agent Profile 还区分了内部 A2A 本地协议总线和外部 Agent 的外部 A2A 协议端点。宿主仍然负责认证、策略和调度验证。",
+        "read.heading": "阅读完整草案",
+        "read.body": "原始 Markdown 文件仍是规范性草案来源。使用 HTML 概览快速扫描，使用 FAQ 获取简短答案，使用专利声明了解许可背景。",
+        "btn.gettingStarted": "打开快速开始指南",
+        "btn.rawMarkdown": "打开原始 Markdown",
+        "btn.faq": "浏览 FAQ",
+        "resource.links": "需要许可上下文？请查看<a href=\"../patent-notice.html\">知识产权声明</a>。",
+        "footer.home": "首页",
+        "footer.gettingStarted": "快速开始",
+        "footer.faq": "FAQ",
+        "footer.patent": "专利声明",
+        "footer.version": "MCPlet 规范 v202603-03",
+        "footer.updated": "更新于 2026-04-01"
+      },
+      fr: {
+        "nav.home": "Accueil",
+        "nav.gettingStarted": "Prise en main",
+        "nav.faq": "FAQ",
+        "nav.patent": "Avis de brevet",
+        "nav.rawMarkdown": "Markdown brut",
+        "page.label": "Vue d'ensemble de la spécification",
+        "page.title": "Spécification MCPlet v202603-03",
+        "page.subtitle": "Cette page est une vue d'ensemble HTML pour une lecture rapide et l'indexation par les moteurs de recherche. Le brouillon normatif reste la source Markdown brute, mais cette vue d'ensemble présente les principaux concepts, contrats et modèle de sécurité dans un format adapté aux robots d'exploration.",
+        "meta.status.label": "Statut",
+        "meta.status.value": "Brouillon",
+        "meta.version.label": "Version",
+        "meta.draftDate.label": "Date du brouillon",
+        "meta.profiles.label": "Profils",
+        "meta.profiles.value": "WebUI et Agent",
+        "meta.maintainedBy.label": "Maintenu par",
+        "meta.canonicalSource.label": "Source canonique",
+        "meta.canonicalSource.value": "Brouillon Markdown brut",
+        "purpose.heading": "Objectif et portée",
+        "purpose.p1": "MCPlet définit des unités de capacité contraintes, AI-first, avec un intent métier, un contrat d'outil MCP principal, une UI MCP Apps optionnelle, des limites de sécurité modèle-versus-application explicites et une orchestration gérée par l'hôte.",
+        "purpose.p2": "L'objectif est une interaction outil-IA prévisible, révisable et sécurisée. MCPlet est un profil de convention au-dessus de MCP et MCP Apps ; il ne redéfinit pas le transport, le runtime, le sandboxing ou l'architecture backend.",
+        "toc.heading": "Sur cette page",
+        "toc.purpose": "Objectif",
+        "toc.profiles": "Profils d'hôte",
+        "toc.comparison": "Comparaison",
+        "toc.classification": "Classification",
+        "toc.metadata": "Métadonnées code-first",
+        "toc.security": "Application des Passkeys",
+        "toc.pools": "Pools et agents",
+        "profiles.heading": "Profils d'hôte",
+        "profiles.intro": "MCPlet prend actuellement en charge deux profils d'implémentation d'hôte.",
+        "profiles.webui": "<strong>WebUI Profile :</strong> un client MCP ou un shell d'agent qui rend l'UI MCP Apps, invoque des outils et gère la visibilité et la sécurité dans un environnement orienté utilisateur.",
+        "profiles.agent": "<strong>Agent Profile :</strong> une couche d'orchestration composée d'agents spécialisés et d'un LLM configuré en externe, sans couche UI générale requise.",
+        "profiles.stateless": "Les deux profils maintiennent les MCPlets sans état par défaut. L'état, le contexte de conversation et l'application des politiques restent des responsabilités de l'hôte.",
+        "comparison.heading": "Comment MCPlet se compare à MCP et MCP Apps",
+        "comparison.intro": "MCPlet est plus facile à comprendre en le traitant comme une couche au-dessus des standards existants plutôt que comme un remplacement.",
+        "table.col.layer": "Couche",
+        "table.col.role": "Rôle principal",
+        "table.col.defines": "Définit",
+        "table.col.notDefines": "Ne définit pas",
+        "table.mcp.role": "Couche protocole",
+        "table.mcp.defines": "Transport, découverte et contrats d'invocation des outils et ressources.",
+        "table.mcp.notDefines": "Modélisation des intents, politique de sécurité des actions ou règles de classification opinionnées.",
+        "table.mcpapps.role": "Couche d'intégration UI",
+        "table.mcpapps.defines": "Rendu de la vue hôte, cycle de vie des iframes et comportement du pont applicatif.",
+        "table.mcpapps.notDefines": "Limites d'intent métier, classification des outils ou conventions de sécurité de l'hôte.",
+        "table.mcplet.role": "Profil de convention",
+        "table.mcplet.defines": "Unités à intent unique, classification read/prepare/action, règles de visibilité, exigences d'auth et limites de sécurité gérées par l'hôte.",
+        "table.mcplet.notDefines": "Transport MCP, comportement générique du runtime ou framework frontend obligatoire.",
+        "class.read.heading": "read",
+        "class.read.body": "Sans effets de bord et idempotent. Adapté à l'invocation autonome lorsque l'hôte autorise la visibilité du modèle.",
+        "class.prepare.heading": "prepare",
+        "class.prepare.body": "Collecte ou valide des informations avant engagement. Utile comme point de contrôle explicite dans les flux de travail multi-étapes.",
+        "class.action.heading": "action",
+        "class.action.body": "Provoque des effets de bord irréversibles. Nécessite une confirmation et une application plus strictes, surtout lorsque visible par le modèle.",
+        "metadata.heading": "Contrat de métadonnées code-first",
+        "metadata.body": "MCPlet v202603-03 est explicitement code-first. Les hôtes découvrent la sémantique MCPlet via des métadonnées d'enregistrement telles que <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong> et l'optionnel <strong>_meta.pool</strong>.",
+        "metadata.note": "<strong>mcplet.yaml</strong> peut toujours exister pour des valeurs par défaut de rétrocompatibilité, mais ce n'est pas la source de vérité unique une fois que des métadonnées code sont présentes.",
+        "security.heading": "Application des Passkeys et actions protégées",
+        "security.body": "Les MCPlets protégés déclarent l'authentification dans <strong>_meta.auth</strong>. Pour les outils action visibles par le modèle, l'hôte intercepte l'appel, obtient une assertion Passkey via un contexte navigateur, injecte la charge de vérification en dehors des arguments métier, et le backend MCPlet vérifie cette assertion avant toute action irréversible.",
+        "security.callout": "Cette séparation est importante car elle maintient le LLM concentré sur les entrées métier tout en déplaçant la confirmation cryptographique vers des chemins contrôlés par l'hôte et vérifiables par le backend.",
+        "pools.heading": "Pools, agents et limites de routage",
+        "pools.p1": "MCPlet v202603-03 introduit des Pools nommés et des listes de Pools accessibles pour les agents. Les Pools permettent aux hôtes de regrouper les MCPlets par système cible ou portée de politique, tandis que les attributions de Pools par agent appliquent un accès à moindre privilège lors du dispatch.",
+        "pools.p2": "Le Agent Profile distingue également entre un bus de protocole local A2A interne et un endpoint de protocole A2A externe pour les agents externes. Les hôtes restent responsables de l'authentification, de la politique et de la validation du dispatch.",
+        "read.heading": "Lire le brouillon complet",
+        "read.body": "Le fichier Markdown brut reste la source normative du brouillon. Utilisez la vue HTML pour un balayage rapide, la FAQ pour des réponses courtes et l'avis de brevet pour le contexte de licence.",
+        "btn.gettingStarted": "Ouvrir le guide de prise en main",
+        "btn.rawMarkdown": "Ouvrir le Markdown brut",
+        "btn.faq": "Parcourir la FAQ",
+        "resource.links": "Besoin du contexte de licence ? Consultez <a href=\"../patent-notice.html\">l'avis de propriété intellectuelle</a>.",
+        "footer.home": "Accueil",
+        "footer.gettingStarted": "Prise en main",
+        "footer.faq": "FAQ",
+        "footer.patent": "Avis de brevet",
+        "footer.version": "Spécification MCPlet v202603-03",
+        "footer.updated": "Mis à jour le 2026-04-01"
+      },
+      de: {
+        "nav.home": "Startseite",
+        "nav.gettingStarted": "Erste Schritte",
+        "nav.faq": "FAQ",
+        "nav.patent": "Patenthinweis",
+        "nav.rawMarkdown": "Rohes Markdown",
+        "page.label": "Spezifikationsübersicht",
+        "page.title": "MCPlet-Spezifikation v202603-03",
+        "page.subtitle": "Diese Seite ist eine HTML-Übersicht für schnelles Lesen und Suchindexierung. Der normative Entwurf bleibt der rohe Markdown-Quelltext, aber diese Übersicht stellt die wesentlichen Konzepte, Verträge und das Sicherheitsmodell in einem crawler-freundlichen Format dar.",
+        "meta.status.label": "Status",
+        "meta.status.value": "Entwurf",
+        "meta.version.label": "Version",
+        "meta.draftDate.label": "Entwurfsdatum",
+        "meta.profiles.label": "Profile",
+        "meta.profiles.value": "WebUI und Agent",
+        "meta.maintainedBy.label": "Betreut von",
+        "meta.canonicalSource.label": "Kanonische Quelle",
+        "meta.canonicalSource.value": "Roher Markdown-Entwurf",
+        "purpose.heading": "Zweck und Geltungsbereich",
+        "purpose.p1": "MCPlet definiert eingeschränkte, AI-zuerst-Fähigkeitseinheiten mit einem Geschäftsintent, einem primären MCP-Tool-Vertrag, optionaler MCP Apps-UI, expliziten Modell-versus-App-Sicherheitsgrenzen und host-verwalteter Orchestrierung.",
+        "purpose.p2": "Das Ziel ist vorhersehbare, überprüfbare und sichere KI-Tool-Interaktion. MCPlet ist ein Konventionsprofil über MCP und MCP Apps; es definiert nicht Transport, Laufzeitumgebung, Sandboxing oder Backend-Architektur neu.",
+        "toc.heading": "Auf dieser Seite",
+        "toc.purpose": "Zweck",
+        "toc.profiles": "Host-Profile",
+        "toc.comparison": "Vergleich",
+        "toc.classification": "Klassifizierung",
+        "toc.metadata": "Code-First-Metadaten",
+        "toc.security": "Passkey-Durchsetzung",
+        "toc.pools": "Pools und Agenten",
+        "profiles.heading": "Host-Profile",
+        "profiles.intro": "MCPlet unterstützt derzeit zwei Host-Implementierungsprofile.",
+        "profiles.webui": "<strong>WebUI Profile:</strong> ein MCP-Client oder Agent-Shell, der MCP Apps-UI rendert, Tools aufruft und Sichtbarkeit und Sicherheit in einer benutzerorientierten Umgebung verwaltet.",
+        "profiles.agent": "<strong>Agent Profile:</strong> eine Orchestrierungsschicht aus spezialisierten Agenten und einem extern konfigurierten LLM, ohne erforderliche allgemeine UI-Schicht.",
+        "profiles.stateless": "Beide Profile halten MCPlets standardmäßig zustandslos. Zustand, Gesprächskontext und Richtliniendurchsetzung bleiben Host-Verantwortlichkeiten.",
+        "comparison.heading": "Wie MCPlet mit MCP und MCP Apps verglichen wird",
+        "comparison.intro": "MCPlet ist am leichtesten zu verstehen, wenn man es als Schicht über bestehenden Standards behandelt und nicht als Ersatz für sie.",
+        "table.col.layer": "Schicht",
+        "table.col.role": "Hauptrolle",
+        "table.col.defines": "Definiert",
+        "table.col.notDefines": "Definiert nicht",
+        "table.mcp.role": "Protokollschicht",
+        "table.mcp.defines": "Tool- und Ressourcentransport, Erkennung und Aufruf-Verträge.",
+        "table.mcp.notDefines": "Intent-Modellierung, Aktionssicherheitsrichtlinie oder Klassifizierungsregeln.",
+        "table.mcpapps.role": "UI-Integrationsschicht",
+        "table.mcpapps.defines": "Host-View-Rendering, iframe-Lebenszyklus und App-Bridge-Verhalten.",
+        "table.mcpapps.notDefines": "Business-Intent-Grenzen, Tool-Klassifizierung oder Host-Sicherheitskonventionen.",
+        "table.mcplet.role": "Konventionsprofil",
+        "table.mcplet.defines": "Einzelne Intent-Einheiten, read/prepare/action-Klassifizierung, Sichtbarkeitsregeln, Auth-Anforderungen und host-verwaltete Sicherheitsgrenzen.",
+        "table.mcplet.notDefines": "MCP-Transport, generisches Laufzeitverhalten oder ein obligatorisches Frontend-Framework.",
+        "class.read.heading": "read",
+        "class.read.body": "Nebenwirkungsfrei und idempotent. Geeignet für autonome Aufrufe, wenn der Host Modellsichtbarkeit zulässt.",
+        "class.prepare.heading": "prepare",
+        "class.prepare.body": "Sammelt oder validiert Informationen vor dem Commitment. Nützlich als expliziter Checkpoint in mehrstufigen Workflows.",
+        "class.action.heading": "action",
+        "class.action.body": "Verursacht irreversible Nebenwirkungen. Erfordert stärkere Bestätigung und Durchsetzung, besonders wenn für das Modell sichtbar.",
+        "metadata.heading": "Code-First-Metadaten-Vertrag",
+        "metadata.body": "MCPlet v202603-03 ist explizit Code-First. Hosts entdecken MCPlet-Semantik durch Registrierungsmetadaten wie <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong> und das optionale <strong>_meta.pool</strong>.",
+        "metadata.note": "<strong>mcplet.yaml</strong> kann weiterhin für Rückwärtskompatibilitäts-Standardwerte existieren, ist aber nicht die einzige Wahrheitsquelle, sobald Code-Metadaten vorhanden sind.",
+        "security.heading": "Passkey-Durchsetzung und geschützte Aktionen",
+        "security.body": "Geschützte MCPlets deklarieren Authentifizierung in <strong>_meta.auth</strong>. Bei modellsichtbaren Action-Tools fängt der Host den Aufruf ab, erhält eine Passkey-Bestätigung über einen Browser-Kontext, injiziert die Verifizierungs-Payload außerhalb der Geschäftsargumente, und das MCPlet-Backend verifiziert diese Bestätigung, bevor eine irreversible Aktion ausgeführt wird.",
+        "security.callout": "Diese Trennung ist wichtig, weil sie den LLM auf Geschäftseingaben fokussiert hält, während die kryptographische Bestätigung in host-kontrollierte und backend-verifizierbare Pfade verschoben wird.",
+        "pools.heading": "Pools, Agenten und Routing-Grenzen",
+        "pools.p1": "MCPlet v202603-03 führt benannte Pools und zugängliche Pool-Listen für Agenten ein. Pools ermöglichen es Hosts, MCPlets nach Zielsystem oder Richtlinienbereich zu gruppieren, während pro-Agent-Pool-Grants während des Dispatches minimale Zugriffsprivilegien durchsetzen.",
+        "pools.p2": "Das Agent Profile unterscheidet auch zwischen einem internen A2A-Lokalprotokoll-Bus und einem externen A2A-Protokoll-Endpoint für externe Agenten. Hosts bleiben verantwortlich für Authentifizierung, Richtlinie und Dispatch-Validierung.",
+        "read.heading": "Den vollständigen Entwurf lesen",
+        "read.body": "Die rohe Markdown-Datei bleibt die normative Entwurfsquelle. Verwenden Sie die HTML-Übersicht für schnelles Scannen, die FAQ für kurze Antworten und den Patenthinweis für den Lizenzkontext.",
+        "btn.gettingStarted": "Erste-Schritte-Leitfaden öffnen",
+        "btn.rawMarkdown": "Rohes Markdown öffnen",
+        "btn.faq": "FAQ durchsuchen",
+        "resource.links": "Lizenzkontext benötigt? Lesen Sie den <a href=\"../patent-notice.html\">Hinweis zum geistigen Eigentum</a>.",
+        "footer.home": "Startseite",
+        "footer.gettingStarted": "Erste Schritte",
+        "footer.faq": "FAQ",
+        "footer.patent": "Patenthinweis",
+        "footer.version": "MCPlet-Spezifikation v202603-03",
+        "footer.updated": "Aktualisiert am 2026-04-01"
+      },
+      es: {
+        "nav.home": "Inicio",
+        "nav.gettingStarted": "Primeros pasos",
+        "nav.faq": "FAQ",
+        "nav.patent": "Aviso de patente",
+        "nav.rawMarkdown": "Markdown sin procesar",
+        "page.label": "Resumen de la especificación",
+        "page.title": "Especificación MCPlet v202603-03",
+        "page.subtitle": "Esta página es una vista HTML para lectura rápida e indexación por motores de búsqueda. El borrador normativo sigue siendo la fuente Markdown sin procesar, pero esta vista expone los principales conceptos, contratos y modelo de seguridad en un formato amigable para rastreadores.",
+        "meta.status.label": "Estado",
+        "meta.status.value": "Borrador",
+        "meta.version.label": "Versión",
+        "meta.draftDate.label": "Fecha del borrador",
+        "meta.profiles.label": "Perfiles",
+        "meta.profiles.value": "WebUI y Agent",
+        "meta.maintainedBy.label": "Mantenido por",
+        "meta.canonicalSource.label": "Fuente canónica",
+        "meta.canonicalSource.value": "Borrador Markdown sin procesar",
+        "purpose.heading": "Propósito y alcance",
+        "purpose.p1": "MCPlet define unidades de capacidad restringidas, AI-first, con un intent de negocio, un contrato de herramienta MCP principal, UI MCP Apps opcional, límites de seguridad explícitos modelo-versus-aplicación y orquestación gestionada por el host.",
+        "purpose.p2": "El objetivo es una interacción herramienta-IA predecible, revisable y segura. MCPlet es un perfil de convención sobre MCP y MCP Apps; no redefine el transporte, el runtime, el sandboxing ni la arquitectura backend.",
+        "toc.heading": "En esta página",
+        "toc.purpose": "Propósito",
+        "toc.profiles": "Perfiles de host",
+        "toc.comparison": "Comparación",
+        "toc.classification": "Clasificación",
+        "toc.metadata": "Metadatos code-first",
+        "toc.security": "Aplicación de Passkeys",
+        "toc.pools": "Pools y agentes",
+        "profiles.heading": "Perfiles de host",
+        "profiles.intro": "MCPlet soporta actualmente dos perfiles de implementación de host.",
+        "profiles.webui": "<strong>WebUI Profile:</strong> un cliente MCP o shell de agente que renderiza la UI de MCP Apps, invoca herramientas y gestiona la visibilidad y seguridad en un entorno orientado al usuario.",
+        "profiles.agent": "<strong>Agent Profile:</strong> una capa de orquestación compuesta por agentes especializados y un LLM configurado externamente, sin capa de UI de propósito general requerida.",
+        "profiles.stateless": "Ambos perfiles mantienen los MCPlets sin estado por defecto. El estado, el contexto de conversación y la aplicación de políticas siguen siendo responsabilidad del host.",
+        "comparison.heading": "Cómo se compara MCPlet con MCP y MCP Apps",
+        "comparison.intro": "MCPlet es más fácil de entender cuando se trata como una capa sobre los estándares existentes en lugar de como un reemplazo de ellos.",
+        "table.col.layer": "Capa",
+        "table.col.role": "Función principal",
+        "table.col.defines": "Define",
+        "table.col.notDefines": "No define",
+        "table.mcp.role": "Capa de protocolo",
+        "table.mcp.defines": "Transporte, descubrimiento y contratos de invocación de herramientas y recursos.",
+        "table.mcp.notDefines": "Modelado de intents, política de seguridad de acciones o reglas de clasificación opinadas.",
+        "table.mcpapps.role": "Capa de integración de UI",
+        "table.mcpapps.defines": "Renderizado de vista de host, ciclo de vida de iframes y comportamiento del puente de aplicación.",
+        "table.mcpapps.notDefines": "Límites de intent de negocio, clasificación de herramientas o convenciones de seguridad del host.",
+        "table.mcplet.role": "Perfil de convención",
+        "table.mcplet.defines": "Unidades de intent único, clasificación read/prepare/action, reglas de visibilidad, requisitos de auth y límites de seguridad gestionados por el host.",
+        "table.mcplet.notDefines": "Transporte MCP, comportamiento genérico de runtime o un framework de frontend obligatorio.",
+        "class.read.heading": "read",
+        "class.read.body": "Sin efectos secundarios e idempotente. Adecuado para invocación autónoma cuando el host permite la visibilidad del modelo.",
+        "class.prepare.heading": "prepare",
+        "class.prepare.body": "Recopila o valida información antes del compromiso. Útil como punto de control explícito en flujos de trabajo de múltiples pasos.",
+        "class.action.heading": "action",
+        "class.action.body": "Causa efectos secundarios irreversibles. Requiere confirmación y aplicación más estrictas, especialmente cuando es visible para el modelo.",
+        "metadata.heading": "Contrato de metadatos code-first",
+        "metadata.body": "MCPlet v202603-03 es explícitamente code-first. Los hosts descubren la semántica MCPlet a través de metadatos de registro como <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, <strong>_meta.ui</strong> y el opcional <strong>_meta.pool</strong>.",
+        "metadata.note": "<strong>mcplet.yaml</strong> puede seguir existiendo para valores predeterminados de compatibilidad hacia atrás, pero no es la única fuente de verdad una vez que los metadatos de código están presentes.",
+        "security.heading": "Aplicación de Passkeys y acciones protegidas",
+        "security.body": "Los MCPlets protegidos declaran autenticación en <strong>_meta.auth</strong>. Para las herramientas action visibles al modelo, el host intercepta la llamada, obtiene una aserción Passkey a través de un contexto de navegador, inyecta la carga de verificación fuera de los argumentos de negocio, y el backend MCPlet verifica esa aserción antes de que se ejecute cualquier acción irreversible.",
+        "security.callout": "Esta separación importa porque mantiene al LLM enfocado en las entradas de negocio mientras mueve la confirmación criptográfica a rutas controladas por el host y verificables por el backend.",
+        "pools.heading": "Pools, agentes y límites de enrutamiento",
+        "pools.p1": "MCPlet v202603-03 introduce Pools con nombre y listas de Pools accesibles para los agentes. Los Pools permiten a los hosts agrupar MCPlets por sistema objetivo o alcance de política, mientras que las concesiones de Pool por agente aplican acceso de menor privilegio durante el despacho.",
+        "pools.p2": "El Agent Profile también distingue entre un bus de protocolo local A2A interno y un endpoint de protocolo A2A externo para agentes externos. Los hosts siguen siendo responsables de la autenticación, la política y la validación del despacho.",
+        "read.heading": "Leer el borrador completo",
+        "read.body": "El archivo Markdown sin procesar sigue siendo la fuente normativa del borrador. Use la vista HTML para un escaneo rápido, la FAQ para respuestas cortas y el aviso de patente para el contexto de licencia.",
+        "btn.gettingStarted": "Abrir guía de primeros pasos",
+        "btn.rawMarkdown": "Abrir Markdown sin procesar",
+        "btn.faq": "Explorar FAQ",
+        "resource.links": "¿Necesita contexto de licencia? Revise el <a href=\"../patent-notice.html\">aviso de propiedad intelectual</a>.",
+        "footer.home": "Inicio",
+        "footer.gettingStarted": "Primeros pasos",
+        "footer.faq": "FAQ",
+        "footer.patent": "Aviso de patente",
+        "footer.version": "Especificación MCPlet v202603-03",
+        "footer.updated": "Actualizado el 2026-04-01"
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const langBtn = document.getElementById('langBtn');
+      const langDropdown = document.getElementById('langDropdown');
+
+      if (!langBtn || !langDropdown) {
+        return;
+      }
+
+      langBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        langDropdown.classList.toggle('show');
+      });
+
+      document.addEventListener('click', () => {
+        langDropdown.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>

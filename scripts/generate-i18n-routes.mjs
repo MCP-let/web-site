@@ -33,6 +33,31 @@ const pageConfigs = [
     rootUrl: 'https://mcplet.ai/patent-notice.html',
     localizedUrl: (lang) => `https://mcplet.ai/${lang}/patent-notice.html`,
     buildScript: buildPatentRuntime
+  },
+  {
+    name: 'getting-started',
+    templatePath: path.join(sourceRoot, 'getting-started.template.html'),
+    fileName: 'getting-started.html',
+    rootUrl: 'https://mcplet.ai/getting-started.html',
+    localizedUrl: (lang) => `https://mcplet.ai/${lang}/getting-started.html`,
+    buildScript: buildSimpleRuntime
+  },
+  {
+    name: 'faq',
+    templatePath: path.join(sourceRoot, 'faq.template.html'),
+    fileName: 'faq.html',
+    rootUrl: 'https://mcplet.ai/faq.html',
+    localizedUrl: (lang) => `https://mcplet.ai/${lang}/faq.html`,
+    buildScript: buildSimpleRuntime
+  },
+  {
+    name: 'spec',
+    templatePath: path.join(sourceRoot, 'spec.template.html'),
+    fileName: 'spec/index.html',
+    rootUrl: 'https://mcplet.ai/spec/',
+    localizedUrl: (lang) => `https://mcplet.ai/${lang}/spec/`,
+    buildScript: buildSimpleRuntime,
+    isSubdir: true
   }
 ];
 
@@ -327,7 +352,7 @@ function buildLocalizedHtml(template, translations, config, languageCode) {
   html = replaceElementById(html, 'langDropdown', buildLangDropdown(config, languageCode));
   html = updateUrlMetadata(html, config, languageCode);
   html = injectAlternateLinks(html, config, languageCode);
-  html = rewriteRelativeLinks(html, languageCode);
+  html = rewriteRelativeLinks(html, languageCode, config);
   html = updateLocalizedMedia(html, config, languageCode);
   html = html.replace(/(\.lang-option\s*\{[\s\S]*?color: var\(--text-secondary\);)/, '$1\n      text-decoration: none;');
   html = stripRuntimeScript(html, config.buildScript());
@@ -439,9 +464,8 @@ function translateDataI18n(source, translations) {
 }
 
 function buildLangDropdown(config, currentLang) {
-  const currentFileName = config.fileName;
   const lines = languages.map((language) => {
-    const href = resolveLanguageHref(currentFileName, currentLang, language.code);
+    const href = resolveLanguageHref(config, currentLang, language.code);
     const activeClass = language.code === currentLang ? ' active' : '';
     return `          <a class="lang-option${activeClass}" data-lang="${language.code}" href="${href}" hreflang="${language.code}">\n            <span class="lang-flag">${language.flag}</span>\n            <span>${language.label}</span>\n          </a>`;
   });
@@ -449,7 +473,27 @@ function buildLangDropdown(config, currentLang) {
   return `<div class="lang-dropdown" id="langDropdown">\n${lines.join('\n')}\n        </div>`;
 }
 
-function resolveLanguageHref(fileName, currentLang, targetLang) {
+function resolveLanguageHref(config, currentLang, targetLang) {
+  const fileName = config.fileName;
+
+  if (config.isSubdir) {
+    // Pages that live one level deeper, e.g. spec/index.html and {lang}/spec/index.html.
+    // From {lang}/spec/index.html we need ../../ to reach the root.
+    if (currentLang === 'en') {
+      return targetLang === 'en' ? fileName : `${targetLang}/${fileName}`;
+    }
+
+    if (targetLang === currentLang) {
+      return 'index.html';
+    }
+
+    if (targetLang === 'en') {
+      return `../../${fileName}`;
+    }
+
+    return `../../${targetLang}/${fileName}`;
+  }
+
   if (currentLang === 'en') {
     return targetLang === 'en' ? fileName : `${targetLang}/${fileName}`;
   }
@@ -485,16 +529,28 @@ function injectAlternateLinks(html, config, languageCode) {
   );
 }
 
-function rewriteRelativeLinks(html, languageCode) {
+function rewriteRelativeLinks(html, languageCode, config) {
   if (languageCode === 'en') {
     return html;
   }
 
   let result = html;
+
+  if (config && config.isSubdir) {
+    // Non-en spec pages live at {lang}/spec/index.html.
+    // Template uses ../ prefix — that already resolves to /{lang}/ which is correct.
+    // Only static assets (files/, favicon) need an extra level up to reach the root.
+    result = result.replaceAll('href="../favicon.svg"', 'href="../../favicon.svg"');
+    result = result.replaceAll('href="../files/', 'href="../../files/');
+    result = result.replaceAll('src="../files/', 'src="../../files/');
+    return result;
+  }
+
+  // Non-en pages live at /{lang}/page.html.
+  // Page links (getting-started.html, faq.html, spec/, index.html, patent-notice.html)
+  // resolve correctly as-is within the same /{lang}/ directory — no rewrite needed.
+  // Only static assets that only exist at the root need a ../ prefix.
   result = result.replaceAll('href="./favicon.svg"', 'href="../favicon.svg"');
-  result = result.replaceAll('href="getting-started.html"', 'href="../getting-started.html"');
-  result = result.replaceAll('href="faq.html"', 'href="../faq.html"');
-  result = result.replaceAll('href="spec/"', 'href="../spec/"');
   result = result.replaceAll('href="files/', 'href="../files/');
   result = result.replaceAll('src="files/', 'src="../files/');
   return result;
@@ -524,6 +580,10 @@ function buildIndexRuntime() {
 }
 
 function buildPatentRuntime() {
+  return `  <script>\n    document.addEventListener('DOMContentLoaded', () => {\n      const langBtn = document.getElementById('langBtn');\n      const langDropdown = document.getElementById('langDropdown');\n\n      if (!langBtn || !langDropdown) {\n        return;\n      }\n\n      langBtn.addEventListener('click', (event) => {\n        event.stopPropagation();\n        langDropdown.classList.toggle('show');\n      });\n\n      document.addEventListener('click', () => {\n        langDropdown.classList.remove('show');\n      });\n    });\n  </script>`;
+}
+
+function buildSimpleRuntime() {
   return `  <script>\n    document.addEventListener('DOMContentLoaded', () => {\n      const langBtn = document.getElementById('langBtn');\n      const langDropdown = document.getElementById('langDropdown');\n\n      if (!langBtn || !langDropdown) {\n        return;\n      }\n\n      langBtn.addEventListener('click', (event) => {\n        event.stopPropagation();\n        langDropdown.classList.toggle('show');\n      });\n\n      document.addEventListener('click', () => {\n        langDropdown.classList.remove('show');\n      });\n    });\n  </script>`;
 }
 
@@ -594,8 +654,23 @@ async function writeSitemap() {
     { loc: 'https://mcplet.ai/de/', lastmod },
     { loc: 'https://mcplet.ai/es/', lastmod },
     { loc: 'https://mcplet.ai/getting-started.html', lastmod },
-    { loc: 'https://mcplet.ai/spec/', lastmod },
+    { loc: 'https://mcplet.ai/ja/getting-started.html', lastmod },
+    { loc: 'https://mcplet.ai/zh/getting-started.html', lastmod },
+    { loc: 'https://mcplet.ai/fr/getting-started.html', lastmod },
+    { loc: 'https://mcplet.ai/de/getting-started.html', lastmod },
+    { loc: 'https://mcplet.ai/es/getting-started.html', lastmod },
     { loc: 'https://mcplet.ai/faq.html', lastmod },
+    { loc: 'https://mcplet.ai/ja/faq.html', lastmod },
+    { loc: 'https://mcplet.ai/zh/faq.html', lastmod },
+    { loc: 'https://mcplet.ai/fr/faq.html', lastmod },
+    { loc: 'https://mcplet.ai/de/faq.html', lastmod },
+    { loc: 'https://mcplet.ai/es/faq.html', lastmod },
+    { loc: 'https://mcplet.ai/spec/', lastmod },
+    { loc: 'https://mcplet.ai/ja/spec/', lastmod },
+    { loc: 'https://mcplet.ai/zh/spec/', lastmod },
+    { loc: 'https://mcplet.ai/fr/spec/', lastmod },
+    { loc: 'https://mcplet.ai/de/spec/', lastmod },
+    { loc: 'https://mcplet.ai/es/spec/', lastmod },
     { loc: 'https://mcplet.ai/patent-notice.html', lastmod },
     { loc: 'https://mcplet.ai/ja/patent-notice.html', lastmod },
     { loc: 'https://mcplet.ai/zh/patent-notice.html', lastmod },
