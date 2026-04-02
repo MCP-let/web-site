@@ -133,8 +133,13 @@
       color: var(--accent-cyan);
     }
 
-    /* ── Lang switcher ── */
-    .lang-switcher { position: relative; }
+    .nav-right {
+      margin-left: auto;
+    }
+
+    .lang-switcher {
+      position: relative;
+    }
 
     .lang-btn {
       display: flex;
@@ -155,7 +160,10 @@
       color: var(--text-primary);
     }
 
-    .lang-btn svg { width: 16px; height: 16px; }
+    .lang-btn svg {
+      width: 16px;
+      height: 16px;
+    }
 
     .lang-dropdown {
       position: absolute;
@@ -168,10 +176,12 @@
       padding: 0.5rem;
       min-width: 140px;
       display: none;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     }
 
-    .lang-dropdown.show { display: block; }
+    .lang-dropdown.show {
+      display: block;
+    }
 
     .lang-option {
       display: flex;
@@ -184,7 +194,6 @@
       font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      text-decoration: none;
     }
 
     .lang-option:hover {
@@ -197,7 +206,10 @@
       color: var(--accent-cyan);
     }
 
-    .lang-flag { width: 20px; font-size: 1rem; }
+    .lang-flag {
+      width: 20px;
+      font-size: 1rem;
+    }
 
     main {
       max-width: 1080px;
@@ -408,25 +420,20 @@
         <div class="logo-icon">M</div>
         <div class="logo-text">MCP<span>let</span></div>
       </a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="getting-started.html">Getting Started</a></li>
-        <li><a href="spec/">Specification</a></li>
-        <li><a href="patent-notice.html">Patent Notice</a></li>
-        <li><a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">Raw Markdown</a></li>
-      </ul>
-      <div class="lang-switcher">
-        <button class="lang-btn" id="langBtn" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-          <span id="currentLangLabel">EN</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </button>
-        <div class="lang-dropdown" id="langDropdown">
+      <ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Getting Started</a></li><li><a href="spec/">Specification</a></li><li><a href="patent-notice.html">Patent Notice</a></li><li><a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">Raw Markdown</a></li></ul>
+      <div class="nav-right">
+        <div class="lang-switcher">
+          <button class="lang-btn" id="langBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span id="currentLangLabel">EN</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"></path>
+            </svg>
+          </button>
+          <div class="lang-dropdown" id="langDropdown">
           <a class="lang-option active" data-lang="en" href="faq.html" hreflang="en">
             <span class="lang-flag">🇺🇸</span>
             <span>English</span>
@@ -452,6 +459,7 @@
             <span>Español</span>
           </a>
         </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -464,77 +472,33 @@
     <div class="summary"><strong>Normative source:</strong> the canonical draft remains the raw markdown specification. This FAQ is an indexable companion page for direct answers and common evaluation questions. Maintained by the MCPlet Working Group and updated on 2026-04-01.</div>
 
     <div class="faq-list">
-      <article class="faq-card" id="what-is-mcplet">
-        <h2>What is MCPlet?</h2>
-        <p>MCPlet is a code-first convention profile on top of Model Context Protocol and MCP Apps. It defines constrained, single-intent capability units that package business logic with explicit visibility, authentication, and safety boundaries for AI operations.</p>
-      </article>
+      <article class="faq-card" id="what-is-mcplet"><h2>What is MCPlet?</h2><p>MCPlet is a code-first convention profile on top of Model Context Protocol and MCP Apps. It defines constrained, single-intent capability units that package business logic with explicit visibility, authentication, and safety boundaries for AI operations.</p></article>
 
-      <article class="faq-card" id="difference-from-mcp">
-        <h2>How is MCPlet different from MCP and MCP Apps?</h2>
-        <p>MCP defines the protocol for tools and resources. MCP Apps defines how hosts render and coordinate UI. MCPlet sits on top of both as a convention profile that adds intent modeling, tool classification, visibility rules, authentication requirements, and host-managed safety boundaries.</p>
-      </article>
+      <article class="faq-card" id="difference-from-mcp"><h2>How is MCPlet different from MCP and MCP Apps?</h2><p>MCP defines the protocol for tools and resources. MCP Apps defines how hosts render and coordinate UI. MCPlet sits on top of both as a convention profile that adds intent modeling, tool classification, visibility rules, authentication requirements, and host-managed safety boundaries.</p></article>
 
-      <article class="faq-card" id="types">
-        <h2>What are the three MCPlet types?</h2>
-        <p>MCPlet classifies tools as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>. Read tools are side-effect free and safe for autonomous invocation. Prepare tools gather or validate information before commitment. Action tools cause irreversible side effects and therefore require stronger confirmation and enforcement.</p>
-      </article>
+      <article class="faq-card" id="types"><h2>What are the three MCPlet types?</h2><p>MCPlet classifies tools as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>. Read tools are side-effect free and safe for autonomous invocation. Prepare tools gather or validate information before commitment. Action tools cause irreversible side effects and therefore require stronger confirmation and enforcement.</p></article>
 
-      <article class="faq-card" id="code-first">
-        <h2>Is MCPlet code-first or YAML-based?</h2>
-        <p>The primary profile is code-first. MCPlet metadata is declared at tool registration time using fields such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, and <strong>_meta.ui</strong>.</p>
-        <p><strong>mcplet.yaml</strong> may still be used for backward-compatibility defaults, but it is not the single source of truth when code metadata exists.</p>
-      </article>
+      <article class="faq-card" id="code-first"><h2>Is MCPlet code-first or YAML-based?</h2><p>The primary profile is code-first. MCPlet metadata is declared at tool registration time using fields such as <strong>_meta.mcpletType</strong>, <strong>_meta.visibility</strong>, <strong>_meta.auth</strong>, and <strong>_meta.ui</strong>.</p><p><strong>mcplet.yaml</strong> may still be used for backward-compatibility defaults, but it is not the single source of truth when code metadata exists.</p></article>
 
-      <article class="faq-card" id="passkey">
-        <h2>How does MCPlet use Passkey authentication?</h2>
-        <p>Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification material outside business arguments, and the MCPlet backend verifies the assertion before executing the action.</p>
-      </article>
+      <article class="faq-card" id="passkey"><h2>How does MCPlet use Passkey authentication?</h2><p>Protected MCPlets declare authentication in <strong>_meta.auth</strong>. For model-visible action tools, the host intercepts the call, obtains a Passkey assertion through a browser context, injects the verification material outside business arguments, and the MCPlet backend verifies the assertion before executing the action.</p></article>
 
-      <article class="faq-card" id="profiles">
-        <h2>What host profiles does MCPlet support?</h2>
-        <p>MCPlet currently defines two host profiles. The <strong>WebUI Profile</strong> targets MCP client or agent shells with MCP Apps rendering. The <strong>Agent Profile</strong> targets orchestration systems composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.</p>
-      </article>
+      <article class="faq-card" id="profiles"><h2>What host profiles does MCPlet support?</h2><p>MCPlet currently defines two host profiles. The <strong>WebUI Profile</strong> targets MCP client or agent shells with MCP Apps rendering. The <strong>Agent Profile</strong> targets orchestration systems composed of specialized agents and an externally configured LLM, with no required general-purpose UI layer.</p></article>
 
-      <article class="faq-card" id="getting-started">
-        <h2>How do I get started with MCPlet?</h2>
-        <p>Start by choosing a host profile, classifying each tool as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>, registering code-first metadata in <strong>_meta</strong>, exposing a result schema, and adding Passkey enforcement for protected model-visible actions.</p>
-        <p>If you want the shortest path, use the <a href="getting-started.html">getting started guide</a> first, then validate the details against the full specification.</p>
-      </article>
+      <article class="faq-card" id="getting-started"><h2>How do I get started with MCPlet?</h2><p>Start by choosing a host profile, classifying each tool as <strong>read</strong>, <strong>prepare</strong>, or <strong>action</strong>, registering code-first metadata in <strong>_meta</strong>, exposing a result schema, and adding Passkey enforcement for protected model-visible actions.</p><p>If you want the shortest path, use the <a href="getting-started.html">getting started guide</a> first, then validate the details against the full specification.</p></article>
 
-      <article class="faq-card" id="normative-source">
-        <h2>Where is the normative draft?</h2>
-        <p>The indexable HTML overview lives at <a href="spec/">/spec/</a>, but the normative draft source is the markdown file at <a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">/files/MCPlet-spec-v202603-03.md</a>. The patent and licensing notice is published separately at <a href="patent-notice.html">/patent-notice.html</a>.</p>
-      </article>
+      <article class="faq-card" id="normative-source"><h2>Where is the normative draft?</h2><p>The indexable HTML overview lives at <a href="spec/">/spec/</a>, but the normative draft source is the markdown file at <a href="files/MCPlet-spec-v202603-03.md" target="_blank" rel="noopener">/files/MCPlet-spec-v202603-03.md</a>. The patent and licensing notice is published separately at <a href="patent-notice.html">/patent-notice.html</a>.</p></article>
 
-      <article class="faq-card" id="maintainer">
-        <h2>Who maintains the MCPlet draft?</h2>
-        <p>The public draft on this site is currently presented as maintained by the <strong>MCPlet Working Group</strong>. For review and archival purposes, the canonical normative source remains the raw markdown draft published on the site.</p>
-      </article>
+      <article class="faq-card" id="maintainer"><h2>Who maintains the MCPlet draft?</h2><p>The public draft on this site is currently presented as maintained by the <strong>MCPlet Working Group</strong>. For review and archival purposes, the canonical normative source remains the raw markdown draft published on the site.</p></article>
     </div>
 
-    <div class="button-row">
-      <a href="getting-started.html" class="btn btn-primary">Open getting started guide</a>
-      <a href="spec/" class="btn btn-secondary">Read HTML overview</a>
-      <a href="files/MCPlet-spec-v202603-03.md" class="btn btn-secondary" target="_blank" rel="noopener">Open raw markdown</a>
-    </div>
+    <div class="button-row"><a href="getting-started.html" class="btn btn-primary">Open getting started guide</a><a href="spec/" class="btn btn-secondary">Read HTML overview</a><a href="files/MCPlet-spec-v202603-03.md" class="btn btn-secondary" target="_blank" rel="noopener">Open raw markdown</a></div>
     <p class="resource-links">Need the licensing context? Review the <a href="patent-notice.html">intellectual property notice</a>. Need the high-level architecture summary? Read the <a href="spec/">HTML overview</a>.</p>
   </main>
 
   <footer>
     <div class="footer-container">
-      <ul class="footer-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="getting-started.html">Getting Started</a></li>
-        <li><a href="spec/">Specification</a></li>
-        <li><a href="patent-notice.html">Patent Notice</a></li>
-      </ul>
-      <div class="footer-copy">
-        <span>MCPlet Specification v202603-03</span>
-        &nbsp;·&nbsp;
-        <span>Updated 2026-04-01</span>
-        &nbsp;·&nbsp;
-        <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a>
-      </div>
+      <ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Getting Started</a></li><li><a href="spec/">Specification</a></li><li><a href="patent-notice.html">Patent Notice</a></li></ul>
+      <div class="footer-copy">MCPlet Specification v202603-03 · Updated 2026-04-01 · <a href="mailto:contact@mcplet.ai">contact@mcplet.ai</a></div>
     </div>
   </footer>
 

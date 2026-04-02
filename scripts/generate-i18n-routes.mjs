@@ -67,6 +67,10 @@ const extraTranslations = {
       'nav.gettingStarted': 'Getting Started',
       'nav.specification': 'Specification',
       'nav.faq': 'FAQ',
+      'meta.description': 'MCPlet is a code-first convention profile on top of MCP and MCP Apps. It defines constrained, single-intent capability units with explicit visibility, authentication, and safety boundaries for AI operations.',
+      'meta.socialDescription': 'Code-first capability units for MCP with explicit intent, visibility, and authentication boundaries for safer AI operations.',
+      'jsonld.websiteDescription': 'MCPlet is a code-first convention profile on top of MCP and MCP Apps.',
+      'jsonld.softwareDescription': 'MCPlet defines constrained, single-intent capability units for AI systems built on MCP and MCP Apps.',
       'hero.title.gradient': 'AI-First',
       'hero.title.text': 'Capability Units<br>for Modern AI Systems',
       'hero.fact.status.label': 'Status',
@@ -94,6 +98,10 @@ const extraTranslations = {
       'nav.gettingStarted': 'はじめに',
       'nav.specification': '仕様',
       'nav.faq': 'FAQ',
+      'meta.description': 'MCPlet は MCP と MCP Apps 上のコードファーストな規約プロファイルです。明示的な可視性、認証、安全境界を備えた、制約付きの単一インテント能力ユニットを定義します。',
+      'meta.socialDescription': 'MCP 向けのコードファースト能力ユニット。明示的な意図、可視性、認証境界で AI 操作をより安全にします。',
+      'jsonld.websiteDescription': 'MCPlet は MCP と MCP Apps 上のコードファーストな規約プロファイルです。',
+      'jsonld.softwareDescription': 'MCPlet は、MCP と MCP Apps 上で動作する AI システム向けに、制約付きの単一インテント能力ユニットを定義します。',
       'hero.title.gradient': 'AIファースト',
       'hero.title.text': 'モダンAIシステムのための<br>能力ユニット',
       'hero.fact.status.label': 'ステータス',
@@ -121,6 +129,10 @@ const extraTranslations = {
       'nav.gettingStarted': '快速开始',
       'nav.specification': '规范',
       'nav.faq': 'FAQ',
+      'meta.description': 'MCPlet 是构建在 MCP 和 MCP Apps 之上的代码优先约定配置文件。它定义了带有明确可见性、认证和安全边界的受约束单一意图能力单元。',
+      'meta.socialDescription': '面向 MCP 的代码优先能力单元，以明确的意图、可见性和认证边界让 AI 操作更安全。',
+      'jsonld.websiteDescription': 'MCPlet 是构建在 MCP 和 MCP Apps 之上的代码优先约定配置文件。',
+      'jsonld.softwareDescription': 'MCPlet 为构建在 MCP 和 MCP Apps 之上的 AI 系统定义了受约束的单一意图能力单元。',
       'hero.title.gradient': 'AI 优先',
       'hero.title.text': '面向现代 AI 系统的<br>能力单元',
       'hero.fact.status.label': '状态',
@@ -148,6 +160,10 @@ const extraTranslations = {
       'nav.gettingStarted': 'Prise en main',
       'nav.specification': 'Spécification',
       'nav.faq': 'FAQ',
+      'meta.description': "MCPlet est un profil de convention code-first sur MCP et MCP Apps. Il définit des unités de capacité contraintes à intention unique avec des frontières explicites de visibilité, d'authentification et de sécurité pour les opérations d'IA.",
+      'meta.socialDescription': "Unités de capacité code-first pour MCP avec intention, visibilité et frontières d'authentification explicites pour des opérations d'IA plus sûres.",
+      'jsonld.websiteDescription': 'MCPlet est un profil de convention code-first sur MCP et MCP Apps.',
+      'jsonld.softwareDescription': "MCPlet définit des unités de capacité contraintes à intention unique pour les systèmes d'IA construits sur MCP et MCP Apps.",
       'hero.title.gradient': 'Priorité à l\'IA',
       'hero.title.text': 'Unités de capacité<br>pour les systèmes d\'IA modernes',
       'hero.fact.status.label': 'Statut',
@@ -175,6 +191,10 @@ const extraTranslations = {
       'nav.gettingStarted': 'Erste Schritte',
       'nav.specification': 'Spezifikation',
       'nav.faq': 'FAQ',
+      'meta.description': 'MCPlet ist ein Code-first-Konventionsprofil auf Basis von MCP und MCP Apps. Es definiert eingeschränkte Fähigkeitseinheiten mit einzelner Absicht sowie expliziten Sichtbarkeits-, Authentifizierungs- und Sicherheitsgrenzen für KI-Operationen.',
+      'meta.socialDescription': 'Code-first-Fähigkeitseinheiten für MCP mit expliziter Absicht, Sichtbarkeit und Authentifizierungsgrenzen für sicherere KI-Operationen.',
+      'jsonld.websiteDescription': 'MCPlet ist ein Code-first-Konventionsprofil auf Basis von MCP und MCP Apps.',
+      'jsonld.softwareDescription': 'MCPlet definiert eingeschränkte Fähigkeitseinheiten mit einzelner Absicht für KI-Systeme auf Basis von MCP und MCP Apps.',
       'hero.title.gradient': 'KI-zuerst',
       'hero.title.text': 'Fähigkeitseinheiten<br>für moderne KI-Systeme',
       'hero.fact.status.label': 'Status',
@@ -202,6 +222,10 @@ const extraTranslations = {
       'nav.gettingStarted': 'Primeros pasos',
       'nav.specification': 'Especificación',
       'nav.faq': 'FAQ',
+      'meta.description': 'MCPlet es un perfil de convención code-first sobre MCP y MCP Apps. Define unidades de capacidad restringidas y de intención única con límites explícitos de visibilidad, autenticación y seguridad para operaciones de IA.',
+      'meta.socialDescription': 'Unidades de capacidad code-first para MCP con intención, visibilidad y límites de autenticación explícitos para operaciones de IA más seguras.',
+      'jsonld.websiteDescription': 'MCPlet es un perfil de convención code-first sobre MCP y MCP Apps.',
+      'jsonld.softwareDescription': 'MCPlet define unidades de capacidad restringidas y de intención única para sistemas de IA construidos sobre MCP y MCP Apps.',
       'hero.title.gradient': 'IA primero',
       'hero.title.text': 'Unidades de capacidad<br>para sistemas modernos de IA',
       'hero.fact.status.label': 'Estado',
@@ -228,6 +252,9 @@ const extraTranslations = {
   },
   patent: {
     en: {
+      'meta.title': 'Intellectual Property Notice — MCPlet',
+      'meta.description': 'Patent and licensing notice for the MCPlet specification draft, including pending application details and licensing intent.',
+      'meta.socialDescription': 'Patent and licensing notice for the MCPlet specification draft.',
       'resources.heading': 'Related Resources',
       'resources.body': 'Use the HTML overview for fast reading, the raw markdown draft for normative source text, and the FAQ for direct adoption questions.',
       'resources.gettingStarted': 'Getting Started',
@@ -240,6 +267,9 @@ const extraTranslations = {
       'footer.updated': 'Updated 2026-04-01'
     },
     ja: {
+      'meta.title': '知的財産通知 — MCPlet',
+      'meta.description': 'MCPlet 仕様ドラフトに関する特許およびライセンス通知。出願中の申請情報とライセンス方針を含みます。',
+      'meta.socialDescription': 'MCPlet 仕様ドラフトに関する特許およびライセンス通知。',
       'resources.heading': '関連リソース',
       'resources.body': '素早く読むには HTML 概要、規範テキストには生の Markdown ドラフト、導入判断には FAQ を使ってください。',
       'resources.gettingStarted': 'はじめに',
@@ -252,6 +282,9 @@ const extraTranslations = {
       'footer.updated': '更新日 2026-04-01'
     },
     zh: {
+      'meta.title': '知识产权声明 — MCPlet',
+      'meta.description': '关于 MCPlet 规范草案的专利与许可声明，包含待审申请信息和许可意向。',
+      'meta.socialDescription': '关于 MCPlet 规范草案的专利与许可声明。',
       'resources.heading': '相关资源',
       'resources.body': '快速阅读请使用 HTML 概览，规范性源文本请查看原始 Markdown 草案，采用问题可直接参考 FAQ。',
       'resources.gettingStarted': '快速开始',
@@ -264,6 +297,9 @@ const extraTranslations = {
       'footer.updated': '更新于 2026-04-01'
     },
     fr: {
+      'meta.title': 'Avis de propriété intellectuelle — MCPlet',
+      'meta.description': "Avis sur les brevets et licences concernant le brouillon de la spécification MCPlet, incluant les informations sur les demandes en cours et l'intention de licence.",
+      'meta.socialDescription': "Avis sur les brevets et licences concernant le brouillon de la spécification MCPlet.",
       'resources.heading': 'Ressources associées',
       'resources.body': 'Utilisez la vue HTML pour une lecture rapide, le brouillon Markdown brut pour le texte normatif et la FAQ pour les questions directes d\'adoption.',
       'resources.gettingStarted': 'Prise en main',
@@ -276,6 +312,9 @@ const extraTranslations = {
       'footer.updated': 'Mis à jour le 2026-04-01'
     },
     de: {
+      'meta.title': 'Hinweis zum geistigen Eigentum — MCPlet',
+      'meta.description': 'Patent- und Lizenzhinweis für den Entwurf der MCPlet-Spezifikation, einschließlich Angaben zu anhängigen Anmeldungen und zur Lizenzierungsabsicht.',
+      'meta.socialDescription': 'Patent- und Lizenzhinweis für den Entwurf der MCPlet-Spezifikation.',
       'resources.heading': 'Weiterführende Ressourcen',
       'resources.body': 'Verwenden Sie die HTML-Übersicht für schnelles Lesen, den rohen Markdown-Entwurf für den normativen Quelltext und die FAQ für direkte Einführungsfragen.',
       'resources.gettingStarted': 'Erste Schritte',
@@ -288,6 +327,9 @@ const extraTranslations = {
       'footer.updated': 'Aktualisiert am 2026-04-01'
     },
     es: {
+      'meta.title': 'Aviso de propiedad intelectual — MCPlet',
+      'meta.description': 'Aviso de patentes y licencias para el borrador de la especificación MCPlet, con detalles sobre solicitudes pendientes y la intención de licenciamiento.',
+      'meta.socialDescription': 'Aviso de patentes y licencias para el borrador de la especificación MCPlet.',
       'resources.heading': 'Recursos relacionados',
       'resources.body': 'Use la vista HTML para una lectura rápida, el borrador Markdown sin procesar para el texto normativo y la FAQ para preguntas directas sobre adopción.',
       'resources.gettingStarted': 'Primeros pasos',
@@ -345,6 +387,8 @@ function buildLocalizedHtml(template, translations, config, languageCode) {
   let html = template;
 
   html = translateDataI18n(html, translationMap);
+  html = translateDataI18nContent(html, translationMap);
+  html = localizeStructuredData(html, config, translationMap, languageCode);
   html = html.replace(/<html lang="[^"]+">/, `<html lang="${languageCode}">`);
   html = html.replaceAll('<a href="#" class="logo">', '<a href="index.html" class="logo">');
   html = html.replaceAll('<button class="lang-btn" id="langBtn">', '<button class="lang-btn" id="langBtn" type="button">');
@@ -357,6 +401,7 @@ function buildLocalizedHtml(template, translations, config, languageCode) {
   html = html.replace(/(\.lang-option\s*\{[\s\S]*?color: var\(--text-secondary\);)/, '$1\n      text-decoration: none;');
   html = stripRuntimeScript(html, config.buildScript());
   html = html.replaceAll(/\sdata-i18n="[^"]+"/g, '');
+  html = html.replaceAll(/\sdata-i18n-content="[^"]+"/g, '');
 
   return html;
 }
@@ -461,6 +506,72 @@ function translateDataI18n(source, translations) {
   } while (html !== previous);
 
   return html;
+}
+
+function translateDataI18nContent(source, translations) {
+  return source.replaceAll(
+    /<([a-zA-Z0-9]+)([^<>]*?)\sdata-i18n-content="([^"]+)"([^<>]*?)>/g,
+    (match, tag, before, key, after) => {
+      const translation = translations[key];
+      if (!translation) {
+        return match;
+      }
+
+      const attributes = `${before}${after}`;
+      if (!/\scontent="[^"]*"/.test(attributes)) {
+        return match;
+      }
+
+      const updatedAttributes = attributes.replace(
+        /\scontent="[^"]*"/,
+        ` content="${escapeHtmlAttribute(translation)}"`
+      );
+
+      return `<${tag}${updatedAttributes}>`;
+    }
+  );
+}
+
+function localizeStructuredData(source, config, translations, languageCode) {
+  if (config.name !== 'index') {
+    return source;
+  }
+
+  let html = source;
+  html = html.replaceAll(
+    '"description": "MCPlet is a code-first convention profile on top of Model Context Protocol and MCP Apps. It defines constrained, single-intent capability units with explicit visibility, authentication, and safety boundaries for AI operations."',
+    `"description": ${JSON.stringify(translations['meta.description'])}`
+  );
+  html = html.replaceAll(
+    '"description": "MCPlet is a code-first convention profile on top of MCP and MCP Apps."',
+    `"description": ${JSON.stringify(translations['jsonld.websiteDescription'])}`
+  );
+  html = html.replaceAll(
+    '"description": "MCPlet defines constrained, single-intent capability units for AI systems built on MCP and MCP Apps."',
+    `"description": ${JSON.stringify(translations['jsonld.softwareDescription'])}`
+  );
+  html = html.replaceAll(
+    '"description": "MCPlet is a code-first convention profile on top of MCP and MCP Apps. It defines constrained, single-intent capability units with explicit visibility, authentication, and safety boundaries for AI operations."',
+    `"description": ${JSON.stringify(translations['meta.description'])}`
+  );
+  html = html.replaceAll(
+    '"headline": "MCPlet — AI-First Capability Units for Model Context Protocol"',
+    `"headline": ${JSON.stringify(translations.title)}`
+  );
+  html = html.replaceAll(
+    '"inLanguage": "en"',
+    `"inLanguage": ${JSON.stringify(languageCode)}`
+  );
+
+  return html;
+}
+
+function escapeHtmlAttribute(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
 }
 
 function buildLangDropdown(config, currentLang) {
